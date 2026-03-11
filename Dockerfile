@@ -25,5 +25,10 @@ WORKDIR /workspace
 ENV TZ=Europe/Berlin
 ENV NODE_ENV=production
 
+# Entrypoint Script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Standard-Shell
 CMD ["/bin/bash"]

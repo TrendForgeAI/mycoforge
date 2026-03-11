@@ -2,18 +2,26 @@
 .env
 *.key
 *.pem
-*.credentials
 
-# Claude Code Runtime-Daten
-.claude/debug/
-.claude/file-history/
-.claude/projects/
-.claude/tasks/
-.claude/todos/
-.claude/history.jsonl
-.claude/stats-cache.json
-.claude/cache/
-.claude/.credentials.json
+# Claude Code - Sensibel
+claude/.credentials.json
+claude/.claude.json
+
+# Claude Code - Laufzeitdaten
+claude/debug/
+claude/file-history/
+claude/projects/
+claude/tasks/
+claude/todos/
+claude/history.jsonl
+claude/stats-cache.json
+claude/cache/
+claude/backups/
+claude/mcp-needs-auth-cache.json
+claude/policy-limits.json
+
+# Claude Code - Plugins (werden zur Laufzeit installiert)
+claude/plugins/
 
 # System
 .DS_Store
