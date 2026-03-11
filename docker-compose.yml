@@ -1,0 +1,20 @@
+services:
+  mycoforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mycoforge
+    env_file:
+      - .env
+    volumes:
+      - ./workspace:/workspace
+      - ./claude:/root/.claude
+    networks:
+      - mycoforge_network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+networks:
+  mycoforge_network:
+    driver: bridge
