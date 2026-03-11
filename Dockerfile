@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y \
 # Claude Code installieren
 RUN npm install -g @anthropic-ai/claude-code
 
+# Symlink Claude config to expected location
+RUN ln -s /root/.claude/.claude.json /root/.claude.json
+
 # Arbeitsverzeichnis
 WORKDIR /workspace
 
