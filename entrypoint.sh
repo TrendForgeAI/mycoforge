@@ -8,7 +8,7 @@ fi
 # Verfügbare AI Provider ermitteln
 PROVIDERS=""
 [ -n "$ANTHROPIC_API_KEY" ] && PROVIDERS="$PROVIDERS\n- Anthropic (Claude Opus, Sonnet, Haiku)"
-[ -n "$OPENAI_API_KEY" ]    && PROVIDERS="$PROVIDERS\n- OpenAI (GPT-4o, GPT-4o-mini, GPT-4.1)"
+[ -n "$OPENAI_API_KEY" ]    && PROVIDERS="$PROVIDERS\n- OpenAI (GPT-5, GPT-4o-mini, GPT-4.1)"
 [ -n "$GEMINI_API_KEY" ]    && PROVIDERS="$PROVIDERS\n- Google (Gemini Pro, Gemini Flash)"
 [ -n "$XAI_API_KEY" ]       && PROVIDERS="$PROVIDERS\n- xAI (Grok)"
 [ -z "$PROVIDERS" ]         && PROVIDERS="\n- Keine API Keys gesetzt"
