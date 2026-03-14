@@ -15,7 +15,7 @@ PROVIDERS=""
 
 # GitHub Info ermitteln
 GITHUB_INFO=""
-[ -n "$GH_TOKEN" ] && GITHUB_INFO="\n- Token: vorhanden" || GITHUB_INFO="\n- Token: nicht gesetzt"
+[ -n "$GH_TOKEN" ] && GITHUB_INFO="- Token: vorhanden" || GITHUB_INFO="- Token: nicht gesetzt"
 
 # MEMORY.md komplett neu schreiben
 cat > /mycoforge/MEMORY.md << MEMORY
