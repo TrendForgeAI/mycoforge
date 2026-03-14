@@ -15,22 +15,24 @@ The environment itself is just another project. You can improve it the same way 
 - Ubuntu VPS with Docker
 - GitHub account
 - Anthropic API key or Claude Pro/Max plan
+- GitHub Personal Access Token (scopes: `repo`, `workflow`, `read:org`)
 
 ## Installation
 ```bash
+# 1. Clone the repo
 git clone git@github.com:TrendForgeAI/mycoforge.git
 cd mycoforge
-cp .env.example .env
-nano .env          # add your API keys
-docker compose build
+
+# 2. Run setup (interactive, run once)
+./setup.sh
 ```
 
-**First-time login (Claude Pro/Max):**
-```bash
-docker compose run --rm -it mycoforge claude auth login
-```
-
-**Or with API key:** just set `ANTHROPIC_API_KEY` in `.env` — no login needed.
+`setup.sh` will guide you through:
+- Git identity configuration
+- SSH key creation for GitHub
+- `.env` creation from `.env.example`
+- Claude credentials check
+- Docker container build
 
 ## Usage
 
@@ -44,30 +46,53 @@ docker compose run --rm mycoforge claude -p "Say: mycoforge works"
 docker compose run --rm -it mycoforge claude
 ```
 
-## Project structure
-```
-mycoforge/
-├── CLAUDE.md             # Project context for Claude Code
-├── Dockerfile            # Container definition
-├── docker-compose.yml    # Deployment
-├── entrypoint.sh         # First-run initialization
-├── .env.example          # Required environment variables
-├── claude/               # Claude Code configuration (local, not in Git)
-└── workspace/            # Your projects live here
+**Start a new project:**
+```bash
+docker compose run --rm -it mycoforge claude
+# Then tell Claude: "Create a new project called <name>"
+# Claude will ask for all required information before starting
 ```
 
 ## Updating
 ```bash
-git pull
-docker compose build
+./update.sh
 ```
 
-That's it. The container rebuilds from the updated definition.
+Pulls latest changes from GitHub, rebuilds the container, and restarts if running.
+
+## Project structure
+```
+mycoforge/
+├── CLAUDE.md              # Project context for Claude Code
+├── MEMORY.md              # System memory (auto-generated on start)
+├── README.md              # This file
+├── Dockerfile             # Container definition
+├── docker-compose.yml     # Deployment
+├── setup.sh               # One-time setup script
+├── entrypoint.sh          # Container initialization on every start
+├── update.sh              # Update workflow
+├── .env.example           # Required environment variables
+├── claude/                # Claude Code configuration (local, not in Git)
+├── workspace/             # Your projects live here (local, not in Git)
+└── knowledge/             # Context loaded on demand
+    ├── models.md          # AI models & routing logic
+    ├── git-workflow.md    # Git conventions
+    ├── new-project.md     # How to start a new project
+    └── docker.md          # Container changes
+```
+
+## Scripts
+
+| Script | When | Who |
+|--------|------|-----|
+| `setup.sh` | Once after clone | You, manually |
+| `entrypoint.sh` | Every container start | Docker, automatically |
+| `update.sh` | When updating | You, manually |
 
 ## AI Runtimes
 
 | Runtime | Status |
-|---|---|
+|---------|--------|
 | Claude Code | ✅ supported |
 | Gemini CLI | 🔜 planned |
 | OpenCode | 🔜 planned |
