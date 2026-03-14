@@ -1,0 +1,5 @@
+# Projekte in workspace/ haben ihre eigenen Git Repos
+# und gehören nicht ins mycoforge Repo
+*
+!.gitignore
+!.gitkeep
