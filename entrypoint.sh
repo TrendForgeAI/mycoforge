@@ -13,6 +13,14 @@ PROVIDERS=""
 [ -n "$XAI_API_KEY" ]       && PROVIDERS="$PROVIDERS\n- xAI (Grok)"
 [ -z "$PROVIDERS" ]         && PROVIDERS="\n- Keine API Keys gesetzt"
 
+# Git mit GitHub Token konfigurieren
+if [ -n "$GH_TOKEN" ]; then
+    git config --global credential.helper store
+    echo "https://TrendForgeAI:${GH_TOKEN}@github.com" > /root/.git-credentials
+    git config --global user.name "TrendForgeAI"
+    git config --global user.email "github@trendforge.ai"
+fi
+
 # GitHub Info ermitteln
 GITHUB_INFO=""
 [ -n "$GH_TOKEN" ] && GITHUB_INFO="- Token: vorhanden" || GITHUB_INFO="- Token: nicht gesetzt"
