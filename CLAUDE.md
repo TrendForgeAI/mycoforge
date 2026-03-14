@@ -11,9 +11,9 @@ mycoforge ist die Werkstatt. Die Projekte die darin entstehen sind die Werkstüc
 ## Infrastruktur
 
 - **VPS:** Ubuntu, Hostinger, /docker/mycoforge/
-- **GitHub:** https://github.com/TrendForgeAI/mycoforge
+- **GitHub Organisation:** https://github.com/TrendForgeAI
 - **Container Pfad:** /docker/mycoforge/
-- **Projekte Pfad:** /docker/mycoforge/workspace/
+- **Arbeitsbereich:** /docker/mycoforge/workspace/ (temporär, nicht in Git)
 
 ## Projektstruktur
 ```
@@ -28,7 +28,7 @@ mycoforge/
 ├── .env               ← Secrets (nie in Git)
 ├── .env.example       ← Dokumentation der benötigten Variablen
 ├── claude/            ← Claude Code Konfiguration (nie in Git)
-└── workspace/         ← Projekte die hier entwickelt werden
+└── workspace/         ← Arbeitsbereich für Projekte (Inhalt nie in Git)
 ```
 
 ## Arbeitsweise
@@ -37,7 +37,7 @@ mycoforge/
 - Atomic Commits nach jeder abgeschlossenen Aufgabe
 - Keine Secrets in Git – immer .env.example statt .env
 - Änderungen an mycoforge selbst werden sofort committed und gepusht
-- Neue Projekte entstehen in workspace/ mit eigenem Git Repo
+- Projekte entstehen in workspace/ als geklonte GitHub Repos
 
 ## Modell-Routing
 
@@ -51,14 +51,16 @@ Verfügbare Provider stehen in MEMORY.md.
 
 ## Neue Projekte anlegen
 
-Wenn ein neues Projekt gestartet wird:
-1. Neues Verzeichnis in workspace/ anlegen
-2. Git Repository initialisieren
+Jedes Projekt bekommt ein eigenes GitHub Repo unter TrendForgeAI.
+workspace/ ist der temporäre Arbeitsbereich – GitHub ist die Quelle der Wahrheit.
+
+1. GitHub Repo anlegen (https://github.com/TrendForgeAI/projekt-name)
+2. In workspace/ klonen: git clone git@github.com:TrendForgeAI/projekt-name.git
 3. CLAUDE.md mit Projektkontext erstellen
 4. README.md erstellen
 5. .gitignore erstellen
 6. Erstes Commit: "init: project scaffold"
-7. GitHub Repo anlegen und pushen
+7. Pushen
 
 ## mycoforge selbst verbessern
 
