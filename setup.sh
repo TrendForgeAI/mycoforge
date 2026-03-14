@@ -5,7 +5,7 @@ echo "🍄 mycoforge setup starting..."
 # Git Identität setzen
 echo "→ Configuring git identity..."
 git config --global user.name "TrendForgeAI"
-git config --global user.email "github@trendforge.ai"
+git config --global user.email "trendforge.ai@gmail.com"
 
 # SSH Key für GitHub prüfen
 if [ ! -f ~/.ssh/github_mycoforge ]; then
