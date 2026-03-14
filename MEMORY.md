@@ -1,11 +1,12 @@
 # mycoforge Memory
 
 ## Verfügbare AI Provider
-<!-- Wird automatisch aktualisiert wenn neue Keys in .env eingetragen werden -->
+
+- OpenAI (GPT-5, GPT-4o-mini, GPT-4.1)
 
 ## Modell-Routing Prinzip
 - Planung / Architektur / Zusammenhänge → großes Modell
-- Code schreiben → mittleres Modell  
+- Code schreiben → mittleres Modell
 - Dateioperationen / einfache Edits → kleines Modell
 - Routing-Entscheidung selbst → kleinstes verfügbares Modell
 
@@ -21,3 +22,8 @@
 ## VPS Infrastruktur
 - Pfad: /docker/mycoforge/
 - GitHub: https://github.com/TrendForgeAI/mycoforge
+
+## GitHub
+- Account: TrendForgeAI (User, keine Organisation)
+- URL: https://github.com/TrendForgeAI
+- Repos: mycoforge
