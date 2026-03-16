@@ -8,12 +8,11 @@ mycoforge ist eine containerisierte KI-Entwicklungsumgebung auf einem Ubuntu VPS
 Sie wird genutzt um Projekte zu entwickeln – und kann sich dabei selbst weiterentwickeln.
 mycoforge ist die Werkstatt. Die Projekte die darin entstehen sind die Werkstücke.
 
-## Infrastruktur
+## Wichtige Pfade
 
-- **VPS:** Ubuntu, Hostinger, /mycoforge/
-- **GitHub Account:** https://github.com/TrendForgeAI
-- **Container Pfad:** /mycoforge/
-- **Arbeitsbereich:** /mycoforge/workspace/ (temporär, nicht in Git)
+- **Im Container:** /mycoforge/ (dieses Projekt), /workspace/ (Projekte)
+- **Auf dem Host:** /docker/mycoforge/
+- **GitHub:** https://github.com/TrendForgeAI
 
 ## Projektstruktur
 ```
@@ -21,10 +20,14 @@ mycoforge/
 ├── CLAUDE.md              ← Projektkontext (dieser File)
 ├── MEMORY.md              ← Systemgedächtnis (wird beim Start automatisch befüllt)
 ├── README.md              ← für Menschen
+├── TODO.md                ← offene Punkte
 ├── Dockerfile             ← Container-Definition
 ├── docker-compose.yml     ← Deployment
-├── entrypoint.sh          ← Initialisierung beim Start
+├── start.sh               ← Claude starten (Terminal 1)
+├── shell.sh               ← Shell in laufenden Container (Terminal 2)
+├── setup.sh               ← Einmalige Erstinstallation
 ├── update.sh              ← Update-Workflow (git pull → build → restart)
+├── entrypoint.sh          ← Initialisierung beim Container-Start
 ├── .env                   ← Secrets (nie in Git)
 ├── .env.example           ← Dokumentation der benötigten Variablen
 ├── claude/                ← Claude Code Konfiguration (nie in Git)
@@ -42,7 +45,7 @@ mycoforge/
 - Atomic Commits nach jeder abgeschlossenen Aufgabe
 - Keine Secrets in Git – immer .env.example statt .env
 - Änderungen an mycoforge selbst werden sofort committed und gepusht
-- Projekte entstehen in workspace/ als geklonte GitHub Repos
+- Projekte entstehen in /workspace/ als geklonte GitHub Repos
 
 ## Modell-Routing
 
@@ -57,20 +60,24 @@ Grundprinzip:
 
 ## Neue Projekte anlegen
 
-Für detaillierte Schritte: @knowledge/new-project.md laden.
+Wenn der Nutzer ein neues Projekt anlegen möchte:
+1. Lies ZUERST @knowledge/new-project.md
+2. Befolge die Schritte dort EXAKT – kein eigener Wizard
+3. Stelle alle Pflichtfragen BEVOR du anfängst
+4. Lege das GitHub Repo mit `gh` an
+5. Klone es in /workspace/
+6. Erstelle CLAUDE.md, README.md, .gitignore
+7. Mache den ersten Commit und pushe
 
-Kurzfassung:
-1. GitHub Repo anlegen (TrendForgeAI/projekt-name)
-2. In workspace/ klonen
-3. CLAUDE.md, README.md, .gitignore erstellen
-4. Erstes Commit: "init: project scaffold"
+Jedes Projekt bekommt eine CLAUDE.md – unabhängig davon ob es KI nutzt.
+Die CLAUDE.md ist für Claude Code als Entwickler, nicht für die Anwendung selbst.
 
 ## mycoforge selbst verbessern
 
 mycoforge ist ein Projekt wie jedes andere:
 1. Änderung verstehen und planen
 2. Umsetzen und testen
-3. Atomic Commit
+3. Atomic Commit auf dem Host: cd /docker/mycoforge && git add . && git commit && git push
 4. ./update.sh ausführen
 
 ## KI-Runtimes
