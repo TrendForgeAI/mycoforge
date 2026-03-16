@@ -81,18 +81,22 @@ mycoforge/
 
 `DEBUG_MODE` wird aus `.env` geladen und von `entrypoint.sh` in MEMORY.md geschrieben.
 
-**Falls `DEBUG_MODE: on` in MEMORY.md steht, MUSS nach jeder Antwort folgendes ausgegeben werden:**
+**Falls `DEBUG_MODE: on` in MEMORY.md steht, MUSS am Ende jeder Antwort folgendes ausgegeben werden:**
 
 ```
-[🔀 <agent oder skill>]  Provider: <provider> | Modell: <modell>
-                         Dauer: ~<Xs> | Tool-Calls: <n> | Token: ~<n> (geschätzt)
+[🔀 <Agent>]  Provider: <provider> | Modell: <modell> | Runden: <n> | Tool-Calls: <n> | Dauer: ~<Xs> | Token: ~<n> (geschätzt)
 ```
 
-- Bei einfachen Chat-Antworten ohne Tool-Calls: einzeilig am Ende der Antwort
-  `[🔀 chat]  Provider: Anthropic | Modell: claude-sonnet-4-6 | Tool-Calls: 0`
-- Bei mehreren Agents/Skills: je eine Zeile pro Agent
-- Token-Schätzung: grob, auf 100 gerundet
-- Dauer: seit Beginn der Antwort schätzen
+Felder:
+- **Agent**: Name des Skills/Agents (z.B. `review`, `commit`, `planner`) — bei normaler Chat-Antwort: `Chat`
+- **Provider**: z.B. `Anthropic`, `OpenAI`, `Google`
+- **Modell**: z.B. `claude-sonnet-4-6`
+- **Runden**: Anzahl Council- oder Orchestrator-Runden — bei Chat: `1`
+- **Tool-Calls**: Anzahl der ausgeführten Tool-Calls in dieser Antwort
+- **Dauer**: geschätzte Zeit seit Beginn der Antwort in Sekunden
+- **Token**: grobe Schätzung des Gesamtverbrauchs (Input + Output), auf 100 gerundet
+
+Bei mehreren Agents (z.B. Council): je eine Zeile pro Agent.
 
 ## Arbeitsweise
 
