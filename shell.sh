@@ -7,5 +7,5 @@ if ! docker ps | grep -q mycoforge-session; then
     exit 1
 fi
 
-# In laufenden Container einsteigen
-docker exec -it mycoforge-session bash
+# In laufenden Container einsteigen, direkt in /mycoforge/
+docker exec -it -w /mycoforge mycoforge-session bash
