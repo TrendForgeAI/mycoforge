@@ -18,7 +18,7 @@ ERRORS=0
 # 1. .env Dateien prüfen
 STAGED_FILES=$(git -C "$GIT_ROOT" diff --cached --name-only 2>/dev/null)
 
-if echo "$STAGED_FILES" | grep -qE '(^|/)\.env($|\.(?!example))'; then
+if echo "$STAGED_FILES" | grep -E '(^|/)\.env($|\.)' | grep -qvE '\.example$'; then
     echo "🚨 FEHLER: .env Datei ist gestaged!"
     echo "   Entfernen: git restore --staged .env"
     ERRORS=$((ERRORS + 1))
