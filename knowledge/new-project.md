@@ -3,47 +3,85 @@
 ## Wann diese Datei laden?
 Lade diese Datei wenn ein neues Projekt gestartet werden soll.
 
-## Pflichtfragen vor dem Start
+## Phase 1: Informationssammlung
 
-Bevor du irgendetwas anlegst, frage den Nutzer nach diesen Informationen:
+Sammle alle nötigen Informationen vom Nutzer. Du entscheidest wie du fragst –
+nutze deinen eigenen Stil, mache sinnvolle Vorschläge, sei kreativ.
+Fange erst mit Phase 2 an wenn ALLE Pflichtfragen beantwortet sind.
 
-1. **Projektname** → wird als Repo-Name verwendet (lowercase, kebab-case)
-2. **Kurzbeschreibung** → ein Satz, was das Projekt macht
-3. **Projekttyp** → Web-App / Mobile App / WordPress Plugin / CLI Tool / Library / Assistent / Sonstiges
-4. **Tech Stack** → welche Sprachen, Frameworks, Datenbanken?
+### Pflichtfragen (immer)
+
+1. **Name** → Repo-Name (lowercase, kebab-case)
+2. **Beschreibung** → ein Satz was das Projekt macht
+3. **Projekttyp** → Web-App / Backend / Fullstack / CLI Tool / Library / WordPress Plugin / Mobile App / Sonstiges
+4. **Tech Stack** → Sprache, Framework, Package Manager, Version
 5. **Sichtbarkeit** → Public oder Private?
-6. **Besonderheiten** → braucht es eine Datenbank, externe APIs, Docker?
+6. **Lizenz** → MIT / Apache / GPL / proprietär / keine
 
-Erst wenn alle Antworten vorliegen → mit dem Anlegen beginnen.
+### Optionale Fragen (je nach Projekttyp vorschlagen)
 
-## Schritte
+**Testing:**
+- Unit Tests? Welches Framework? (jest, vitest, pytest, ...)
+- E2E Tests? (playwright, cypress)
+- Coverage-Ziel?
+
+**CI/CD:**
+- Automatische Tests bei PR? (GitHub Actions)
+- Automatisches Deployment? Wohin? (VPS, Vercel, AWS, ...)
+
+**Code-Qualität:**
+- Linter/Formatter? (ESLint, Prettier, Black, ...)
+- Pre-commit Hooks?
+
+**Security:**
+- Dependabot aktivieren?
+- Secret-Scanning aktivieren?
+- Branch-Protection auf main?
+
+**Docker:**
+- Braucht das Projekt einen eigenen Container?
+- Teil von mycoforge oder eigenständig?
+
+### Sinnvolle Defaults je nach Projekttyp vorschlagen
+
+Wenn der Nutzer keine Präferenz hat, schlage sinnvolle Defaults vor:
+
+- **Web-App** → Vitest, GitHub Actions, ESLint + Prettier, Dependabot
+- **Backend/API** → Jest/pytest, GitHub Actions, Dependabot
+- **Fullstack** → Vitest + Playwright, GitHub Actions, ESLint + Prettier
+- **CLI Tool** → Jest/pytest, GitHub Actions
+- **WordPress Plugin** → PHPUnit, keine CI/CD nötig
+- **Mobile App** → Jest, GitHub Actions, App Store Deployment besprechen
+
+---
+
+## Phase 2: Ausführung
+
+Führe diese Schritte EXAKT in dieser Reihenfolge aus:
 
 ### 1. GitHub Repo anlegen
 ```bash
-gh repo create TrendForgeAI/<projektname> \
+gh repo create <GH_USER>/<projektname> \
   --description "<beschreibung>" \
   --<public|private> \
-  --license mit
+  --license <lizenz>
 ```
 
-### 2. In workspace/ klonen
+### 2. In /workspace/ klonen
 ```bash
 cd /workspace
-git clone git@github.com:TrendForgeAI/<projektname>.git
+git clone git@github.com:<GH_USER>/<projektname>.git
 cd <projektname>
 ```
 
-### 3. Grundstruktur anlegen
-Jedes Projekt bekommt mindestens:
-- `CLAUDE.md` → Projektkontext für Claude Code
-- `README.md` → für Menschen
-- `.gitignore` → projektspezifisch
-
-### 4. CLAUDE.md für das neue Projekt
+### 3. CLAUDE.md erstellen
 ```markdown
 # <projektname>
 
 <beschreibung>
+
+## Projekttyp
+<typ>
 
 ## Tech Stack
 <tech stack>
@@ -51,56 +89,55 @@ Jedes Projekt bekommt mindestens:
 ## Projektstruktur
 (wird beim ersten Build ergänzt)
 
+## Testing
+<testing setup>
+
+## Deployment
+<deployment info>
+
 ## Arbeitsweise
 - Atomic Commits
 - Keine Secrets in Git
 - Tests vor jedem Commit
 ```
 
-### 5. README.md
+### 4. README.md erstellen
 ```markdown
 # <projektname>
 
 <beschreibung>
+
+## Requirements
+<voraussetzungen>
 
 ## Installation
 (wird ergänzt)
 
 ## Usage
 (wird ergänzt)
+
+## License
+<lizenz>
 ```
 
-### 6. Erstes Commit
+### 5. .gitignore erstellen
+Passend zum Tech Stack – nutze gängige .gitignore Templates.
+
+### 6. GitHub Actions einrichten (falls gewünscht)
+```bash
+mkdir -p .github/workflows
+```
+CI/CD Workflow passend zum Tech Stack erstellen.
+
+### 7. Ersten Commit machen
 ```bash
 git add -A
 git commit -m "init: project scaffold"
 git push
 ```
 
-### 7. MEMORY.md aktualisieren
-Neues Projekt in der MEMORY.md unter "Aktive Projekte" eintragen:
+### 8. MEMORY.md aktualisieren
+Neues Projekt unter "Aktive Projekte" eintragen:
 ```
-- <projektname>: <beschreibung> → https://github.com/TrendForgeAI/<projektname>
+- <projektname>: <beschreibung> → https://github.com/<GH_USER>/<projektname>
 ```
-
-## Projekttypen & Besonderheiten
-
-### Personal Assistant
-- Qdrant für Langzeitgedächtnis als Service in docker-compose.yml
-- MCP-Server für externe Dienste (Mail, Kalender)
-
-### WordPress Plugin
-- PHP-Struktur: includes/, templates/, assets/
-- Lokale WordPress-Instanz für Tests empfehlen
-
-### Web-Anwendung
-- Framework abfragen (Next.js, FastAPI, Laravel etc.)
-- CI/CD via GitHub Actions vorschlagen
-
-### Mobile App
-- React Native oder Flutter abfragen
-- App Store / Play Store Deployment beachten
-
-### CLI Tool / Library
-- Package Manager abfragen (npm, pip, cargo etc.)
-- Versionierung und Release-Workflow besprechen
