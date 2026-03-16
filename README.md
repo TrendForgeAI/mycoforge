@@ -105,3 +105,15 @@ mycoforge is the foundation for [TrendForgeAI](https://github.com/TrendForgeAI) 
 ## License
 
 MIT
+
+## Working with mycoforge
+
+**Terminal 1 – Start Claude:**
+```bash
+./start.sh
+```
+
+**Terminal 2 – Shell in same container:**
+```bash
+./shell.sh
+```
