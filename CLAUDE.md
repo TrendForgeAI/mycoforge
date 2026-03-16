@@ -33,7 +33,32 @@ mycoforge/
 ├── .env                   ← Secrets (nie in Git)
 ├── .env.example           ← Dokumentation der benötigten Variablen
 ├── claude/                ← Claude Code Konfiguration (nie in Git)
-│   └── commands/          ← Slash Commands (/commit, /plan, /review, /implement, /new-project)
+│   ├── commands/          ← Slash Commands
+│   │   ├── new-project.md ← Interaktiver Projekt-Wizard
+│   │   ├── plan.md        ← Aufgabe analysieren (Plan & Solve)
+│   │   ├── implement.md   ← Plan umsetzen (Orchestrator)
+│   │   ├── review.md      ← Code Review (Council, 3 Runden)
+│   │   ├── discuss.md     ← Architektur-Entscheidung (Council, 2-5 Runden)
+│   │   ├── commit.md      ← Intelligenter Commit
+│   │   └── route.md       ← Task klassifizieren & Modell wählen
+│   └── agents/            ← Agent-Definitionen
+│       ├── planner.md         ← Aufgabe zerlegen, Abhängigkeiten (Groß)
+│       ├── developer.md       ← Code schreiben, Features, Bugfixes (Mittel)
+│       ├── frontend.md        ← UI, CSS, React, Accessibility (Mittel)
+│       ├── backend.md         ← API, Datenbank, Business Logic (Mittel)
+│       ├── tester.md          ← Tests schreiben & ausführen (Mittel)
+│       ├── reviewer.md        ← Code Review, Qualität, Security (Groß)
+│       ├── committer.md       ← Git-Operationen, Commit Messages (Klein)
+│       ├── council-generalist.md ← Gesamtbild, Machbarkeit (Groß)
+│       ├── council-developer.md  ← Technische Umsetzung (Groß)
+│       └── council-reviewer.md   ← Qualität, Security, Risiken (Groß)
+├── hooks/                 ← Shell-Hooks (SessionStart, PreToolUse, PostToolUse)
+│   ├── cc-session-start.sh   ← MEMORY.md laden, Provider & TODOs anzeigen
+│   ├── cc-pre-bash.sh        ← Secrets-Scan vor git commit (blockierend)
+│   ├── cc-post-bash.sh       ← Post-Bash-Logik
+│   ├── git-pre-commit.sh     ← Git pre-commit Hook
+│   ├── git-post-commit.sh    ← Git post-commit Hook
+│   └── secrets-scan.sh       ← Pattern-Scan für API-Keys & Secrets
 ├── workspace/             ← Projekte (temporär, nie in Git)
 ├── skills/                ← SKILL.md Dateien (automatisch geladen bei Bedarf)
 │   ├── git-workflow/      ← Git-Operationen
@@ -42,7 +67,9 @@ mycoforge/
 │   ├── testing/           ← Tests schreiben & ausführen
 │   ├── debugging/         ← Fehler systematisch beheben
 │   ├── code-style/        ← TypeScript & Python Konventionen
-│   └── frontend/          ← UI, CSS, React, Accessibility
+│   ├── frontend/          ← UI, CSS, React, Accessibility
+│   ├── model-routing/     ← Modell- & Provider-Auswahl (Klein/Mittel/Groß)
+│   └── council/           ← Council-Governance, Runden, HitL
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── models.md          ← Modelle & Routing-Logik
     ├── git-workflow.md    ← Git-Konventionen
