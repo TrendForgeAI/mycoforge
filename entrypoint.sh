@@ -46,6 +46,18 @@ $(echo -e "$GITHUB_INFO")
 ## Aktive Projekte
 <!-- Wird ergänzt wenn neue Projekte angelegt werden -->
 
+## Slash Commands
+
+| Command | Muster | Beschreibung |
+|---------|--------|--------------|
+| `/new-project` | HitL + Plan&Solve | Interaktiver Projekt-Wizard |
+| `/plan` | Plan&Solve | Aufgabe analysieren, Tasks/SubTasks definieren |
+| `/implement` | Orchestrator | Plan umsetzen mit Subagenten |
+| `/review` | Council (3 Runden) | Code Review aus drei Perspektiven |
+| `/discuss` | Council (2-5 Runden) | Architektur-Entscheidung diskutieren |
+| `/commit` | ReAct (Klein) | Intelligenter Commit mit Message-Vorschlag |
+| `/route` | Router | Task klassifizieren und optimales Modell wählen |
+
 ## Einstellungen
 
 - `DEBUG_MODE: off`  — `on` = Agent/Provider/Modell bei jedem Task anzeigen
