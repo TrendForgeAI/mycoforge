@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     ca-certificates \
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
 # Claude Code installieren

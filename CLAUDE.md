@@ -10,10 +10,10 @@ mycoforge ist die Werkstatt. Die Projekte die darin entstehen sind die Werkstüc
 
 ## Infrastruktur
 
-- **VPS:** Ubuntu, Hostinger, /docker/mycoforge/
+- **VPS:** Ubuntu, Hostinger, /mycoforge/
 - **GitHub Account:** https://github.com/TrendForgeAI
-- **Container Pfad:** /docker/mycoforge/
-- **Arbeitsbereich:** /docker/mycoforge/workspace/ (temporär, nicht in Git)
+- **Container Pfad:** /mycoforge/
+- **Arbeitsbereich:** /mycoforge/workspace/ (temporär, nicht in Git)
 
 ## Projektstruktur
 ```
