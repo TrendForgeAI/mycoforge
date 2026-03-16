@@ -6,6 +6,84 @@ Sie ersetzt new-project.md als interaktiver Schritt-für-Schritt-Wizard.
 
 ---
 
+## Wizard Steps Übersicht
+
+Der Wizard ist in drei Phasen mit klar nummerierten Steps unterteilt:
+
+```
+Phase 1 — Pflichtfragen (Wizard Steps 1–6)
+  Step 1   Name
+  Step 2   Beschreibung
+  Step 3   Projekttyp
+  Step 4   Tech Stack
+  Step 5   Sichtbarkeit
+  Step 6   Lizenz
+           └─ Zwischenstand → weiter oder direkt anlegen
+
+Phase 1b — Optionale Einstellungen (Wizard Steps A–E)
+  Step A   Testing
+  Step B   CI/CD
+  Step C   Code-Qualität
+  Step D   Security
+  Step E   Docker
+           └─ Finale Zusammenfassung → anlegen
+
+Phase 2 — Ausführung (Setup Steps 1–10)
+  1  GitHub Repo anlegen
+  2  Klonen
+  3  CLAUDE.md erstellen
+  4  README.md erstellen
+  5  .gitignore erstellen
+  6  GitHub Actions einrichten
+  7  Dependabot einrichten
+  8  Branch-Protection aktivieren
+  9  Ersten Commit machen
+  10 MEMORY.md aktualisieren
+```
+
+---
+
+## Step-Header Template
+
+**Vor jeder Frage / jedem Block** gibt Claude diesen Header aus.
+Ersetze die Platzhalter passend zum aktuellen Schritt.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  <Phase-Label>   <Fortschritt-Dots>   Schritt <N> / <Total>
+  <Step-Titel>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Fortschritt-Dots** für Phase 1 (6 Schritte):
+```
+Schritt 1 → ●○○○○○
+Schritt 2 → ●●○○○○
+Schritt 3 → ●●●○○○
+Schritt 4 → ●●●●○○
+Schritt 5 → ●●●●●○
+Schritt 6 → ●●●●●●
+```
+
+**Fortschritt-Dots** für Phase 1b (5 Blöcke, A–E):
+```
+Block A → ●○○○○
+Block B → ●●○○○
+Block C → ●●●○○
+Block D → ●●●●○
+Block E → ●●●●●
+```
+
+**Beispiel** für Wizard Step 3:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●●○○○   Schritt 3 / 6
+  Projekttyp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
 ## Einstieg
 
 Begrüße den Nutzer kurz und kündige den Wizard an:
@@ -13,41 +91,68 @@ Begrüße den Nutzer kurz und kündige den Wizard an:
 > "Neues Projekt — ich führe dich durch die Einrichtung. Zuerst sammle ich alle nötigen
 > Infos, dann lege ich alles automatisch an. Los geht's!"
 
-Zeige dann diese Übersicht:
+Zeige dann die Wizard Steps Übersicht (kompakt):
 
 ```
-Pflichtfragen  (6):  Name · Beschreibung · Typ · Tech Stack · Sichtbarkeit · Lizenz
-Optionale Fragen:    Testing · CI/CD · Code-Qualität · Security · Docker
+Phase 1   Pflichtfragen     Step 1–6   Name · Beschreibung · Typ · Tech Stack · Sichtbarkeit · Lizenz
+Phase 1b  Optional          Step A–E   Testing · CI/CD · Code-Qualität · Security · Docker
+Phase 2   Ausführung        10 Schritte automatisch
 ```
 
 ---
 
 ## Phase 1: Pflichtfragen
 
-Gehe die Fragen EINZELN durch. Verwende **AskUserQuestion** für alle Auswahlentscheidungen.
+Gehe die Steps EINZELN durch. Zeige vor jeder Frage den **Step-Header**.
+Verwende **AskUserQuestion** für alle Auswahlentscheidungen.
 
 ---
 
-### Frage 1 — Name
+### Wizard Step 1 — Name
 
-Stelle als Freitext-Frage: "Wie soll das Projekt heißen?"
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●○○○○○   Schritt 1 / 6
+  Name
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Stelle als Freitext-Frage (via AskUserQuestion "Other"): "Wie soll das Projekt heißen?"
 
 - Format: lowercase, kebab-case (z. B. `my-cool-tool`)
 - Konvertiere automatisch: `My Cool Tool` → `my-cool-tool`
 - Prüfe: nur a-z, 0-9, Bindestrich
+- Bestätige die konvertierte Form explizit im Text
 
 ---
 
-### Frage 2 — Beschreibung
+### Wizard Step 2 — Beschreibung
 
-Stelle als Freitext-Frage: "Ein Satz: Was macht das Projekt?"
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●○○○○   Schritt 2 / 6
+  Beschreibung
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Stelle als Freitext-Frage (via AskUserQuestion "Other"): "Ein Satz: Was macht das Projekt?"
 
 - Wird als GitHub-Repo-Description und in README/CLAUDE.md verwendet
 - Schlage eine Verbesserung vor wenn der Satz sehr lang oder unklar ist
 
 ---
 
-### Frage 3 — Projekttyp
+### Wizard Step 3 — Projekttyp
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●●○○○   Schritt 3 / 6
+  Projekttyp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion mit 4 Optionen (+ automatisches "Other" für Library · WordPress Plugin · Mobile App · Sonstiges):
 
@@ -64,7 +169,15 @@ Merke den Typ — er steuert die Defaults in den optionalen Fragen.
 
 ---
 
-### Frage 4 — Tech Stack
+### Wizard Step 4 — Tech Stack
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●●●○○   Schritt 4 / 6
+  Tech Stack
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Zeige zuerst den Vorschlag passend zum Typ:
 
@@ -89,7 +202,15 @@ Framework explizit erfragen wenn nicht eindeutig aus Kontext.
 
 ---
 
-### Frage 5 — Sichtbarkeit
+### Wizard Step 5 — Sichtbarkeit
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●●●●○   Schritt 5 / 6
+  Sichtbarkeit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion:
 
@@ -100,7 +221,15 @@ AskUserQuestion:
 
 ---
 
-### Frage 6 — Lizenz
+### Wizard Step 6 — Lizenz
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Pflichtfragen   ●●●●●●   Schritt 6 / 6
+  Lizenz
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion mit 4 Optionen (+ "Other" für proprietär):
 
@@ -141,9 +270,20 @@ AskUserQuestion:
 
 ## Phase 1b: Optionale Fragen
 
+Gehe die Blöcke EINZELN durch. Zeige vor jedem Block den **Step-Header**.
+Verwende **AskUserQuestion** für alle Auswahlentscheidungen.
+
 ---
 
-### Block A — Testing
+### Wizard Step A — Testing
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Optionale Einstellungen   ●○○○○   Block A / E
+  Testing
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Zeige berechnete Defaults passend zum Typ:
 
@@ -168,7 +308,15 @@ Bei "Anpassen": Einzeln nachfragen (Unit · E2E · Coverage-Ziel).
 
 ---
 
-### Block B — CI/CD
+### Wizard Step B — CI/CD
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Optionale Einstellungen   ●●○○○   Block B / E
+  CI/CD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion mit 2 Fragen auf einmal:
 
@@ -179,7 +327,15 @@ Default: Tests Ja, Deployment Nein (bei Web-App Vercel als erste Option).
 
 ---
 
-### Block C — Code-Qualität
+### Wizard Step C — Code-Qualität
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Optionale Einstellungen   ●●●○○   Block C / E
+  Code-Qualität
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion mit 2 Fragen auf einmal:
 
@@ -188,7 +344,15 @@ AskUserQuestion mit 2 Fragen auf einmal:
 
 ---
 
-### Block D — Security
+### Wizard Step D — Security
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Optionale Einstellungen   ●●●●○   Block D / E
+  Security
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion mit 3 Fragen auf einmal (Default: alle Ja bei Public, alle Nein bei Private):
 
@@ -198,7 +362,15 @@ AskUserQuestion mit 3 Fragen auf einmal (Default: alle Ja bei Public, alle Nein 
 
 ---
 
-### Block E — Docker
+### Wizard Step E — Docker
+
+**Step-Header ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Optionale Einstellungen   ●●●●●   Block E / E
+  Docker
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 AskUserQuestion:
 
@@ -247,9 +419,28 @@ AskUserQuestion:
 Führe diese Schritte EXAKT in dieser Reihenfolge aus. Melde nach jedem Schritt
 kurz den Status (✓ Erledigt / ✗ Fehler + Ursache).
 
+Zeige vor dem Start eine Fortschrittsleiste:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ausführung   10 Schritte
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [ ] 1  GitHub Repo anlegen
+  [ ] 2  Klonen
+  [ ] 3  CLAUDE.md erstellen
+  [ ] 4  README.md erstellen
+  [ ] 5  .gitignore erstellen
+  [ ] 6  GitHub Actions einrichten
+  [ ] 7  Dependabot einrichten
+  [ ] 8  Branch-Protection aktivieren
+  [ ] 9  Ersten Commit machen
+  [ ] 10 MEMORY.md aktualisieren
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 ---
 
-### Schritt 1 — GitHub Repo anlegen
+### Setup Step 1 — GitHub Repo anlegen
 
 ```bash
 gh repo create TrendForgeAI/<name> \
@@ -262,7 +453,7 @@ Bei Fehler: Fehlermeldung ausgeben und abbrechen.
 
 ---
 
-### Schritt 2 — Klonen
+### Setup Step 2 — Klonen
 
 ```bash
 cd /workspace
@@ -272,7 +463,7 @@ cd <name>
 
 ---
 
-### Schritt 3 — CLAUDE.md erstellen
+### Setup Step 3 — CLAUDE.md erstellen
 
 ```markdown
 # <name>
@@ -309,7 +500,7 @@ Pre-commit Hooks: <J/n>
 
 ---
 
-### Schritt 4 — README.md erstellen
+### Setup Step 4 — README.md erstellen
 
 ```markdown
 # <name>
@@ -335,7 +526,7 @@ Pre-commit Hooks: <J/n>
 
 ---
 
-### Schritt 5 — .gitignore erstellen
+### Setup Step 5 — .gitignore erstellen
 
 Wähle Template passend zum Tech Stack:
 
@@ -351,7 +542,7 @@ Ergänze stets: `.DS_Store`, `Thumbs.db`, `.idea/`, `.vscode/` (außer settings.
 
 ---
 
-### Schritt 6 — GitHub Actions (falls CI/CD gewählt)
+### Setup Step 6 — GitHub Actions (falls CI/CD gewählt)
 
 ```bash
 mkdir -p .github/workflows
@@ -384,7 +575,7 @@ Passe `runs-on`, Setup-Action und Testbefehl an den tatsächlichen Stack an.
 
 ---
 
-### Schritt 7 — Dependabot einrichten (falls gewählt)
+### Setup Step 7 — Dependabot einrichten (falls gewählt)
 
 ```bash
 mkdir -p .github
@@ -403,7 +594,7 @@ updates:
 
 ---
 
-### Schritt 8 — Branch-Protection aktivieren (falls gewählt)
+### Setup Step 8 — Branch-Protection aktivieren (falls gewählt)
 
 ```bash
 gh api repos/TrendForgeAI/<name>/branches/main/protection \
@@ -416,7 +607,7 @@ gh api repos/TrendForgeAI/<name>/branches/main/protection \
 
 ---
 
-### Schritt 9 — Ersten Commit machen
+### Setup Step 9 — Ersten Commit machen
 
 ```bash
 git add -A
@@ -426,7 +617,7 @@ git push -u origin main
 
 ---
 
-### Schritt 10 — MEMORY.md aktualisieren
+### Setup Step 10 — MEMORY.md aktualisieren
 
 Trage das neue Projekt in `/mycoforge/MEMORY.md` unter "Aktive Projekte" ein:
 
