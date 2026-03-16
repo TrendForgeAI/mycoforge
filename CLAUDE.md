@@ -33,6 +33,7 @@ mycoforge/
 ├── .env                   ← Secrets (nie in Git)
 ├── .env.example           ← Dokumentation der benötigten Variablen
 ├── claude/                ← Claude Code Konfiguration (nie in Git)
+│   └── commands/          ← Slash Commands (/commit, /plan, /review, /implement, /new-project)
 ├── workspace/             ← Projekte (temporär, nie in Git)
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── models.md          ← Modelle & Routing-Logik
