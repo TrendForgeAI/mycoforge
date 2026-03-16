@@ -366,7 +366,7 @@ skills/
 4. HitL Integration: Kein Konsens nach max Runden → Nutzer entscheidet
 5. `skills/council/SKILL.md` für internen Einsatz in anderen Commands
 
-### Meilenstein 6: Hooks
+### Meilenstein 6: Hooks ✅
 1. Pre-Commit Secrets-Scan
 2. Session-Start Kontext
 3. Post-Commit MEMORY.md Update

@@ -57,7 +57,20 @@ $(echo -e "$GITHUB_INFO")
 - Container Pfad: /mycoforge/
 - Arbeitsbereich: /workspace/
 - GitHub: https://github.com/TrendForgeAI/mycoforge
+
+## Offene TODOs
+$(grep '^\s*- \[ \]' /mycoforge/TODO.md 2>/dev/null | head -10 || echo "- Keine offenen TODOs")
 MEMORY
+
+# Git Hooks installieren (mycoforge Repo)
+if [ -d /mycoforge/.git/hooks ]; then
+    cp /mycoforge/hooks/git-pre-commit.sh /mycoforge/.git/hooks/pre-commit
+    cp /mycoforge/hooks/git-post-commit.sh /mycoforge/.git/hooks/post-commit
+    chmod +x /mycoforge/.git/hooks/pre-commit /mycoforge/.git/hooks/post-commit
+fi
+
+# Hook-Skripte ausführbar machen
+chmod +x /mycoforge/hooks/*.sh 2>/dev/null
 
 # Übergebenen Befehl ausführen
 exec "$@"
