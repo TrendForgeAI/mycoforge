@@ -61,7 +61,7 @@ Grundprinzip:
 ## Neue Projekte anlegen
 
 Wenn der Nutzer ein neues Projekt anlegen möchte:
-1. Lies ZUERST @knowledge/new-project.md
+1. Lies ZUERST @knowledge/project-wizard.md
 2. Befolge die Schritte dort EXAKT – kein eigener Wizard
 3. Stelle alle Pflichtfragen BEVOR du anfängst
 4. Lege das GitHub Repo mit `gh` an
