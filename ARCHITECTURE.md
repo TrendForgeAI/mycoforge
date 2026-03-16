@@ -162,6 +162,32 @@ Konsens gefunden?
 Finale Entscheidung
 ```
 
+### Diskussions-Governance (Ping-Pong)
+
+Jede Agent-Diskussion hat ein konfigurierbares Runden-Limit um endlose Debatten zu verhindern.
+
+| Parameter | Default | Beschreibung |
+|-----------|---------|-------------|
+| `discussion_rounds` | 3 | Maximale Ping-Pong-Runden zwischen Agents |
+| `min_rounds` | 1 | Mindestens diese Anzahl Runden |
+| `early_stop` | true | Stoppe früher wenn Konsens erreicht |
+
+**Ablauf pro Runde:**
+```
+Runde 1: Jedes Council-Mitglied gibt initiale Position
+Runde 2: Reaktion auf andere Positionen, Annäherung
+Runde 3: Finale Position, Konsens-Versuch
+    ↓
+Konsens? → weiter
+Kein Konsens nach max Runden? → HitL
+```
+
+**Konfiguration pro Command:**
+- `/review` → 3 Runden (Default)
+- `/discuss` → 2-5 Runden (Nutzer wählbar)
+- Council im Orchestrator → 2 Runden (Effizienz)
+- Swarm → eigene Iterations-Governance (Max-Iterations)
+
 **Wann Council, wann nicht:**
 - ✅ Architektur-Entscheidungen, Code Reviews, Variantenvergleiche
 - ❌ Standardisierte Aufgaben, einfache Pipelines → Orchestrator effizienter
