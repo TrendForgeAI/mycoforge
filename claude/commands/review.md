@@ -29,11 +29,10 @@ Lade die Council-Rollen:
 - `claude/agents/council-developer.md`
 - `claude/agents/council-reviewer.md`
 
-Falls `DEBUG_MODE: on` in MEMORY.md, Routing für alle drei Council-Agents ausgeben:
+Falls `DEBUG_MODE: on` in MEMORY.md, nach jeder Runde pro Agent ausgeben (Format aus `skills/model-routing/SKILL.md`):
 ```
 [🔀 council-generalist]  Tier: Groß | Provider: <provider> | Modell: <modell>
-[🔀 council-developer]   Tier: Groß | Provider: <provider> | Modell: <modell>
-[🔀 council-reviewer]    Tier: Groß | Provider: <provider> | Modell: <modell>
+                         Dauer: <Xs> | Tool-Calls: <n> | Token: ~<n> (geschätzt)
 ```
 
 ---

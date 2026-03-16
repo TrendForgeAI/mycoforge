@@ -54,17 +54,27 @@ großes Refactoring (> 3 Dateien), unbekannte Bugs ohne klare Hinweise.
 
 ### Debug-Modus (DEBUG_MODE: on in MEMORY.md)
 
-Vor jedem Agent-Einsatz oder Task-Start ausgeben:
+Nach jedem Agent-Einsatz oder Task-Abschluss ausgeben:
 
 ```
 [🔀 <agent-name>] Tier: <Klein|Mittel|Groß> | Provider: <provider> | Modell: <modell>
+                  Dauer: <Xs> | Tool-Calls: <n> | Token: ~<n> (geschätzt)
 ```
+
+- **Dauer:** Zeit von Task-Start bis Task-Ende, gemessen mit `date +%s` vor/nach dem Task
+- **Tool-Calls:** Anzahl der genutzten Tools (Read, Edit, Bash, Grep, ...) im Task
+- **Token:** Grobe Schätzung des Kontexts (1 Token ≈ 4 Zeichen), immer als `(geschätzt)` markieren
 
 Beispiele:
 ```
 [🔀 developer]          Tier: Mittel | Provider: Anthropic | Modell: claude-sonnet-4-6
+                        Dauer: 12s   | Tool-Calls: 4       | Token: ~2.400 (geschätzt)
+
 [🔀 council-reviewer]   Tier: Groß   | Provider: OpenAI    | Modell: gpt-5.4-pro
+                        Dauer: 8s    | Tool-Calls: 1       | Token: ~5.100 (geschätzt)
+
 [🔀 committer]          Tier: Klein  | Provider: OpenAI    | Modell: gpt-5.3-instant
+                        Dauer: 3s    | Tool-Calls: 2       | Token: ~800 (geschätzt)
 ```
 
 ### Normal-Modus (DEBUG_MODE: off)
