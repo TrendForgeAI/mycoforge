@@ -55,9 +55,7 @@ Bereits vorhanden:
 - workspace/ (Projekte als geklonte GitHub Repos)
 
 Noch zu bauen:
-- Formalisierte SKILL.md Struktur
 - Persistente Task/Session Historie
-- claude/commands/ (Slash Commands)
 - claude/agents/ (Agent-Definitionen)
 
 ---
@@ -338,15 +336,15 @@ skills/
 
 ## Implementierungs-Reihenfolge
 
-### Meilenstein 1: Commands formalisieren
+### Meilenstein 1: Commands formalisieren ✅
 1. `/new-project` als echten Slash Command (project-wizard.md bereits vorhanden)
 2. `/plan` und `/implement`
 3. `/review` (Council-Muster)
 4. `/commit`
 
-### Meilenstein 2: Skills aufbauen
-1. Bestehende knowledge/ Dateien in SKILL.md Format überführen
-2. Neue Skills: planning, testing, debugging, code-style
+### Meilenstein 2: Skills aufbauen ✅
+1. Bestehende knowledge/ Dateien in SKILL.md Format überführt (git-workflow, docker)
+2. Neue Skills angelegt: planning, testing, debugging, code-style, frontend
 
 ### Meilenstein 3: Model Router
 1. Router-Agent mit kleinstem Modell

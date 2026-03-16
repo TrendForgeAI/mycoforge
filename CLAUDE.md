@@ -35,6 +35,14 @@ mycoforge/
 ├── claude/                ← Claude Code Konfiguration (nie in Git)
 │   └── commands/          ← Slash Commands (/commit, /plan, /review, /implement, /new-project)
 ├── workspace/             ← Projekte (temporär, nie in Git)
+├── skills/                ← SKILL.md Dateien (automatisch geladen bei Bedarf)
+│   ├── git-workflow/      ← Git-Operationen
+│   ├── docker/            ← Container-Änderungen
+│   ├── planning/          ← Aufgaben zerlegen (Plan & Solve)
+│   ├── testing/           ← Tests schreiben & ausführen
+│   ├── debugging/         ← Fehler systematisch beheben
+│   ├── code-style/        ← TypeScript & Python Konventionen
+│   └── frontend/          ← UI, CSS, React, Accessibility
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── models.md          ← Modelle & Routing-Logik
     ├── git-workflow.md    ← Git-Konventionen
