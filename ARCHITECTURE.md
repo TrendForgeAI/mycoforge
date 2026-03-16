@@ -359,10 +359,12 @@ skills/
 4. Frontend + Backend Agents
 5. Reviewer
 
-### Meilenstein 5: Council
-1. Council für Code Reviews
-2. Council für Architektur-Entscheidungen
-3. HitL Integration
+### Meilenstein 5: Council ✅
+1. Council-Agents: council-generalist, council-developer, council-reviewer
+2. `/discuss` Command für Architektur-Entscheidungen und Variantenvergleiche
+3. `/review` Command mit Runden-Governance (3 Runden, Early Stop)
+4. HitL Integration: Kein Konsens nach max Runden → Nutzer entscheidet
+5. `skills/council/SKILL.md` für internen Einsatz in anderen Commands
 
 ### Meilenstein 6: Hooks
 1. Pre-Commit Secrets-Scan
