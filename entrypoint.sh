@@ -25,6 +25,19 @@ fi
 GITHUB_INFO=""
 [ -n "$GH_TOKEN" ] && GITHUB_INFO="- Token: vorhanden" || GITHUB_INFO="- Token: nicht gesetzt"
 
+# DEBUG_MODE aus ENV lesen (Default: off)
+DEBUG_MODE="${DEBUG_MODE:-off}"
+
+# Slash Commands aus claude/commands/ generieren
+SLASH_COMMANDS_TABLE="| Command | Beschreibung |\n|---------|--------------|"
+if [ -d /mycoforge/claude/commands ]; then
+    for f in /mycoforge/claude/commands/*.md; do
+        cmd=$(basename "$f" .md)
+        desc=$(grep '^description:' "$f" | head -1 | sed 's/^description: *//')
+        SLASH_COMMANDS_TABLE="$SLASH_COMMANDS_TABLE\n| \`/$cmd\` | $desc |"
+    done
+fi
+
 # MEMORY.md komplett neu schreiben
 cat > /mycoforge/MEMORY.md << MEMORY
 # mycoforge Memory
@@ -48,19 +61,11 @@ $(echo -e "$GITHUB_INFO")
 
 ## Slash Commands
 
-| Command | Muster | Beschreibung |
-|---------|--------|--------------|
-| `/new-project` | HitL + Plan&Solve | Interaktiver Projekt-Wizard |
-| `/plan` | Plan&Solve | Aufgabe analysieren, Tasks/SubTasks definieren |
-| `/implement` | Orchestrator | Plan umsetzen mit Subagenten |
-| `/review` | Council (3 Runden) | Code Review aus drei Perspektiven |
-| `/discuss` | Council (2-5 Runden) | Architektur-Entscheidung diskutieren |
-| `/commit` | ReAct (Klein) | Intelligenter Commit mit Message-Vorschlag |
-| `/route` | Router | Task klassifizieren und optimales Modell wählen |
+$(echo -e "$SLASH_COMMANDS_TABLE")
 
 ## Einstellungen
 
-- `DEBUG_MODE: off`  — `on` = Agent/Provider/Modell bei jedem Task anzeigen
+- \`DEBUG_MODE: $DEBUG_MODE\`  — \`on\` = Agent/Provider/Modell bei jedem Task anzeigen
 
 ## Konventionen
 - Atomic Commits nach jeder abgeschlossenen Aufgabe

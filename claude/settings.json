@@ -1,5 +1,7 @@
 {
-  "model": "claude-sonnet-4-6",
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8096"
+  },
   "permissions": {
     "allow": [
       "Bash(*)",
@@ -9,9 +11,7 @@
       "MultiEdit(*)"
     ]
   },
-  "env": {
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8096"
-  },
+  "model": "claude-sonnet-4-6",
   "hooks": {
     "SessionStart": [
       {
