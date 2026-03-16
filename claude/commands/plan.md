@@ -31,11 +31,11 @@ Modell basierend auf Tier und verfügbaren Providern (MEMORY.md).
   <1-2 Sätze was erreicht werden soll>
 
   Tasks:
-  [ ] T1  <task> — Klein  | <provider>/<modell>
-  [ ] T2  <task> — Mittel | <provider>/<modell>
+  [ ] T1  <task> — Klein  | <provider>/<modell>  (<agent>)
+  [ ] T2  <task> — Mittel | <provider>/<modell>  (<agent>)
       └── T2a  <subtask>
       └── T2b  <subtask>
-  [ ] T3  <task> — Groß   | <provider>/<modell>
+  [ ] T3  <task> — Groß   | <provider>/<modell>  (<agent>)
 
   Reihenfolge:
   → Parallel:    T1, T2

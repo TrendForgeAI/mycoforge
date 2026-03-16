@@ -29,6 +29,13 @@ Lade die Council-Rollen:
 - `claude/agents/council-developer.md`
 - `claude/agents/council-reviewer.md`
 
+Falls `DEBUG_MODE: on` in MEMORY.md, Routing für alle drei Council-Agents ausgeben:
+```
+[🔀 council-generalist]  Tier: Groß | Provider: <provider> | Modell: <modell>
+[🔀 council-developer]   Tier: Groß | Provider: <provider> | Modell: <modell>
+[🔀 council-reviewer]    Tier: Groß | Provider: <provider> | Modell: <modell>
+```
+
 ---
 
 ## Schritt 2 — Council-Diskussion (3 Runden max.)

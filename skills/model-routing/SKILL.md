@@ -50,16 +50,31 @@ großes Refactoring (> 3 Dateien), unbekannte Bugs ohne klare Hinweise.
 4. Falls bevorzugter Provider nicht verfügbar → Fallback auf anderen verfügbaren
 5. Routing-Entscheidung ausgeben
 
-## Ausgabeformat (intern / kompakt)
+## Ausgabeformat
 
-Wenn du die Routing-Entscheidung als Teil einer anderen Aktion ausgibst:
+### Debug-Modus (DEBUG_MODE: on in MEMORY.md)
+
+Vor jedem Agent-Einsatz oder Task-Start ausgeben:
 
 ```
-[Router] Tier: Mittel | Provider: Anthropic | Modell: claude-sonnet-4-6
-         Grund: Code-Implementierung mit Reasoning-Anforderung
+[🔀 <agent-name>] Tier: <Klein|Mittel|Groß> | Provider: <provider> | Modell: <modell>
 ```
 
-Für explizites `/route`: vollständige Ausgabe mit Alternativen.
+Beispiele:
+```
+[🔀 developer]          Tier: Mittel | Provider: Anthropic | Modell: claude-sonnet-4-6
+[🔀 council-reviewer]   Tier: Groß   | Provider: OpenAI    | Modell: gpt-5.4-pro
+[🔀 committer]          Tier: Klein  | Provider: OpenAI    | Modell: gpt-5.3-instant
+```
+
+### Normal-Modus (DEBUG_MODE: off)
+
+Keine automatische Routing-Ausgabe. Nur bei explizitem `/route` oder wenn es
+Teil des Aufgaben-Outputs ist (z.B. in `/plan` pro Task).
+
+### Explizites `/route`
+
+Vollständige Ausgabe mit Alternativen (immer, unabhängig von DEBUG_MODE).
 
 ## Beispiele
 

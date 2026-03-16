@@ -41,8 +41,8 @@ Für jeden Task den passenden Subagenten wählen:
 
 **Modell-Routing pro Task:**
 Lade `skills/model-routing/SKILL.md` und bestimme für jeden Task das optimale Modell.
-Gib die Entscheidung kompakt aus:
-`[Router] Tier: <tier> | Provider: <provider> | Modell: <modell>`
+Falls `DEBUG_MODE: on` in MEMORY.md: Debug-Ausgabe vor jedem Agent-Einsatz gemäß
+Ausgabeformat in `skills/model-routing/SKILL.md`.
 
 **Für jeden Task:**
 1. Lies relevante Dateien (Kontext verstehen)

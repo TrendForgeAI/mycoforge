@@ -37,6 +37,13 @@ Lade die Rollen aus den Agent-Definitionen:
 - `claude/agents/council-developer.md` → Technische Umsetzung
 - `claude/agents/council-reviewer.md` → Qualität, Security, Risiken
 
+Falls `DEBUG_MODE: on` in MEMORY.md, Routing für alle drei Council-Agents ausgeben:
+```
+[🔀 council-generalist]  Tier: Groß | Provider: <provider> | Modell: <modell>
+[🔀 council-developer]   Tier: Groß | Provider: <provider> | Modell: <modell>
+[🔀 council-reviewer]    Tier: Groß | Provider: <provider> | Modell: <modell>
+```
+
 ---
 
 ## Diskussions-Ablauf
