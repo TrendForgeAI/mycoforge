@@ -24,14 +24,27 @@ Phase 2   Ausführung      Steps 1–10   Automatisch
 
 ## Step-Header Regel
 
-Vor jedem Step/Block ausgeben:
+Vor jedem Step/Block die **Fortschrittsleiste** ausgeben.
+Abgeschlossene Schritte: `✓`, aktueller Schritt: `▶□`, ausstehend: `□`.
+
+**Phase 1 — Pflichtfragen (6 Schritte):**
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  <Phase>   <Dots>   <N/Total>   <Titel>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+← □ Name  □ Beschreibung  □ Typ  □ Stack  □ Sichtbarkeit  □ Lizenz  →
 ```
-Dots Phase 1: `●○○○○○` → `●●●●●●`
-Dots Phase 1b: `●○○○○` → `●●●●●`
+Beispiel nach Step 2 (Typ ist aktuell):
+```
+← ✓ Name  ✓ Beschreibung  ▶□ Typ  □ Stack  □ Sichtbarkeit  □ Lizenz  →
+```
+
+**Phase 1b — Optionale Einstellungen (5 Blöcke):**
+```
+← □ Testing  □ CI/CD  □ Code-Qualität  □ Security  □ Docker  →
+```
+
+Darunter immer den Titel des aktuellen Schritts als Überschrift:
+```
+  <Titel>
+```
 
 ---
 
@@ -48,7 +61,7 @@ Dots Phase 1b: `●○○○○` → `●●●●●`
 
 ---
 
-### Step 1 — Name `●○○○○○`
+### Step 1 — Name
 
 **Freitext:** "Wie soll das Projekt heißen?"
 
@@ -59,7 +72,7 @@ Dots Phase 1b: `●○○○○` → `●●●●●`
 
 ---
 
-### Step 2 — Beschreibung `●●○○○○`
+### Step 2 — Beschreibung
 
 **Freitext:** "Ein Satz: Was macht das Projekt?"
 
@@ -68,7 +81,7 @@ Dots Phase 1b: `●○○○○` → `●●●●●`
 
 ---
 
-### Step 3 — Projekttyp `●●●○○○`
+### Step 3 — Projekttyp
 
 **AskUserQuestion** (4 Optionen + Other):
 
@@ -85,7 +98,7 @@ Gemerkter Typ steuert Defaults in Phase 1b.
 
 ---
 
-### Step 4 — Tech Stack `●●●●○○`
+### Step 4 — Tech Stack
 
 Vorschlag passend zum Typ ausgeben:
 
@@ -109,7 +122,7 @@ Framework nachfragen wenn nicht eindeutig.
 
 ---
 
-### Step 5 — Sichtbarkeit `●●●●●○`
+### Step 5 — Sichtbarkeit
 
 **AskUserQuestion:**
 
@@ -120,7 +133,7 @@ Framework nachfragen wenn nicht eindeutig.
 
 ---
 
-### Step 6 — Lizenz `●●●●●●`
+### Step 6 — Lizenz
 
 **AskUserQuestion** (+ Other für proprietär):
 
@@ -159,7 +172,7 @@ Framework nachfragen wenn nicht eindeutig.
 
 ---
 
-### Block A — Testing `●○○○○`
+### Block A — Testing
 
 Defaults passend zum Typ:
 
@@ -184,7 +197,7 @@ Bei Anpassen: einzeln nachfragen (Unit · E2E · Coverage-Ziel).
 
 ---
 
-### Block B — CI/CD `●●○○○`
+### Block B — CI/CD
 
 **AskUserQuestion** (2 Fragen gleichzeitig):
 
@@ -193,7 +206,7 @@ Bei Anpassen: einzeln nachfragen (Unit · E2E · Coverage-Ziel).
 
 ---
 
-### Block C — Code-Qualität `●●●○○`
+### Block C — Code-Qualität
 
 **AskUserQuestion** (2 Fragen gleichzeitig):
 
@@ -202,7 +215,7 @@ Bei Anpassen: einzeln nachfragen (Unit · E2E · Coverage-Ziel).
 
 ---
 
-### Block D — Security `●●●●○`
+### Block D — Security
 
 Default: alle Ja bei Public · alle Nein bei Private
 
@@ -214,7 +227,7 @@ Default: alle Ja bei Public · alle Nein bei Private
 
 ---
 
-### Block E — Docker `●●●●●`
+### Block E — Docker
 
 **AskUserQuestion:**
 
@@ -256,8 +269,28 @@ Default: alle Ja bei Public · alle Nein bei Private
 
 ## Phase 2 — Ausführung
 
-Status nach jedem Schritt: `✓ Erledigt` oder `✗ Fehler: <Ursache>`
+### Checklisten-Regel (WICHTIG)
 
+Nach **jedem** abgeschlossenen Schritt die **gesamte Checkliste neu ausgeben** mit:
+- `[x]` für erledigte Schritte
+- `[-]` für übersprungene Schritte
+- `[ ]` für noch ausstehende Schritte
+- `→` vor dem aktuell gerade abgeschlossenen Schritt (Ergebnis dahinter)
+
+Beispiel nach Step 2:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Ausführung — 10 Schritte
+  [x] 1  GitHub Repo anlegen
+→ [x] 2  Klonen               ✓
+  [ ] 3  CLAUDE.md
+  ...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Bei Fehler: `→ [x] N  Titel   ✗ Fehler: <Ursache>` → abbrechen.
+
+Initiale Ausgabe vor Step 1 (alle `[ ]`):
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Ausführung — 10 Schritte
