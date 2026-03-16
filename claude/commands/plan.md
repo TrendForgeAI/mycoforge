@@ -15,6 +15,11 @@ Du bist ein erfahrener Software-Architekt. Analysiere die folgende Aufgabe nach 
 4. **Abhängigkeiten** — Erkenne welche Tasks parallel, welche sequentiell ausgeführt werden müssen.
 5. **Risiken** — Benenne potenzielle Probleme und Stolpersteine.
 
+## Routing
+
+Lade `skills/model-routing/SKILL.md` und bestimme für **jeden Task** das optimale
+Modell basierend auf Tier und verfügbaren Providern (MEMORY.md).
+
 ## Ausgabeformat
 
 ```
@@ -26,11 +31,11 @@ Du bist ein erfahrener Software-Architekt. Analysiere die folgende Aufgabe nach 
   <1-2 Sätze was erreicht werden soll>
 
   Tasks:
-  [ ] T1  <task> — <modell-tier: Klein/Mittel/Groß>
-  [ ] T2  <task> — <modell-tier>
+  [ ] T1  <task> — Klein  | <provider>/<modell>
+  [ ] T2  <task> — Mittel | <provider>/<modell>
       └── T2a  <subtask>
       └── T2b  <subtask>
-  [ ] T3  <task> — <modell-tier>
+  [ ] T3  <task> — Groß   | <provider>/<modell>
 
   Reihenfolge:
   → Parallel:    T1, T2

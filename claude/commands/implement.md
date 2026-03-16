@@ -3,37 +3,60 @@ description: Plan umsetzen mit Subagenten (Orchestrator-Muster)
 argument-hint: [plan oder aufgabe]
 ---
 
-Du bist ein Orchestrator. Deine Aufgabe: die gegebene Aufgabe vollständig implementieren.
+Du bist der **Orchestrator**. Deine Aufgabe: die gegebene Aufgabe vollständig implementieren,
+indem du spezialisierte Subagenten koordinierst.
 
 **Aufgabe / Plan:** $ARGUMENTS
+
+## Verfügbare Subagenten
+
+| Agent | Datei | Einsatz | Tier |
+|-------|-------|---------|------|
+| Planner | `claude/agents/planner.md` | Aufgabe zerlegen, Plan erstellen | Groß |
+| Developer | `claude/agents/developer.md` | Code schreiben, Features, Bugfixes | Mittel |
+| Frontend | `claude/agents/frontend.md` | UI, CSS, React, Accessibility | Mittel |
+| Backend | `claude/agents/backend.md` | API, Datenbank, Business Logic | Mittel |
+| Tester | `claude/agents/tester.md` | Tests schreiben und ausführen | Mittel |
+| Reviewer | `claude/agents/reviewer.md` | Code Review (Qualität, Security, Architektur) | Groß |
+| Committer | `claude/agents/committer.md` | Git-Operationen, Commit Messages | Klein |
 
 ## Vorgehen
 
 ### 1. Plan prüfen oder erstellen
-Falls kein fertiger Plan vorliegt, erstelle zuerst einen mit dem Plan & Solve Muster (wie /plan).
-Zeige den Plan und warte auf Bestätigung.
+
+Falls kein fertiger Plan vorliegt:
+- Lade `claude/agents/planner.md` und arbeite nach dessen Anleitung
+- Zeige den Plan und warte auf Bestätigung bevor du implementierst
 
 ### 2. Tasks ausführen
 
-Führe jeden Task aus — parallel wo möglich, sequentiell wo nötig:
+Für jeden Task den passenden Subagenten wählen:
+- **Frontend-Task** → Frontend Agent
+- **Backend/API-Task** → Backend Agent
+- **Allgemeiner Code-Task** → Developer Agent
+- **Test-Task** → Tester Agent
+
+**Parallelisierung:** Unabhängige Tasks parallel ausführen (mehrere Tool-Calls gleichzeitig).
+**Sequentiell:** Tasks mit Abhängigkeiten erst nach Abschluss ihrer Voraussetzungen starten.
+
+**Modell-Routing pro Task:**
+Lade `skills/model-routing/SKILL.md` und bestimme für jeden Task das optimale Modell.
+Gib die Entscheidung kompakt aus:
+`[Router] Tier: <tier> | Provider: <provider> | Modell: <modell>`
 
 **Für jeden Task:**
-- Lies relevante Dateien zuerst (verstehe den Kontext)
-- Implementiere minimal und gezielt (kein Gold-Plating)
-- Teste die Änderung soweit möglich
-- Dokumentiere was gemacht wurde
-
-**Modell-Hinweise pro Task:**
-- Klein (Dateioperationen, Umbenennen, einfache Edits): direkt ausführen
-- Mittel (Code schreiben, Bug fixen): sorgfältig umsetzen
-- Groß (Architektur, komplexe Analyse): ausführlich denken
+1. Lies relevante Dateien (Kontext verstehen)
+2. Arbeite nach der Anleitung des jeweiligen Subagenten
+3. Implementiere minimal und gezielt
+4. Dokumentiere was gemacht wurde
 
 ### 3. Review
 
-Nach allen Tasks: kurzes Review der Gesamtänderung.
-- Sind alle Tasks erledigt?
-- Gibt es unerwartete Seiteneffekte?
-- Sind Tests nötig?
+Nach allen Implementierungs-Tasks:
+- Lade `claude/agents/reviewer.md`
+- Review aller geänderten Dateien
+- Bei Critical Findings: sofort beheben, dann erneut reviewen
+- Bei Warning/Suggestion: dem Nutzer melden
 
 ### 4. Checkliste
 
@@ -47,12 +70,18 @@ Gib nach jedem abgeschlossenen Task die Gesamtcheckliste aus:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### 5. Abschluss
+### 5. Commit
+
+Nach erfolgreichem Review:
+- Lade `claude/agents/committer.md`
+- Erstelle atomaren Commit für alle Änderungen
+
+### 6. Abschluss
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✓ Implementierung abgeschlossen
   Geänderte Dateien: <liste>
-  Nächster Schritt: /commit oder /review
+  Commit: <hash> — <message>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

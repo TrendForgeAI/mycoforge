@@ -346,12 +346,13 @@ skills/
 1. Bestehende knowledge/ Dateien in SKILL.md Format überführt (git-workflow, docker)
 2. Neue Skills angelegt: planning, testing, debugging, code-style, frontend
 
-### Meilenstein 3: Model Router
-1. Router-Agent mit kleinstem Modell
-2. Komplexitätsstufen definieren
-3. Provider-übergreifendes Routing
+### Meilenstein 3: Model Router ✅
+1. Router-Agent mit kleinstem Modell (`/route` Slash Command)
+2. Komplexitätsstufen Klein/Mittel/Groß definiert
+3. Provider-übergreifendes Routing (Anthropic, OpenAI, Google)
+4. Skill `skills/model-routing/SKILL.md` für internen Einsatz in anderen Commands
 
-### Meilenstein 4: Orchestrator
+### Meilenstein 4: Orchestrator ✅
 1. Plan & Solve implementieren
 2. Planner + Committer (einfachste Agents)
 3. Developer + Tester
