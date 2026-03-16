@@ -77,6 +77,23 @@ mycoforge/
     └── docker.md          ← Container-Änderungen
 ```
 
+## DEBUG_MODE
+
+`DEBUG_MODE` wird aus `.env` geladen und von `entrypoint.sh` in MEMORY.md geschrieben.
+
+**Falls `DEBUG_MODE: on` in MEMORY.md steht, MUSS nach jeder Antwort folgendes ausgegeben werden:**
+
+```
+[🔀 <agent oder skill>]  Provider: <provider> | Modell: <modell>
+                         Dauer: ~<Xs> | Tool-Calls: <n> | Token: ~<n> (geschätzt)
+```
+
+- Bei einfachen Chat-Antworten ohne Tool-Calls: einzeilig am Ende der Antwort
+  `[🔀 chat]  Provider: Anthropic | Modell: claude-sonnet-4-6 | Tool-Calls: 0`
+- Bei mehreren Agents/Skills: je eine Zeile pro Agent
+- Token-Schätzung: grob, auf 100 gerundet
+- Dauer: seit Beginn der Antwort schätzen
+
 ## Arbeitsweise
 
 - Jede Änderung wird verstanden bevor sie gemacht wird
