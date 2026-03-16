@@ -46,6 +46,10 @@ $(echo -e "$GITHUB_INFO")
 ## Aktive Projekte
 <!-- Wird ergänzt wenn neue Projekte angelegt werden -->
 
+## Einstellungen
+
+- `DEBUG_MODE: off`  — `on` = Agent/Provider/Modell bei jedem Task anzeigen
+
 ## Konventionen
 - Atomic Commits nach jeder abgeschlossenen Aufgabe
 - Keine Secrets in Git
