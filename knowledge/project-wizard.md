@@ -24,26 +24,24 @@ Optionale Fragen:    Testing · CI/CD · Code-Qualität · Security · Docker
 
 ## Phase 1: Pflichtfragen
 
-Gehe die Fragen EINZELN durch — stelle die nächste Frage erst nachdem die vorherige
-beantwortet wurde. Akzeptiere Abkürzungen und ergänze sinnvoll.
+Gehe die Fragen EINZELN durch. Verwende **AskUserQuestion** für alle Auswahlentscheidungen.
 
 ---
 
 ### Frage 1 — Name
 
-> "Wie soll das Projekt heißen?"
+Stelle als Freitext-Frage: "Wie soll das Projekt heißen?"
 
 - Format: lowercase, kebab-case (z. B. `my-cool-tool`)
-- Konvertiere automatisch wenn nötig: `My Cool Tool` → `my-cool-tool`
-- Prüfe ob der Name gültig ist (nur a-z, 0-9, Bindestrich)
+- Konvertiere automatisch: `My Cool Tool` → `my-cool-tool`
+- Prüfe: nur a-z, 0-9, Bindestrich
 
 ---
 
 ### Frage 2 — Beschreibung
 
-> "Ein Satz: Was macht das Projekt?"
+Stelle als Freitext-Frage: "Ein Satz: Was macht das Projekt?"
 
-- Soll prägnant und klar sein
 - Wird als GitHub-Repo-Description und in README/CLAUDE.md verwendet
 - Schlage eine Verbesserung vor wenn der Satz sehr lang oder unklar ist
 
@@ -51,30 +49,24 @@ beantwortet wurde. Akzeptiere Abkürzungen und ergänze sinnvoll.
 
 ### Frage 3 — Projekttyp
 
-> "Welcher Projekttyp passt am besten?"
+AskUserQuestion mit 4 Optionen (+ automatisches "Other" für Library · WordPress Plugin · Mobile App · Sonstiges):
 
-Zeige Auswahlmenü:
+| Option | Description |
+|--------|-------------|
+| Web-App | React, Vue, Svelte, ... |
+| Backend / API | REST, GraphQL, gRPC, ... |
+| Fullstack | Frontend + Backend in einem Repo |
+| CLI Tool | Kommandozeilen-Werkzeug |
 
-```
-[1] Web-App          (React, Vue, Svelte, ...)
-[2] Backend / API    (REST, GraphQL, gRPC, ...)
-[3] Fullstack        (Frontend + Backend in einem Repo)
-[4] CLI Tool         (Kommandozeilen-Werkzeug)
-[5] Library          (wiederverwendbares Paket / npm / PyPI / ...)
-[6] WordPress Plugin
-[7] Mobile App       (React Native, Flutter, ...)
-[8] Sonstiges        → Kurzbeschreibung eingeben
-```
+Bei "Other": Folgefrage mit Library · WordPress Plugin · Mobile App · Sonstiges.
 
-Merke den gewählten Typ — er steuert die Defaults in den optionalen Fragen.
+Merke den Typ — er steuert die Defaults in den optionalen Fragen.
 
 ---
 
 ### Frage 4 — Tech Stack
 
-> "Welchen Tech Stack nutzt du?"
-
-Zeige Vorschläge passend zum Projekttyp:
+Zeige zuerst den Vorschlag passend zum Typ:
 
 | Typ             | Vorschlag                                              |
 |-----------------|--------------------------------------------------------|
@@ -87,44 +79,43 @@ Zeige Vorschläge passend zum Projekttyp:
 | WordPress Plugin| PHP 8.3 · Composer                                     |
 | Mobile App      | TypeScript · React Native · npm · Node 22 LTS          |
 
-Frage nach:
-1. **Sprache** (TypeScript / JavaScript / Python / PHP / Go / Rust / Sonstiges)
-2. **Framework** (oder "keins")
-3. **Package Manager** (npm / pnpm / yarn / uv / pip / composer / cargo / go mod)
-4. **Runtime-Version** (Node / Python / PHP / ...)
+Dann AskUserQuestion mit 2 Fragen auf einmal:
+
+- **Sprache:** TypeScript | Python | PHP | Other (JS / Go / Rust / ...)
+- **Package Manager:** npm / pnpm | yarn | uv / pip | Other (composer / cargo / go mod / ...)
+
+Runtime-Version aus den Antworten ableiten (Node 22 LTS, Python 3.13, PHP 8.3).
+Framework explizit erfragen wenn nicht eindeutig aus Kontext.
 
 ---
 
 ### Frage 5 — Sichtbarkeit
 
-> "Public oder Private?"
+AskUserQuestion:
 
-```
-[1] Public   — Open Source, für alle sichtbar
-[2] Private  — nur für dich / dein Team
-```
+| Option | Description |
+|--------|-------------|
+| Public | Open Source, für alle sichtbar |
+| Private | Nur für dich / dein Team |
 
 ---
 
 ### Frage 6 — Lizenz
 
-> "Welche Lizenz soll das Repo bekommen?"
+AskUserQuestion mit 4 Optionen (+ "Other" für proprietär):
 
-```
-[1] MIT          — permissiv, empfohlen für Open Source
-[2] Apache 2.0   — permissiv + Patentschutz
-[3] GPL v3       — Copyleft
-[4] proprietär   — kein Open Source
-[5] keine        — kein Lizenz-File
-```
-
-Default: MIT bei Public, keine bei Private.
+| Option | Description |
+|--------|-------------|
+| MIT | Permissiv, empfohlen für Open Source (Recommended bei Public) |
+| Apache 2.0 | Permissiv + Patentschutz |
+| GPL v3 | Copyleft |
+| keine | Kein Lizenz-File (Recommended bei Private) |
 
 ---
 
 ### Zwischenstand
 
-Nachdem alle 6 Pflichtfragen beantwortet sind, zeige eine Zusammenfassung:
+Zeige Zusammenfassung:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -137,26 +128,24 @@ Nachdem alle 6 Pflichtfragen beantwortet sind, zeige eine Zusammenfassung:
   Sichtbarkeit: <public|private>
   Lizenz:       <lizenz>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Weiter mit den optionalen Einstellungen? [J/n]
 ```
 
-Bei "n" → direkt zu Phase 2.
-Bei "J" → optionale Fragen durchgehen.
+AskUserQuestion:
+
+| Option | Description |
+|--------|-------------|
+| Weiter mit optionalen Einstellungen | Testing, CI/CD, Code-Qualität, Security, Docker konfigurieren |
+| Direkt anlegen | Optionale Einstellungen überspringen |
 
 ---
 
 ## Phase 1b: Optionale Fragen
 
-Frage die Blöcke in dieser Reihenfolge ab. Schlage jeweils den Default vor —
-der Nutzer kann mit Enter bestätigen oder überschreiben.
-
 ---
 
 ### Block A — Testing
 
-> "Testing-Setup — ich schlage passende Defaults vor:"
-
-Zeige Default passend zum Typ:
+Zeige berechnete Defaults passend zum Typ:
 
 | Typ             | Unit Tests       | E2E Tests   | Coverage |
 |-----------------|------------------|-------------|----------|
@@ -168,80 +157,62 @@ Zeige Default passend zum Typ:
 | WordPress Plugin| PHPUnit          | —           | —        |
 | Mobile App      | Jest             | —           | 70 %     |
 
-Fragen:
-```
-Unit Tests:     [<default>] → Enter zum Übernehmen oder eigenes Framework eingeben
-E2E Tests:      [<default>] → Enter / "nein"
-Coverage-Ziel:  [<default>%] → Enter / eigenen Wert eingeben
-```
+AskUserQuestion:
+
+| Option | Description |
+|--------|-------------|
+| Defaults übernehmen | Vorgeschlagenes Setup verwenden |
+| Anpassen | Eigene Frameworks / Coverage wählen |
+
+Bei "Anpassen": Einzeln nachfragen (Unit · E2E · Coverage-Ziel).
 
 ---
 
 ### Block B — CI/CD
 
-> "CI/CD — automatisierte Workflows:"
+AskUserQuestion mit 2 Fragen auf einmal:
 
-Fragen:
-```
-Tests bei Pull Request automatisch (GitHub Actions)?  [J/n]
-Automatisches Deployment?                             [n/J]
-  → Wohin? (Vercel / VPS / AWS / Fly.io / Sonstiges)
-```
+- **GitHub Actions für Tests bei PR?** Ja | Nein
+- **Automatisches Deployment?** Nein | Vercel | VPS | Other (AWS / Fly.io / ...)
 
-Default: Tests ja, Deployment nein (außer bei Web-App → Vercel als Option anbieten).
+Default: Tests Ja, Deployment Nein (bei Web-App Vercel als erste Option).
 
 ---
 
 ### Block C — Code-Qualität
 
-> "Code-Qualität:"
+AskUserQuestion mit 2 Fragen auf einmal:
 
-Zeige Defaults:
-
-| Typ                        | Linter/Formatter          | Pre-commit |
-|----------------------------|---------------------------|------------|
-| TypeScript / JavaScript    | ESLint + Prettier         | J          |
-| Python                     | Ruff                      | J          |
-| PHP                        | PHP_CodeSniffer           | n          |
-
-Fragen:
-```
-Linter / Formatter:  [<default>] → Enter / eigenes Tool
-Pre-commit Hooks:    [<default>] → J/n
-```
+- **Linter / Formatter:** ESLint + Prettier | Ruff | PHP_CodeSniffer | Other (oder keiner via Other)
+- **Pre-commit Hooks?** Ja | Nein
 
 ---
 
 ### Block D — Security
 
-> "Security-Einstellungen:"
+AskUserQuestion mit 3 Fragen auf einmal (Default: alle Ja bei Public, alle Nein bei Private):
 
-```
-Dependabot (automatische Dependency-Updates)?  [J/n]
-Secret-Scanning aktivieren?                    [J/n]
-Branch-Protection auf main?                    [J/n]
-```
-
-Default: alle J bei Public, alle n bei Private.
+- **Dependabot?** Ja | Nein
+- **Secret-Scanning?** Ja | Nein
+- **Branch-Protection auf main?** Ja | Nein
 
 ---
 
 ### Block E — Docker
 
-> "Braucht das Projekt Docker?"
+AskUserQuestion:
 
-```
-Eigener Container?               [n/J]
-  → Teil von mycoforge oder eigenständig?  [eigenständig/mycoforge]
-```
-
-Default: nein.
+| Option | Description |
+|--------|-------------|
+| Kein Docker | Kein eigener Container |
+| Eigenständiger Container | Eigenes Dockerfile / docker-compose |
+| Teil von mycoforge | In mycoforge-Container integriert |
 
 ---
 
 ### Finale Zusammenfassung
 
-Zeige alle gesammelten Einstellungen kompakt:
+Zeige alle Einstellungen kompakt:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -260,11 +231,14 @@ Zeige alle gesammelten Einstellungen kompakt:
   Security:        Dependabot <J/n> / Secrets <J/n> / Branch-Protection <J/n>
   Docker:          <J/n>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Alles korrekt? Jetzt anlegen? [J/n]
 ```
 
-Bei "n" → zurück zu den Fragen (welche Frage soll geändert werden?).
-Bei "J" → Phase 2 starten.
+AskUserQuestion:
+
+| Option | Description |
+|--------|-------------|
+| Jetzt anlegen | Phase 2 starten |
+| Änderungen vornehmen | Zurück zu den Fragen |
 
 ---
 
@@ -292,7 +266,7 @@ Bei Fehler: Fehlermeldung ausgeben und abbrechen.
 
 ```bash
 cd /workspace
-git clone git@github.com:TrendForgeAI/<name>.git
+git clone https://github.com/TrendForgeAI/<name>.git
 cd <name>
 ```
 
