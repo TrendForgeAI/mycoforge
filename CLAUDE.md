@@ -18,9 +18,11 @@ mycoforge ist die Werkstatt. Die Projekte die darin entstehen sind die Werkstüc
 ```
 mycoforge/
 ├── CLAUDE.md              ← Projektkontext (dieser File)
+├── ARCHITECTURE.md        ← Agent-Patterns & Systemarchitektur
 ├── MEMORY.md              ← Systemgedächtnis (wird beim Start automatisch befüllt)
 ├── README.md              ← für Menschen
 ├── TODO.md                ← offene Punkte
+├── LICENSE                ← MIT Lizenz
 ├── Dockerfile             ← Container-Definition
 ├── docker-compose.yml     ← Deployment
 ├── start.sh               ← Claude starten (Terminal 1)
@@ -35,7 +37,7 @@ mycoforge/
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── models.md          ← Modelle & Routing-Logik
     ├── git-workflow.md    ← Git-Konventionen
-    ├── new-project.md     ← Neues Projekt anlegen
+    ├── project-wizard.md  ← Neues Projekt anlegen
     └── docker.md          ← Container-Änderungen
 ```
 
