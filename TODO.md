@@ -8,6 +8,19 @@
 - [ ] Prüfen ob alles Sinnvolle von get-shit-done übernommen wurde
       → https://github.com/gsd-build/get-shit-done
 
+### mycoforge Gesamtoptimierung
+- [ ] Architektur-Review: ARCHITECTURE.md gegen tatsächliche Implementierung abgleichen,
+      veraltete Abschnitte korrigieren, fehlende Muster ergänzen
+- [ ] Namenskonventionen prüfen: Konsistenz von Agent-, Skill-, Command- und Dateinamen
+      über das gesamte Projekt (Deutsch vs. Englisch, Singular/Plural, Schreibweise)
+- [ ] Agent-Definitionen normalisieren: Eingabe/Ausgabe-Format, Prinzipien-Abschnitte
+      und Best-Practices-Verlinkungen auf einheitlichen Stand bringen
+- [ ] Dokumentation: README.md, CLAUDE.md und ARCHITECTURE.md auf Aktualität prüfen
+      und fehlende Abschnitte ergänzen (neue Commands, Skills, Patterns)
+- [ ] Security-Audit: Hooks, Shell-Skripte und Secrets-Scan auf Lücken prüfen
+- [ ] MEMORY.md-Platzhalter bereinigen: alle Platzhalter durch echte Werte ersetzen
+      oder entfernen
+
 ## Erledigt
 
 ### Inspiration & Adoption (2026-03-17)
