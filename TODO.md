@@ -2,7 +2,11 @@
 
 ## Offen
 
-### Inspiration & Adoption
+*(keine offenen Punkte)*
+
+## Erledigt
+
+### Inspiration & Adoption (2026-03-17)
 - [x] `knowledge/semantic-anchors.md` anlegen — zwei Teile:
       1. Interne mycoforge-Terminologie (Task vs Step vs Plan, Agent vs Skill, …)
       2. Software-Best-Practice-Anchors je Agent-Rolle, angelehnt an LLM-Coding/Semantic-Anchors:
@@ -19,8 +23,6 @@
       → https://github.com/obra/superpowers
 - [x] Git Worktree Support für isolierte Feature-Entwicklung
       → https://github.com/obra/superpowers
-
-## Erledigt
 
 ### Public Release (2026-03-17)
 - [x] Alle persönlichen Daten aus Repo entfernen
