@@ -13,7 +13,7 @@
       → https://github.com/LLM-Coding/Semantic-Anchors
 - [x] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
       → https://github.com/gsd-build/get-shit-done
-- [ ] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
+- [x] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
       → https://github.com/gsd-build/get-shit-done
 - [x] tester-Agent: TDD Workflow RED→GREEN→REFACTOR ergänzen
       → https://github.com/obra/superpowers
