@@ -199,20 +199,30 @@ Das teuerste Muster – bewusst und selten einsetzen.
 ```
 Offene Frage / Architektur-Exploration
     ↓
-Initialer Agent (zufällig gewählt)
+Swarm-Coordinator (steuert Iteration)
+    ├── wählt 2–4 Agents pro Iteration (gezielt, nicht alle)
+    ├── sammelt Erkenntnisse, Offene Fragen, Widersprüche
     ↓
-Schwarm (alle gleichberechtigt, dezentral)
-    ├── Agent spawnt nur bei Bedarf
-    ├── Frühes Stoppen bei Konvergenz
-    └── Budget/Zeit-Governance: Max-Tokens, Max-Iterations
+Council-Swarm (Governance nach jeder Iteration)
+    ├── Erkenntnisgewinn substanziell?
+    ├── Konvergiert der Swarm?
+    └── Lohnt weitere Iteration? → WEITER | KONVERGIERT | CHECKPOINT
     ↓
-Finale Antwort vom letzten aktiven Agent
+WEITER        → nächste Iteration (sofern < Limit)
+KONVERGIERT   → Abschlussbericht
+CHECKPOINT    → HitL: Nutzer entscheidet ob weitere Iterationen
 ```
+
+**Iterations-Governance:**
+- Limit: `SWARM_MAX_ITERATIONS` aus `.env` (default: 3) oder `--iterations N` beim Aufruf
+- Early Stop: Council-Swarm erkennt Konvergenz vor Limit → sofortiger Abschluss
+- HitL-Checkpoint: Bei Limit ohne Konvergenz → Zusammenfassung + Nutzer entscheidet
 
 **Wann Swarm:**
 - ✅ Hohe Problemoffenheit, keine klare Lösungsrichtung
 - ✅ Heterogene Expertise nötig, gegenseitige Prüfung
 - ❌ Klar definierte Aufgaben → Orchestrator
+- ❌ Entscheidung zwischen Optionen → Council
 - ❌ Hoher Durchsatz, Kostendruck → Router
 
 ---
@@ -371,10 +381,12 @@ skills/
 2. Session-Start Kontext
 3. Post-Commit MEMORY.md Update
 
-### Meilenstein 7: Swarm (optional, später)
-1. Nur wenn Meilensteine 1-6 stabil
-2. Budget/Zeit-Governance zuerst
-3. Bewusst selten einsetzen
+### Meilenstein 7: Swarm ✅
+1. `swarm-coordinator.md` — steuert Iteration, spawnt Agents, wertet Council aus
+2. `council-swarm.md` — Governance: Konvergenz erkennen, HitL-Checkpoint generieren
+3. `skills/swarm/SKILL.md` — Trigger, Abgrenzung, Governance-Regeln
+4. `/explore` Command — Interface mit `--iterations N`, HitL-Checkpoint, Abschlussbericht
+5. `SWARM_MAX_ITERATIONS` in `.env.example` (default: 3)
 
 ---
 
@@ -388,5 +400,5 @@ skills/
       → Ausgabe aller Agent-Antworten vor Konsens-Entscheidung
 - [ ] Ab wann wird Phase 2 (autonomer Orchestrator) aktiviert?
       → Explizite Nutzer-Entscheidung, nicht automatisch
-- [ ] Swarm Budget-Governance: Wer setzt Max-Tokens/Iterations?
-      → Nutzer definiert Budget pro Swarm-Aufruf
+- [x] Swarm Budget-Governance: Wer setzt Max-Tokens/Iterations?
+      → SWARM_MAX_ITERATIONS in .env (default 3), überschreibbar mit --iterations N beim Aufruf
