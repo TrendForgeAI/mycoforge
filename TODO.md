@@ -15,7 +15,7 @@
       → https://github.com/gsd-build/get-shit-done
 - [ ] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
       → https://github.com/gsd-build/get-shit-done
-- [ ] tester-Agent: TDD Workflow RED→GREEN→REFACTOR ergänzen
+- [x] tester-Agent: TDD Workflow RED→GREEN→REFACTOR ergänzen
       → https://github.com/obra/superpowers
 - [ ] Git Worktree Support für isolierte Feature-Entwicklung
       → https://github.com/obra/superpowers
