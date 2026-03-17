@@ -3,7 +3,13 @@
 ## Offen
 
 ### Inspiration & Adoption
-- [ ] `knowledge/semantic-anchors.md` anlegen: Schlüsselbegriffe für konsistente Agent-Terminologie
+- [x] `knowledge/semantic-anchors.md` anlegen — zwei Teile:
+      1. Interne mycoforge-Terminologie (Task vs Step vs Plan, Agent vs Skill, …)
+      2. Software-Best-Practice-Anchors je Agent-Rolle, angelehnt an LLM-Coding/Semantic-Anchors:
+         - Testing & Quality     → tester.md       (TDD London School, BDD Given/When/Then)
+         - Software Architecture → planner, reviewer (Clean Architecture, C4, ADR, arc42)
+         - Design Principles     → developer, reviewer (SOLID, Clean Code, DRY, YAGNI)
+         - Development Workflow  → committer.md    (Conventional Commits)
       → https://github.com/LLM-Coding/Semantic-Anchors
 - [ ] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
       → https://github.com/gsd-build/get-shit-done
