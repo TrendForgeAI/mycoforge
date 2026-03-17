@@ -50,6 +50,22 @@ if [ -f "$MEMORY_FILE" ]; then
     fi
 fi
 
+
+# CONTINUE-HERE.md — laufende Aufgabe aus vorheriger Session
+CONTINUE_FILE="/mycoforge/CONTINUE-HERE.md"
+if [ -f "$CONTINUE_FILE" ]; then
+    echo ""
+    echo "┌─────────────────────────────────────┐"
+    echo "│  ⚑ Offene Aufgabe aus letzter Session │"
+    echo "└─────────────────────────────────────┘"
+    # Zeige Aufgabe und nächste Aktion
+    TASK=$(awk '/^## Aufgabe/{found=1; next} found && /^##/{exit} found && NF{print; exit}' "$CONTINUE_FILE" 2>/dev/null)
+    NEXT=$(awk '/^## Nächste Aktion/{found=1; next} found && /^##/{exit} found && NF{print; exit}' "$CONTINUE_FILE" 2>/dev/null)
+    [ -n "$TASK" ] && echo "  Aufgabe: $TASK"
+    [ -n "$NEXT" ] && echo "  Weiter:  $NEXT"
+    echo "  Datei:   CONTINUE-HERE.md (wird nach Wiederaufnahme gelöscht)"
+fi
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 

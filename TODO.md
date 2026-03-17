@@ -11,7 +11,7 @@
          - Design Principles     → developer, reviewer (SOLID, Clean Code, DRY, YAGNI)
          - Development Workflow  → committer.md    (Conventional Commits)
       → https://github.com/LLM-Coding/Semantic-Anchors
-- [ ] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
+- [x] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
       → https://github.com/gsd-build/get-shit-done
 - [ ] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
       → https://github.com/gsd-build/get-shit-done
