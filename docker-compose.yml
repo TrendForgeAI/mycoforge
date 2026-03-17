@@ -1,0 +1,25 @@
+services:
+  mycoforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mycoforge
+    env_file:
+      - path: .env
+        required: false       # .env optional — Platforms injizieren Vars direkt
+    volumes:
+      - mycoforge_workspace:/workspace
+      - mycoforge_claude:/mycoforge/claude
+    networks:
+      - mycoforge_network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+volumes:
+  mycoforge_workspace:       # Projekte persistent
+  mycoforge_claude:          # Claude Config + Credentials persistent (/mycoforge/claude)
+
+networks:
+  mycoforge_network:
+    driver: bridge

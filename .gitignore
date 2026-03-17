@@ -1,0 +1,37 @@
+# Secrets
+.env
+
+# Lokaler Override (host-spezifische Mounts, nicht für Platforms)
+docker-compose.override.yml
+*.key
+*.pem
+
+# Claude Code - Sensibel
+claude/.credentials.json
+claude/.claude.json
+
+# Claude Code - Laufzeitdaten
+claude/debug/
+claude/file-history/
+claude/projects/
+claude/tasks/
+claude/todos/
+claude/history.jsonl
+claude/stats-cache.json
+claude/cache/
+claude/backups/
+claude/mcp-needs-auth-cache.json
+claude/policy-limits.json
+
+# Claude Code - Plugins (werden zur Laufzeit installiert)
+claude/plugins/
+
+# System
+.DS_Store
+*.log
+*.swp
+*.swo
+tmp/
+claude/sessions/
+claude/shell-snapshots/
+.vscode/launch.json
