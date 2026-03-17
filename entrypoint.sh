@@ -39,6 +39,19 @@ if [ -d /mycoforge/claude/commands ]; then
     done
 fi
 
+# Skills aus skills/*/SKILL.md generieren
+SKILLS_TABLE="| Skill | Wann laden |\n|-------|------------|"
+if [ -d /mycoforge/skills ]; then
+    for d in /mycoforge/skills/*/; do
+        skill_file="${d}SKILL.md"
+        if [ -f "$skill_file" ]; then
+            name=$(grep '^# ' "$skill_file" | head -1 | sed 's/^# //')
+            trigger=$(awk '/^## Wann laden\?/{found=1; next} found && /^[^#]/ && NF{print; exit}' "$skill_file")
+            SKILLS_TABLE="$SKILLS_TABLE\n| $name | $trigger |"
+        fi
+    done
+fi
+
 # MEMORY.md komplett neu schreiben
 cat > /mycoforge/MEMORY.md << MEMORY
 # mycoforge Memory
@@ -63,6 +76,10 @@ $(echo -e "$GITHUB_INFO")
 ## Slash Commands
 
 $(echo -e "$SLASH_COMMANDS_TABLE")
+
+## Verfügbare Skills
+
+$(echo -e "$SKILLS_TABLE")
 
 ## Einstellungen
 
