@@ -79,7 +79,7 @@ $(echo -e "$SLASH_COMMANDS_TABLE")
 - GitHub: https://github.com/${GH_ORG}/mycoforge
 
 ## Offene TODOs
-$(grep '^\s*- \[ \]' /mycoforge/TODO.md 2>/dev/null | head -10 || echo "- Keine offenen TODOs")
+→ siehe /mycoforge/TODO.md
 MEMORY
 
 # Git Hooks installieren (mycoforge Repo)
