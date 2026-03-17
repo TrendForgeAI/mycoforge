@@ -390,15 +390,18 @@ skills/
 
 ---
 
+## Entscheidungen
+
+- [x] Wie wird der Orchestrator technisch implementiert?
+      → claude/agents/ Definitionen + /implement Command (M4 ✅)
+- [x] Wie werden parallele Tasks koordiniert?
+      → Orchestrator spawnt unabhängige Tasks als parallele Agent-Calls (M4 ✅)
+- [x] Wie wird Council-Debatte transparent dargestellt?
+      → Alle Agent-Positionen werden pro Runde vollständig ausgegeben (M5 ✅)
+- [x] Swarm Budget-Governance: Wer setzt Max-Tokens/Iterations?
+      → SWARM_MAX_ITERATIONS in .env (default 3), überschreibbar mit --iterations N (M7 ✅)
+
 ## Offene Entscheidungen
 
-- [ ] Wie wird der Orchestrator technisch implementiert?
-      → Claude Code Agent SDK / claude/agents/ Definitionen
-- [ ] Wie werden parallele Tasks koordiniert?
-      → Claude Code Agent Teams (experimentell) / eigene Lösung
-- [ ] Wie wird Council-Debatte transparent dargestellt?
-      → Ausgabe aller Agent-Antworten vor Konsens-Entscheidung
 - [ ] Ab wann wird Phase 2 (autonomer Orchestrator) aktiviert?
-      → Explizite Nutzer-Entscheidung, nicht automatisch
-- [x] Swarm Budget-Governance: Wer setzt Max-Tokens/Iterations?
-      → SWARM_MAX_ITERATIONS in .env (default 3), überschreibbar mit --iterations N beim Aufruf
+      → Explizite Nutzer-Entscheidung — erst wenn Vertrauen durch Nutzung gewachsen ist
