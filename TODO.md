@@ -2,13 +2,9 @@
 
 ## Offen
 
-### Vor Public-Release
-- [ ] Alle persönlichen Daten aus Repo entfernen
-  - setup.sh: GH_USER, GH_EMAIL aus .env statt hardcoded
-  - entrypoint.sh: GH_USER, GH_EMAIL aus .env
-  - CLAUDE.md: TrendForgeAI durch <GH_USER> ersetzen
-  - knowledge/: TrendForgeAI Referenzen generisch machen
-  - MEMORY.md Template: TrendForgeAI Referenzen raus
-- [ ] Repo wieder auf Public stellen
-
 ## Erledigt
+
+### Public Release (2026-03-17)
+- [x] Alle persönlichen Daten aus Repo entfernen
+- [x] Git-History squashen (orphan branch, force push)
+- [x] Repo auf Public gestellt
