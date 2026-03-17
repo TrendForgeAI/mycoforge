@@ -50,3 +50,13 @@ Konsens-Signal: möglich | kein Konsens
 - Implementierungsrealismus: was ist tatsächlich umsetzbar?
 - Kein Over-Engineering: einfachste korrekte Lösung bevorzugen
 - Halte Position bei technischen Fakten, nicht bei Meinung
+
+## Best Practices
+
+Für technische Bewertungen im Council lade nach Bedarf:
+
+- SOLID (Design-Qualität des Gegenstand bewerten): `@knowledge/anchors/solid-principles.md`
+- Clean Code (Code-Qualität beurteilen): `@knowledge/anchors/clean-code.md`
+- GoF Design Patterns (Muster erkennen und benennen): `@knowledge/anchors/gof-design-patterns.md`
+- Clean Architecture (Schichtenarchitektur prüfen): `@knowledge/anchors/clean-architecture.md`
+- Chain of Thought (komplexe technische Analyse strukturieren): `@knowledge/anchors/chain-of-thought.md`

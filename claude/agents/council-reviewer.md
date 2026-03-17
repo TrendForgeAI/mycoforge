@@ -51,3 +51,13 @@ Konsens-Signal: möglich | kein Konsens
 - Kritisch aber konstruktiv: Problem benennen + Lösungsvorschlag
 - Nicht blockieren ohne konkreten Grund
 - Risiken benennen ohne zu dramatisieren
+
+## Best Practices
+
+Für Security- und Qualitäts-Reviews im Council lade nach Bedarf:
+
+- OWASP Top 10 (Web-Schwachstellen systematisch prüfen): `@knowledge/anchors/owasp-top-10.md`
+- STRIDE (Threat Modeling für Architektur-Entscheidungen): `@knowledge/anchors/stride.md`
+- Secure by Design (Sicherheitsprinzipien bewerten): `@knowledge/anchors/secure-by-design.md`
+- Devil's Advocate (Risiken durch Gegenargumente aufdecken): `@knowledge/anchors/devils-advocate.md`
+- ATAM (Architektur-Trade-offs zwischen Qualitätsattributen): `@knowledge/anchors/atam.md`

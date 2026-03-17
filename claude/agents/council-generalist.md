@@ -50,3 +50,13 @@ Konsens-Signal: möglich | kein Konsens
 - Konkret: keine vagen Aussagen
 - Konsens ist das Ziel, aber nicht um jeden Preis
 - Halte Position wenn sie sachlich begründet ist
+
+## Best Practices
+
+Für strategische Bewertungen im Council lade nach Bedarf:
+
+- Cynefin (Problemkomplexität einschätzen — Clear/Complicated/Complex/Chaotic): `@knowledge/anchors/cynefin-framework.md`
+- MECE (vollständige, überlappungsfreie Analyse): `@knowledge/anchors/mece.md`
+- Pugh Matrix (Alternativen strukturiert bewerten): `@knowledge/anchors/pugh-matrix.md`
+- Devil's Advocate (Gegenargumente systematisch prüfen): `@knowledge/anchors/devils-advocate.md`
+- Chain of Thought (strukturiertes Reasoning transparent machen): `@knowledge/anchors/chain-of-thought.md`

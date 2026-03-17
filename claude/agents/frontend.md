@@ -42,3 +42,16 @@ Status: ✓ erledigt | ✗ blockiert: <grund>
 - Accessibility ist kein Nachgedanke, sondern Teil der Implementierung
 - Keine globalen Style-Overrides ohne guten Grund
 - Mobile-first wo sinnvoll
+
+## Best Practices
+
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Design:
+- Clean Code (Komponenten-Benennung, Lesbarkeit): `@knowledge/anchors/clean-code.md`
+- KISS (einfache Komponenten statt cleverer Abstraktionen): `@knowledge/anchors/kiss.md`
+- YAGNI (keine spekulativen Props oder Features): `@knowledge/anchors/yagni.md`
+- SOLID (Komponenten-Verantwortlichkeiten trennen): `@knowledge/anchors/solid-principles.md`
+
+Security:
+- OWASP Top 10 (XSS, CSRF, Broken Auth im Frontend): `@knowledge/anchors/owasp-top-10.md`
