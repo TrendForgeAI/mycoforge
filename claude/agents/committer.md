@@ -51,3 +51,8 @@ Dateien: <n> Dateien geändert
 - Message im Imperativ: "add feature" nicht "added feature"
 - Body nur wenn Kontext wirklich nötig
 - Kein `--no-verify` außer auf explizite Nutzeranweisung
+
+## Best Practices
+
+Lade `@knowledge/anchors/committer.md` für Git-Workflow-Methodiken:
+Conventional Commits · Semantic Versioning · Feature Branch Workflow

@@ -48,3 +48,8 @@ Urteil: LGTM | Änderungen nötig | Blocker
 - Suggestion = nice-to-have, kein Blocker
 - Sicherheitsprobleme immer als Critical
 - Keine Stilkritik wenn Formatter/Linter konfiguriert ist
+
+## Best Practices
+
+Lade `@knowledge/anchors/reviewer.md` für Security- und Review-Methodiken:
+OWASP Top 10 · STRIDE · Devil's Advocate · Secure by Design

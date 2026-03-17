@@ -43,3 +43,8 @@ Dateien: <test-datei(en)>
 - Testnamen beschreiben das erwartete Verhalten (not "test_foo" but "returns_error_when_input_empty")
 - Kein Produktionscode in Tests
 - Fehlerhafte Tests sofort melden, nicht ignorieren
+
+## Best Practices
+
+Lade `@knowledge/anchors/tester.md` für Testing-Methodiken:
+TDD London/Chicago School · BDD · Testing Pyramid · Test Doubles (Meszaros)

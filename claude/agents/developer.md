@@ -41,3 +41,8 @@ Status: ✓ erledigt | ✗ blockiert: <grund>
 - Keine neuen Abstraktionen für einmalige Operationen
 - Keine Kommentare hinzufügen außer wo Logik nicht selbsterklärend ist
 - Bei Unklarheit: stoppe und melde zurück an Orchestrator
+
+## Best Practices
+
+Lade `@knowledge/anchors/developer.md` für Code-Qualitätsprinzipien:
+SOLID · Clean Code · YAGNI · SSOT/DRY · KISS · Law of Demeter

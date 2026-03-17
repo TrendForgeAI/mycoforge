@@ -55,3 +55,8 @@ Kontext: <relevante Dateien / aktueller Stand>
 - Kein Gold-Plating: nur was für die Aufgabe nötig ist
 - Parallelisierung maximieren: unabhängige Tasks immer parallel
 - Explizit über Abhängigkeiten: lieber zu klar als zu vage
+
+## Best Practices
+
+Lade `@knowledge/anchors/planner.md` für Architektur- und Planungsmethodiken:
+ADR · arc42 · C4 Model · Clean Architecture · DDD · CQRS · Hexagonal Architecture
