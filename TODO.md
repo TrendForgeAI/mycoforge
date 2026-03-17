@@ -2,7 +2,11 @@
 
 ## Offen
 
-*(keine offenen Punkte)*
+### Inspiration & Adoption
+- [ ] Prüfen ob alles Sinnvolle von superpowers übernommen wurde
+      → https://github.com/obra/superpowers
+- [ ] Prüfen ob alles Sinnvolle von get-shit-done übernommen wurde
+      → https://github.com/gsd-build/get-shit-done
 
 ## Erledigt
 
