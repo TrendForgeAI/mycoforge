@@ -34,14 +34,82 @@ Referenz: https://github.com/LLM-Coding/Semantic-Anchors (60+ Anchors, 12 Katego
 
 ---
 
-## Teil 2 — Software Best-Practice Anchors je Agent-Rolle
+## Teil 2 — Software Best-Practice Anchors (SSOT)
 
-Detaillierte Anchors sind in rollenspezifischen Dateien — nur die relevante Datei laden:
+Jeder Anchor hat eine eigene Datei in `knowledge/anchors/`. Agents laden direkt was sie brauchen.
+Welche Anchors für welchen Agent relevant sind steht in den jeweiligen Agent-Definitionen (`## Best Practices`).
 
-| Datei | Enthält | Für Agent |
-|-------|---------|-----------|
-| `@knowledge/anchors/tester.md` | TDD London/Chicago School, BDD, Testing Pyramid, Test Doubles | tester |
-| `@knowledge/anchors/developer.md` | SOLID, Clean Code, YAGNI, SSOT/DRY, KISS, Law of Demeter | developer |
-| `@knowledge/anchors/reviewer.md` | OWASP Top 10, STRIDE, Devil's Advocate, Secure by Design | reviewer |
-| `@knowledge/anchors/planner.md` | ADR, arc42, C4 Model, Clean Architecture, DDD, CQRS, Hexagonal Architecture | planner |
-| `@knowledge/anchors/committer.md` | Conventional Commits, Semantic Versioning, Feature Branch Workflow | committer |
+### Testing & Quality
+
+| Anchor | Datei |
+|--------|-------|
+| TDD, London School | `@knowledge/anchors/tdd-london-school.md` |
+| TDD, Chicago School | `@knowledge/anchors/tdd-chicago-school.md` |
+| BDD / Given-When-Then | `@knowledge/anchors/bdd.md` |
+| Gherkin | `@knowledge/anchors/gherkin.md` |
+| Test Pyramid | `@knowledge/anchors/testing-pyramid.md` |
+| Test Doubles (Meszaros) | `@knowledge/anchors/test-doubles.md` |
+| Property-based Testing | `@knowledge/anchors/property-based-testing.md` |
+| Mutation Testing | `@knowledge/anchors/mutation-testing.md` |
+
+### Design Principles
+
+| Anchor | Datei |
+|--------|-------|
+| SOLID Principles | `@knowledge/anchors/solid-principles.md` |
+| Clean Code | `@knowledge/anchors/clean-code.md` |
+| YAGNI | `@knowledge/anchors/yagni.md` |
+| SSOT / DRY | `@knowledge/anchors/ssot-dry.md` |
+| KISS | `@knowledge/anchors/kiss.md` |
+| Law of Demeter | `@knowledge/anchors/law-of-demeter.md` |
+| GoF Design Patterns | `@knowledge/anchors/gof-design-patterns.md` |
+
+### Software Architecture
+
+| Anchor | Datei |
+|--------|-------|
+| Clean Architecture | `@knowledge/anchors/clean-architecture.md` |
+| Hexagonal Architecture | `@knowledge/anchors/hexagonal-architecture.md` |
+| C4 Model | `@knowledge/anchors/c4-model.md` |
+| ADR (Nygard) | `@knowledge/anchors/adr.md` |
+| MADR | `@knowledge/anchors/madr.md` |
+| arc42 | `@knowledge/anchors/arc42.md` |
+| CQRS | `@knowledge/anchors/cqrs.md` |
+| Event-Driven Architecture | `@knowledge/anchors/event-driven-architecture.md` |
+| Domain-Driven Design | `@knowledge/anchors/domain-driven-design.md` |
+| ATAM | `@knowledge/anchors/atam.md` |
+
+### Development Workflow
+
+| Anchor | Datei |
+|--------|-------|
+| Conventional Commits | `@knowledge/anchors/conventional-commits.md` |
+| Semantic Versioning | `@knowledge/anchors/semantic-versioning.md` |
+| Feature Branch Workflow | `@knowledge/anchors/feature-branch-workflow.md` |
+| Mikado Method | `@knowledge/anchors/mikado-method.md` |
+| Docs-as-Code | `@knowledge/anchors/docs-as-code.md` |
+| Diátaxis Framework | `@knowledge/anchors/diataxis-framework.md` |
+
+### Security
+
+| Anchor | Datei |
+|--------|-------|
+| OWASP Top 10 | `@knowledge/anchors/owasp-top-10.md` |
+| STRIDE | `@knowledge/anchors/stride.md` |
+| Secure by Design | `@knowledge/anchors/secure-by-design.md` |
+
+### Problem Solving & Strategy
+
+| Anchor | Datei |
+|--------|-------|
+| Devil's Advocate | `@knowledge/anchors/devils-advocate.md` |
+| Five Whys | `@knowledge/anchors/five-whys.md` |
+| Cynefin Framework | `@knowledge/anchors/cynefin-framework.md` |
+| Feynman Technique | `@knowledge/anchors/feynman-technique.md` |
+| Chain of Thought | `@knowledge/anchors/chain-of-thought.md` |
+| MECE | `@knowledge/anchors/mece.md` |
+| Pugh Matrix | `@knowledge/anchors/pugh-matrix.md` |
+| MoSCoW | `@knowledge/anchors/moscow.md` |
+| SWOT | `@knowledge/anchors/swot.md` |
+| Impact Mapping | `@knowledge/anchors/impact-mapping.md` |
+| User Story Mapping | `@knowledge/anchors/user-story-mapping.md` |

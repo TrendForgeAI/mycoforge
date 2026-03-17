@@ -54,5 +54,12 @@ Dateien: <n> Dateien geändert
 
 ## Best Practices
 
-Lade `@knowledge/anchors/committer.md` für Git-Workflow-Methodiken:
-Conventional Commits · Semantic Versioning · Feature Branch Workflow
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Git Workflow:
+- Conventional Commits (Commit-Format): `@knowledge/anchors/conventional-commits.md`
+- Semantic Versioning (Version-Nummern): `@knowledge/anchors/semantic-versioning.md`
+- Feature Branch Workflow: `@knowledge/anchors/feature-branch-workflow.md`
+
+Documentation:
+- Docs-as-Code: `@knowledge/anchors/docs-as-code.md`

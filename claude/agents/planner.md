@@ -58,5 +58,27 @@ Kontext: <relevante Dateien / aktueller Stand>
 
 ## Best Practices
 
-Lade `@knowledge/anchors/planner.md` für Architektur- und Planungsmethodiken:
-ADR · arc42 · C4 Model · Clean Architecture · DDD · CQRS · Hexagonal Architecture
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Architecture Documentation:
+- ADR (Nygard, leichtgewichtig): `@knowledge/anchors/adr.md`
+- MADR (strukturiert, mit Optionen): `@knowledge/anchors/madr.md`
+- arc42 (vollständige Systemdokumentation): `@knowledge/anchors/arc42.md`
+- C4 Model (Visualisierung): `@knowledge/anchors/c4-model.md`
+
+Architecture Patterns:
+- Clean Architecture: `@knowledge/anchors/clean-architecture.md`
+- Hexagonal Architecture (Ports & Adapters): `@knowledge/anchors/hexagonal-architecture.md`
+- CQRS (Read/Write-Trennung): `@knowledge/anchors/cqrs.md`
+- Event-Driven Architecture: `@knowledge/anchors/event-driven-architecture.md`
+- Domain-Driven Design: `@knowledge/anchors/domain-driven-design.md`
+
+Planning & Decision Methods:
+- MECE (lückenlose Zerlegung): `@knowledge/anchors/mece.md`
+- Pugh Matrix (Alternativen bewerten): `@knowledge/anchors/pugh-matrix.md`
+- Cynefin (Problemkomplexität einschätzen): `@knowledge/anchors/cynefin-framework.md`
+- MoSCoW (Priorisierung): `@knowledge/anchors/moscow.md`
+- SWOT (Strategie): `@knowledge/anchors/swot.md`
+- Impact Mapping (Feature → Business Goal): `@knowledge/anchors/impact-mapping.md`
+- User Story Mapping: `@knowledge/anchors/user-story-mapping.md`
+- Chain of Thought (komplexes Reasoning): `@knowledge/anchors/chain-of-thought.md`

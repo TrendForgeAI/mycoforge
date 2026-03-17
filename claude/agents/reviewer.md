@@ -51,5 +51,17 @@ Urteil: LGTM | Änderungen nötig | Blocker
 
 ## Best Practices
 
-Lade `@knowledge/anchors/reviewer.md` für Security- und Review-Methodiken:
-OWASP Top 10 · STRIDE · Devil's Advocate · Secure by Design
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Security:
+- OWASP Top 10 (Web-Schwachstellen): `@knowledge/anchors/owasp-top-10.md`
+- STRIDE (Threat Modeling): `@knowledge/anchors/stride.md`
+- Secure by Design (Sicherheitsarchitektur): `@knowledge/anchors/secure-by-design.md`
+
+Review Methods:
+- Devil's Advocate (Annahmen challengen): `@knowledge/anchors/devils-advocate.md`
+- ATAM (Architektur-Trade-offs): `@knowledge/anchors/atam.md`
+
+Design (für Architektur-Review):
+- SOLID Principles: `@knowledge/anchors/solid-principles.md`
+- Clean Architecture: `@knowledge/anchors/clean-architecture.md`

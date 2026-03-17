@@ -46,5 +46,16 @@ Dateien: <test-datei(en)>
 
 ## Best Practices
 
-Lade `@knowledge/anchors/tester.md` für Testing-Methodiken:
-TDD London/Chicago School · BDD · Testing Pyramid · Test Doubles (Meszaros)
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Testing Methodologies:
+- TDD London School (Outside-In, Mocks): `@knowledge/anchors/tdd-london-school.md`
+- TDD Chicago School (State-based, Inside-Out): `@knowledge/anchors/tdd-chicago-school.md`
+- BDD / Specification by Example: `@knowledge/anchors/bdd.md`
+- Gherkin Syntax: `@knowledge/anchors/gherkin.md`
+
+Testing Patterns:
+- Test Pyramid (Unit/Integration/E2E-Strategie): `@knowledge/anchors/testing-pyramid.md`
+- Test Doubles (Dummy/Stub/Spy/Mock/Fake): `@knowledge/anchors/test-doubles.md`
+- Property-based Testing: `@knowledge/anchors/property-based-testing.md`
+- Mutation Testing (Test-Suite-Qualität): `@knowledge/anchors/mutation-testing.md`

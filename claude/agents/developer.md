@@ -44,5 +44,21 @@ Status: ✓ erledigt | ✗ blockiert: <grund>
 
 ## Best Practices
 
-Lade `@knowledge/anchors/developer.md` für Code-Qualitätsprinzipien:
-SOLID · Clean Code · YAGNI · SSOT/DRY · KISS · Law of Demeter
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Design Principles:
+- SOLID (OO-Design): `@knowledge/anchors/solid-principles.md`
+- Clean Code (Lesbarkeit/Wartbarkeit): `@knowledge/anchors/clean-code.md`
+- YAGNI (gegen Over-Engineering): `@knowledge/anchors/yagni.md`
+- SSOT / DRY (keine Duplikate): `@knowledge/anchors/ssot-dry.md`
+- KISS (einfachste Lösung): `@knowledge/anchors/kiss.md`
+- Law of Demeter (lose Kopplung): `@knowledge/anchors/law-of-demeter.md`
+- GoF Design Patterns: `@knowledge/anchors/gof-design-patterns.md`
+
+Refactoring:
+- Mikado Method (Legacy-Refactoring): `@knowledge/anchors/mikado-method.md`
+
+Problem Solving:
+- Five Whys (Root Cause): `@knowledge/anchors/five-whys.md`
+- Feynman Technique (Verständnis prüfen): `@knowledge/anchors/feynman-technique.md`
+- Chain of Thought (komplexes Reasoning): `@knowledge/anchors/chain-of-thought.md`

@@ -1,0 +1,42 @@
+{
+  "session_id": "f1695fb7-91d7-435a-b3c7-39f7269825f6",
+  "project_path": "/mycoforge",
+  "start_time": "2026-03-17T14:41:31.090Z",
+  "duration_minutes": 169,
+  "user_message_count": 3,
+  "assistant_message_count": 10,
+  "tool_counts": {
+    "Skill": 1,
+    "Read": 3,
+    "Glob": 1
+  },
+  "languages": {
+    "Markdown": 3
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 22,
+  "output_tokens": 1160,
+  "first_prompt": "Welche TODOs stehen noch an?",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    15,
+    18,
+    18
+  ],
+  "user_message_timestamps": [
+    "2026-03-17T14:42:21.147Z",
+    "2026-03-17T17:30:04.554Z",
+    "2026-03-17T17:30:23.911Z"
+  ]
+}
