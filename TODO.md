@@ -17,7 +17,7 @@
       → https://github.com/gsd-build/get-shit-done
 - [x] tester-Agent: TDD Workflow RED→GREEN→REFACTOR ergänzen
       → https://github.com/obra/superpowers
-- [ ] Git Worktree Support für isolierte Feature-Entwicklung
+- [x] Git Worktree Support für isolierte Feature-Entwicklung
       → https://github.com/obra/superpowers
 
 ## Erledigt

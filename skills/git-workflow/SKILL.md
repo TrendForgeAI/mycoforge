@@ -62,6 +62,9 @@ chore     → Wartung, Dependencies
 | `feature/name` | neue Features |
 | `fix/name` | Bugfixes |
 
+Für parallele Feature-Entwicklung: `/worktree new <feature>` — legt Branch +
+isoliertes Verzeichnis in einem Schritt an. Siehe `skills/git-worktree/SKILL.md`.
+
 ## Sicherheits-Check vor jedem Commit
 
 - `.env` nicht gestaged?
