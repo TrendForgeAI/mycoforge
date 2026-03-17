@@ -9,17 +9,22 @@
       → https://github.com/gsd-build/get-shit-done
 
 ### mycoforge Gesamtoptimierung
-- [ ] Architektur-Review: ARCHITECTURE.md gegen tatsächliche Implementierung abgleichen,
-      veraltete Abschnitte korrigieren, fehlende Muster ergänzen
+- [ ] Gesamt-Architektur ausarbeiten: Ist-Zustand vollständig erfassen, Soll-Architektur
+      definieren; danach entscheiden ob ARCHITECTURE.md (ursprüngliche Vision, ggf. veraltet)
+      aktualisiert, ersetzt oder entfernt wird
 - [ ] Namenskonventionen prüfen: Konsistenz von Agent-, Skill-, Command- und Dateinamen
       über das gesamte Projekt (Deutsch vs. Englisch, Singular/Plural, Schreibweise)
 - [ ] Agent-Definitionen normalisieren: Eingabe/Ausgabe-Format, Prinzipien-Abschnitte
       und Best-Practices-Verlinkungen auf einheitlichen Stand bringen
-- [ ] Dokumentation: README.md, CLAUDE.md und ARCHITECTURE.md auf Aktualität prüfen
-      und fehlende Abschnitte ergänzen (neue Commands, Skills, Patterns)
+- [ ] Dokumentation: README.md und CLAUDE.md auf Aktualität prüfen und fehlende Abschnitte
+      ergänzen (neue Commands, Skills, Patterns); zusätzlich Anwender-Dokumentation erstellen
+      (wie nutze ich mycoforge? Commands, Workflows, Beispiele)
 - [ ] Security-Audit: Hooks, Shell-Skripte und Secrets-Scan auf Lücken prüfen
 - [ ] MEMORY.md-Platzhalter bereinigen: alle Platzhalter durch echte Werte ersetzen
       oder entfernen
+- [ ] Alle Referenzen auf externe Inspirationsquellen entfernen: GSD, superpowers und
+      Semantic-Anchors (inkl. bereits erledigter Hinweise in TODO.md, Kommentare in
+      Skripten, Verlinkungen in Agent-Definitionen und Skills)
 
 ## Erledigt
 
