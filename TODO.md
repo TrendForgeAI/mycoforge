@@ -21,21 +21,9 @@ dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
 ### ~~4. Agent-Definitionen normalisieren~~ ✓
 
-**Command:** `/implement` — "Alle Agent-Definitionen auf einheitliches Format bringen"
-
 ---
 
-### 5. Security-Audit
-**Warum vor Doku:** Sicherheitslücken sollten behoben sein bevor das Projekt
-dokumentiert und als Referenz genutzt wird.
-
-Aufgaben:
-- Hooks und Shell-Skripte auf Command-Injection, unsichere Patterns prüfen
-- Secrets-Scan (`hooks/secrets-scan.sh`) auf Vollständigkeit und Korrektheit prüfen
-- `.gitignore` und `.env.example` auf Lücken prüfen
-- Findings beheben
-
-**Command:** `/review` — "Security-Audit: Hooks, Shell-Skripte, Secrets-Scan"
+### ~~5. Security-Audit~~ ✓
 
 ---
 
