@@ -49,6 +49,15 @@ Urteil: LGTM | Änderungen nötig | Blocker
 - Sicherheitsprobleme immer als Critical
 - Keine Stilkritik wenn Formatter/Linter konfiguriert ist
 
+## Stub-Check
+
+Bei jedem Review prüfen ob die Implementierung substantiell ist:
+- Lade `@knowledge/verification-patterns.md`
+- Stub-Detection Patterns auf geänderte Dateien anwenden
+- Wiring-Prüfung: wird der neue Code tatsächlich aufgerufen?
+
+Ein syntaktisch korrekter Stub ist kein LGTM.
+
 ## Best Practices
 
 Lade nach Bedarf — nur was für den aktuellen Task relevant ist:

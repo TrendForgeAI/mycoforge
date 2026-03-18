@@ -83,13 +83,39 @@ Gib nach jedem abgeschlossenen Task die Gesamtcheckliste aus:
 Nach erfolgreichem Review:
 - Lade `claude/agents/committer.md`
 - Erstelle atomaren Commit für alle Änderungen
+- Commit-Message als AI-Kontext-Quelle: `typ(scope): was + warum` in der Beschreibung
 
-### 6. Abschluss
+### 6. STATE.md aktualisieren
+
+Falls eine `/workspace/<projekt>/STATE.md` existiert, nach dem Commit aktualisieren:
+
+```markdown
+## Zuletzt erledigt
+<task-name> — <was wurde implementiert, 1 Satz>
+
+## Stand
+<was ist der aktuelle Zustand des Projekts>
+
+## Nächster Schritt
+<was kommt als nächstes>
+```
+
+Falls noch keine STATE.md vorhanden: bei umfangreicheren Tasks anlegen (>3 Dateien geändert).
+Format: siehe `@knowledge/project-state.md`
+
+### 7. Abschluss
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✓ Implementierung abgeschlossen
   Geänderte Dateien: <liste>
   Commit: <hash> — <message>
+
+  Nächster Schritt: /verify
+  Prüft ob die Änderungen tatsächlich funktionieren.
+
+  → /verify <aufgabe>
+
+  Tipp: /clear vor dem nächsten Command für frischen Kontext.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

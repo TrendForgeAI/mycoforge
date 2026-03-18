@@ -134,3 +134,36 @@ Wenn nach max Runden kein Konsens:
 ```
 
 Warte auf Nutzer-Entscheidung. Danach: Empfehle `/implement` oder `/plan` als nächsten Schritt.
+
+---
+
+## CONTEXT.md schreiben (bei Konsens)
+
+Nach einem Konsens-Abschluss: Entscheidung als CONTEXT.md im Projektverzeichnis sichern.
+
+Falls `/workspace/<projekt>/` existiert oder das aktuelle Verzeichnis ein Workspace-Projekt ist:
+
+```markdown
+# CONTEXT.md — <thema>
+
+Entscheidung getroffen: <datum>
+
+## Entscheidung
+
+<entscheidung in 1-2 Sätzen>
+
+## Begründung
+
+<warum diese Option — aus dem Council-Konsens>
+
+## Auflagen / Einschränkungen
+
+<falls vorhanden>
+
+## Nicht-Entschieden
+
+<was bewusst offen gelassen wurde>
+```
+
+Diese Datei wird von nachfolgenden `/implement`- und `/plan`-Calls geladen um
+Re-Diskussionen bereits getroffener Entscheidungen zu vermeiden.

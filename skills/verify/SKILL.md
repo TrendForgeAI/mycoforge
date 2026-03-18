@@ -142,7 +142,14 @@ Probleme:
 - <konkretes problem mit datei:zeile wenn möglich>
 ```
 
-### 5. Bei Fehlern
+### 5. Stub-Check
+
+Prüfe ob die Implementierung substantiell ist (nicht nur syntaktisch korrekt):
+Lade `@knowledge/verification-patterns.md` und führe relevante Stub-Detection-Patterns aus.
+
+Kritisch: Code der Tests besteht aber nie tatsächlich aufgerufen wird (nicht verdrahtet).
+
+### 6. Bei Fehlern
 
 - **Syntax-Fehler / fehlende Referenzen:** Sofort beheben (Critical)
 - **Fehlgeschlagene Tests:** Melden, Ursache analysieren, Nutzer fragen ob beheben

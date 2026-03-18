@@ -43,6 +43,14 @@
             "command": "/mycoforge/hooks/cc-post-bash.sh"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/mycoforge/hooks/cc-context-monitor.sh"
+          }
+        ]
       }
     ]
   }

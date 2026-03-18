@@ -51,6 +51,23 @@ if [ -f "$MEMORY_FILE" ]; then
 fi
 
 
+# Aktive Projekt-STATE.md anzeigen
+WORKSPACE_DIR="/workspace"
+if [ -d "$WORKSPACE_DIR" ]; then
+    # Neueste STATE.md in Workspace-Projekten finden
+    LATEST_STATE=$(find "$WORKSPACE_DIR" -maxdepth 2 -name "STATE.md" -newer "$MEMORY_FILE" 2>/dev/null | head -1)
+    if [ -z "$LATEST_STATE" ]; then
+        LATEST_STATE=$(find "$WORKSPACE_DIR" -maxdepth 2 -name "STATE.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -1)
+    fi
+    if [ -n "$LATEST_STATE" ] && [ -f "$LATEST_STATE" ]; then
+        PROJECT_NAME=$(basename "$(dirname "$LATEST_STATE")")
+        NEXT_STEP=$(awk '/^## Nächster Schritt/{found=1; next} found && /^##/{exit} found && NF{print; exit}' "$LATEST_STATE" 2>/dev/null)
+        echo ""
+        echo "Aktives Projekt: $PROJECT_NAME"
+        [ -n "$NEXT_STEP" ] && echo "  Nächster Schritt: $NEXT_STEP"
+    fi
+fi
+
 # CONTINUE-HERE.md — laufende Aufgabe aus vorheriger Session
 CONTINUE_FILE="/mycoforge/CONTINUE-HERE.md"
 if [ -f "$CONTINUE_FILE" ]; then
