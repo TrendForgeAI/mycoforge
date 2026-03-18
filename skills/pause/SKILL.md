@@ -1,4 +1,10 @@
-# /pause — Session-Zustand sichern
+# pause
+
+## Wann laden?
+Bei Kontext-Warnung, bewusster Session-Unterbrechung oder wenn laufende Arbeit
+gesichert werden soll bevor die Session endet.
+
+## Zweck
 
 Speichere den aktuellen Session-Zustand damit die nächste Session nahtlos fortsetzen kann.
 

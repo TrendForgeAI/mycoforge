@@ -49,7 +49,8 @@ if [ -d /mycoforge/skills ]; then
         skill_file="${d}SKILL.md"
         if [ -f "$skill_file" ]; then
             name=$(grep '^# ' "$skill_file" | head -1 | sed 's/^# //')
-            trigger=$(awk '/^## Wann laden\?/{found=1; next} found && /^[^#]/ && NF{print; exit}' "$skill_file")
+            # Alle Zeilen der "Wann laden?"-Sektion zusammenfassen (bis zum nächsten ##)
+            trigger=$(awk '/^## Wann laden\?/{found=1; next} found && /^##/{exit} found && NF{printf "%s ", $0}' "$skill_file" | sed 's/ $//')
             SKILLS_TABLE="$SKILLS_TABLE\n| $name | $trigger |"
         fi
     done
@@ -74,7 +75,12 @@ $(echo -e "$PROVIDERS")
 $(echo -e "$GITHUB_INFO")
 
 ## Aktive Projekte
-<!-- Wird ergänzt wenn neue Projekte angelegt werden -->
+$(ls /workspace/ 2>/dev/null | grep -v '^\.' | while read p; do
+    desc=""
+    [ -f "/workspace/$p/CLAUDE.md" ] && desc=$(grep -m1 '^[^#]' "/workspace/$p/CLAUDE.md" 2>/dev/null | head -c 60)
+    [ -n "$desc" ] && echo "- $p: $desc" || echo "- $p"
+done)
+$([ -z "$(ls /workspace/ 2>/dev/null | grep -v '^\.')" ] && echo "<!-- Keine Projekte in /workspace/ -->")
 
 ## Slash Commands
 
