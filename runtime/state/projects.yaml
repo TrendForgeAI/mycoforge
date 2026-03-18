@@ -1,0 +1,13 @@
+# Active Projects State
+# Written by: mycoforge project management (/new-project, manual)
+# Read by:    scripts/generate-memory.sh
+# Location:   runtime/state/ — persistent volume, never committed to git
+#
+# Format per project:
+#   - name: project-name
+#     description: one line description
+#     url: https://github.com/org/name
+#     local: /workspace/project-name
+#     status: active | paused | archived
+
+projects: []

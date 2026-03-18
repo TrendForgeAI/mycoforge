@@ -86,4 +86,15 @@ fi
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+# Session-Start-Event in JSONL-Trace schreiben
+TRACE_DIR="/mycoforge/runtime/traces"
+if [ -d "$TRACE_DIR" ]; then
+    SESSION_ID="sess_$(date +%s%N | head -c 16)"
+    printf '{"ts":"%s","event":"session_start","session_id":"%s","providers":[%s]}\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        "$SESSION_ID" \
+        "$([ -n "${ANTHROPIC_API_KEY:-}" ] && echo '"anthropic"')$([ -n "${OPENAI_API_KEY:-}" ] && echo ',"openai"')$([ -n "${GEMINI_API_KEY:-}" ] && echo ',"google"')" \
+        >> "$TRACE_DIR/session-start.jsonl" 2>/dev/null || true
+fi
+
 exit 0

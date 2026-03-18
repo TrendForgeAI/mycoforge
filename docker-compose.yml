@@ -10,6 +10,7 @@ services:
     volumes:
       - mycoforge_workspace:/workspace
       - mycoforge_claude:/mycoforge/claude
+      - mycoforge_runtime:/mycoforge/runtime
       - ~/.ssh:/root/.ssh:ro
     networks:
       - mycoforge_network
@@ -20,6 +21,7 @@ services:
 volumes:
   mycoforge_workspace:       # Projekte persistent
   mycoforge_claude:          # Claude Config + Credentials persistent (/mycoforge/claude)
+  mycoforge_runtime:         # Traces + State persistent (/mycoforge/runtime)
 
 networks:
   mycoforge_network:

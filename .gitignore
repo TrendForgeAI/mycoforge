@@ -39,3 +39,11 @@ claude/sessions/
 claude/shell-snapshots/
 claude/paste-cache/
 .vscode/launch.json
+
+# Runtime traces and state (container-local, not versioned)
+# Ignore contents but keep directory structure and seed files
+runtime/traces/*
+runtime/state/*
+!runtime/traces/.gitkeep
+!runtime/state/.gitkeep
+!runtime/state/projects.yaml
