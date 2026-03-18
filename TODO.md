@@ -19,14 +19,7 @@ dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
 ---
 
-### 4. Agent-Definitionen normalisieren
-**Warum nach Naming:** Dateinamen und Struktur müssen feststehen, bevor Inhalte
-vereinheitlicht werden.
-
-Aufgaben:
-- Einheitliches Format: Beschreibung, Eingabe, Ausgabe, Prinzipien-Abschnitt
-- Best-Practice-Verlinkungen auf `knowledge/semantic-anchors.md` vereinheitlichen
-- Fehlende Abschnitte ergänzen, veraltete entfernen
+### ~~4. Agent-Definitionen normalisieren~~ ✓
 
 **Command:** `/implement` — "Alle Agent-Definitionen auf einheitliches Format bringen"
 
