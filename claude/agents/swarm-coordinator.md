@@ -127,3 +127,16 @@ Limit erreicht  → HitL-Checkpoint ausgeben (Format siehe unten)
 - Jede Iteration soll neue Erkenntnisse bringen — sonst ist Konvergenz erreicht
 - Budget respektieren: Limit ist eine Leitplanke, kein Ziel
 - Widersprüche zwischen Agents sind wertvoll — nicht auflösen, sondern dem Council vorlegen
+
+## Best Practices
+
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Exploration & Problemstrukturierung:
+- Cynefin Framework (Komplexität einschätzen, Explorationstiefe anpassen): `@knowledge/anchors/cynefin-framework.md`
+- MECE (vollständige, überlappungsfreie Zerlegung der Frage): `@knowledge/anchors/mece.md`
+- Impact Mapping (Erkenntnisse → Konsequenzen verbinden): `@knowledge/anchors/impact-mapping.md`
+
+Reasoning & Koordination:
+- Chain of Thought (Reasoning-Schritte transparent machen): `@knowledge/anchors/chain-of-thought.md`
+- Devil's Advocate (Gegenargumente systematisch einbauen): `@knowledge/anchors/devils-advocate.md`

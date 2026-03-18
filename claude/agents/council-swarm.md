@@ -86,3 +86,15 @@ Begründung: <1-2 Sätze warum>
 - Konvergenz bedeutet nicht "alles beantwortet", sondern "mehr Iterationen bringen wenig"
 - Widersprüche die sich nicht auflösen sind ein Checkpoint-Signal, kein Weiter-Signal
 - Einmalige Bewertungsrunde — kein Ping-Pong
+
+## Best Practices
+
+Lade nach Bedarf — nur was für den aktuellen Task relevant ist:
+
+Konvergenz-Bewertung:
+- Cynefin Framework (Komplexitätsgrad einschätzen, Konvergenzsignal deuten): `@knowledge/anchors/cynefin-framework.md`
+- Devil's Advocate (Gegenargumente zu "Weiter" prüfen): `@knowledge/anchors/devils-advocate.md`
+
+Kosten-Nutzen:
+- Chain of Thought (Bewertungslogik transparent machen): `@knowledge/anchors/chain-of-thought.md`
+- Pugh Matrix (Alternativen Weiter/Konvergiert/Checkpoint strukturiert bewerten): `@knowledge/anchors/pugh-matrix.md`
