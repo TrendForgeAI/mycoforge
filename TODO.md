@@ -11,18 +11,7 @@ dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
 ---
 
-### 2. Gesamt-Architektur ausarbeiten
-**Warum als Fundament:** Alle folgenden Punkte (Naming, Agents, Doku) bauen auf
-einem klaren Ist/Soll-Bild auf. Ohne diesen Schritt riskieren wir inkonsistente Fixes.
-
-Aufgaben:
-- Ist-Zustand vollständig erfassen: alle Commands, Skills, Agents, Hooks, Knowledge-Dateien
-- Soll-Architektur definieren: Verantwortlichkeiten, Datenflüsse, Grenzen
-- ARCHITECTURE.md entscheiden: aktualisieren, ersetzen oder entfernen
-
-**Commands:**
-1. `/discuss` — "Soll ARCHITECTURE.md aktualisiert, ersetzt oder entfernt werden?"
-2. `/implement` — Ergebnis der Diskussion umsetzen
+### ~~2. Gesamt-Architektur ausarbeiten~~ ✓
 
 ---
 
