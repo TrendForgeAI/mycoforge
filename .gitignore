@@ -37,4 +37,5 @@ claude/plugins/
 tmp/
 claude/sessions/
 claude/shell-snapshots/
+claude/paste-cache/
 .vscode/launch.json
