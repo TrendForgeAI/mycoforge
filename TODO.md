@@ -15,18 +15,7 @@ dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
 ---
 
-### 3. Namenskonventionen festlegen & durchsetzen
-**Warum nach Architektur:** Naming-Entscheidungen (Deutsch/Englisch, Dateinamen,
-Singular/Plural) müssen zur Soll-Architektur passen — nicht umgekehrt.
-
-Aufgaben:
-- Sprache: Deutsch (Kommentare/Doku) vs. Englisch (Dateinamen/Code) — Regel definieren
-- Agent-, Skill-, Command-Dateinamen auf Konsistenz prüfen
-- Abweichungen korrigieren, alle Querverweise aktualisieren
-
-**Commands:**
-1. `/discuss` — "Namenskonvention: Welche Sprache für Dateinamen, welche für Inhalte?"
-2. `/implement` — Konventionen durchsetzen
+### ~~3. Namenskonventionen festlegen & durchsetzen~~ ✓
 
 ---
 
