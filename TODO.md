@@ -1,50 +1,109 @@
 # mycoforge TODO
 
-## Offen
+## Arbeitsplan
 
-### Inspiration & Adoption
-- [x] Prüfen ob alles Sinnvolle von superpowers übernommen wurde
-      → https://github.com/obra/superpowers
-- [x] Prüfen ob alles Sinnvolle von get-shit-done übernommen wurde
-      → https://github.com/gsd-build/get-shit-done
+Die Punkte sind in logischer Reihenfolge sortiert: erst aufräumen, dann Fundament legen,
+dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
-### mycoforge Gesamtoptimierung
-- [ ] Gesamt-Architektur ausarbeiten: Ist-Zustand vollständig erfassen, Soll-Architektur
-      definieren; danach entscheiden ob ARCHITECTURE.md (ursprüngliche Vision, ggf. veraltet)
-      aktualisiert, ersetzt oder entfernt wird
-- [ ] Namenskonventionen prüfen: Konsistenz von Agent-, Skill-, Command- und Dateinamen
-      über das gesamte Projekt (Deutsch vs. Englisch, Singular/Plural, Schreibweise)
-- [ ] Agent-Definitionen normalisieren: Eingabe/Ausgabe-Format, Prinzipien-Abschnitte
-      und Best-Practices-Verlinkungen auf einheitlichen Stand bringen
-- [ ] Dokumentation: README.md und CLAUDE.md auf Aktualität prüfen und fehlende Abschnitte
-      ergänzen (neue Commands, Skills, Patterns); zusätzlich Anwender-Dokumentation erstellen
-      (wie nutze ich mycoforge? Commands, Workflows, Beispiele)
-- [ ] Security-Audit: Hooks, Shell-Skripte und Secrets-Scan auf Lücken prüfen
-- [ ] MEMORY.md-Platzhalter bereinigen: alle Platzhalter durch echte Werte ersetzen
-      oder entfernen
-- [ ] Alle Referenzen auf externe Inspirationsquellen entfernen: GSD, superpowers und
-      Semantic-Anchors (inkl. bereits erledigter Hinweise in TODO.md, Kommentare in
-      Skripten, Verlinkungen in Agent-Definitionen und Skills)
+---
+
+### 1. Externe Referenzen entfernen
+**Warum zuerst:** Schneller Cleanup — danach ist die Codebasis "eigen" und alle
+weiteren Analysen zeigen das eigentliche System ohne Fremd-Ballast.
+
+Aufgaben:
+- Alle Hinweise auf GSD, superpowers, Semantic-Anchors entfernen
+- Bereits erledigte Checkboxen mit externen Links in TODO.md → in "Erledigt" verschieben
+- Kommentare in Skripten/Hooks bereinigen
+- Verlinkungen in Agent-Definitionen und Skills entfernen
+
+**Command:** `/implement` — "Alle externen Referenzen (GSD, superpowers, Semantic-Anchors) aus allen Dateien entfernen"
+
+---
+
+### 2. Gesamt-Architektur ausarbeiten
+**Warum als Fundament:** Alle folgenden Punkte (Naming, Agents, Doku) bauen auf
+einem klaren Ist/Soll-Bild auf. Ohne diesen Schritt riskieren wir inkonsistente Fixes.
+
+Aufgaben:
+- Ist-Zustand vollständig erfassen: alle Commands, Skills, Agents, Hooks, Knowledge-Dateien
+- Soll-Architektur definieren: Verantwortlichkeiten, Datenflüsse, Grenzen
+- ARCHITECTURE.md entscheiden: aktualisieren, ersetzen oder entfernen
+
+**Commands:**
+1. `/discuss` — "Soll ARCHITECTURE.md aktualisiert, ersetzt oder entfernt werden?"
+2. `/implement` — Ergebnis der Diskussion umsetzen
+
+---
+
+### 3. Namenskonventionen festlegen & durchsetzen
+**Warum nach Architektur:** Naming-Entscheidungen (Deutsch/Englisch, Dateinamen,
+Singular/Plural) müssen zur Soll-Architektur passen — nicht umgekehrt.
+
+Aufgaben:
+- Sprache: Deutsch (Kommentare/Doku) vs. Englisch (Dateinamen/Code) — Regel definieren
+- Agent-, Skill-, Command-Dateinamen auf Konsistenz prüfen
+- Abweichungen korrigieren, alle Querverweise aktualisieren
+
+**Commands:**
+1. `/discuss` — "Namenskonvention: Welche Sprache für Dateinamen, welche für Inhalte?"
+2. `/implement` — Konventionen durchsetzen
+
+---
+
+### 4. Agent-Definitionen normalisieren
+**Warum nach Naming:** Dateinamen und Struktur müssen feststehen, bevor Inhalte
+vereinheitlicht werden.
+
+Aufgaben:
+- Einheitliches Format: Beschreibung, Eingabe, Ausgabe, Prinzipien-Abschnitt
+- Best-Practice-Verlinkungen auf `knowledge/semantic-anchors.md` vereinheitlichen
+- Fehlende Abschnitte ergänzen, veraltete entfernen
+
+**Command:** `/implement` — "Alle Agent-Definitionen auf einheitliches Format bringen"
+
+---
+
+### 5. Security-Audit
+**Warum vor Doku:** Sicherheitslücken sollten behoben sein bevor das Projekt
+dokumentiert und als Referenz genutzt wird.
+
+Aufgaben:
+- Hooks und Shell-Skripte auf Command-Injection, unsichere Patterns prüfen
+- Secrets-Scan (`hooks/secrets-scan.sh`) auf Vollständigkeit und Korrektheit prüfen
+- `.gitignore` und `.env.example` auf Lücken prüfen
+- Findings beheben
+
+**Command:** `/review` — "Security-Audit: Hooks, Shell-Skripte, Secrets-Scan"
+
+---
+
+### 6. Dokumentation aktualisieren & Anwender-Doku erstellen
+**Warum zuletzt:** Erst wenn alles stabil ist, lohnt sich vollständige Dokumentation —
+sonst muss sie nach jedem der vorherigen Schritte angepasst werden.
+
+Aufgaben:
+- `README.md`: neue Commands, Skills, Patterns einpflegen
+- `CLAUDE.md`: Projektstruktur, Pfade, Arbeitsweise aktualisieren
+- Anwender-Dokumentation: "Wie nutze ich mycoforge?" — Commands, Workflows, Beispiele
+
+**Command:** `/implement` — "README.md, CLAUDE.md und Anwender-Doku auf aktuellen Stand bringen"
+
+---
 
 ## Erledigt
 
+### Cleanup & Grundlagen (2026-03-18)
+- [x] MEMORY.md aus git-Tracking entfernen — wird bei Container-Start generiert
+
 ### Inspiration & Adoption (2026-03-17)
-- [x] `knowledge/semantic-anchors.md` anlegen — zwei Teile:
-      1. Interne mycoforge-Terminologie (Task vs Step vs Plan, Agent vs Skill, …)
-      2. Software-Best-Practice-Anchors je Agent-Rolle, angelehnt an LLM-Coding/Semantic-Anchors:
-         - Testing & Quality     → tester.md       (TDD London School, BDD Given/When/Then)
-         - Software Architecture → planner, reviewer (Clean Architecture, C4, ADR, arc42)
-         - Design Principles     → developer, reviewer (SOLID, Clean Code, DRY, YAGNI)
-         - Development Workflow  → committer.md    (Conventional Commits)
-      → https://github.com/LLM-Coding/Semantic-Anchors
+- [x] Prüfen ob alles Sinnvolle von superpowers übernommen wurde
+- [x] Prüfen ob alles Sinnvolle von get-shit-done übernommen wurde
+- [x] `knowledge/semantic-anchors.md` anlegen (Terminologie + Best-Practice-Anchors)
 - [x] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
-      → https://github.com/gsd-build/get-shit-done
 - [x] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
-      → https://github.com/gsd-build/get-shit-done
 - [x] tester-Agent: TDD Workflow RED→GREEN→REFACTOR ergänzen
-      → https://github.com/obra/superpowers
 - [x] Git Worktree Support für isolierte Feature-Entwicklung
-      → https://github.com/obra/superpowers
 
 ### Public Release (2026-03-17)
 - [x] Alle persönlichen Daten aus Repo entfernen
