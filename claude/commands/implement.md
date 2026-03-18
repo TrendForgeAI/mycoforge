@@ -50,13 +50,21 @@ Ausgabeformat in `skills/model-routing/SKILL.md`.
 3. Implementiere minimal und gezielt
 4. Dokumentiere was gemacht wurde
 
-### 3. Review
+### 3. Review pro Task (Two-Stage)
 
-Nach allen Implementierungs-Tasks:
-- Lade `claude/agents/reviewer.md`
-- Review aller geänderten Dateien
+Nach jedem Implementierungs-Task einen zweistufigen Review durchführen:
+
+**Stufe 1 — Spec-Compliance** (Plan erfüllt?):
+- Lade `claude/agents/reviewer.md` mit Fokus: Plan vs. Umsetzung
+- Fehlende Anforderungen? Zu viel implementiert?
+- Bei Abweichungen: sofort korrigieren, dann erneut prüfen
+
+**Stufe 2 — Code-Qualität** (gut gebaut?):
+- Erneuter Review-Aufruf mit Fokus: Qualität, Security, Architektur
 - Bei Critical Findings: sofort beheben, dann erneut reviewen
 - Bei Warning/Suggestion: dem Nutzer melden
+
+**Erst wenn beide Stufen grün sind:** Nächsten Task starten.
 
 ### 4. Checkliste
 
