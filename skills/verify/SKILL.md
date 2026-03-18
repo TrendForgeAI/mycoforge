@@ -1,4 +1,28 @@
-# /verify — Implementierung auf Funktionsfähigkeit prüfen
+# verify
+
+## Wann laden?
+Nach `/implement`, nach Code-Änderungen oder bevor ein Ergebnis als "fertig" gemeldet wird.
+Immer wenn dynamische Prüfung (Ausführen) statt statischer Analyse (Lesen) nötig ist.
+
+## Iron Law
+
+**Kein "es funktioniert" ohne laufende Verifikation.**
+
+Verbotene Formulierungen vor abgeschlossener Verifikation:
+- "sollte funktionieren", "müsste grün sein", "wahrscheinlich ok"
+- "es ist fertig", "alles grün", "sieht richtig aus"
+- "Agent meldet Erfolg" — ist **keine** Verifikation
+
+Verifikation = Code ausführen + Output lesen + Tests explizit grün.
+
+### Gate-Funktion
+
+Vor jeder Fertigstellungs-Aussage prüfen:
+- [ ] Checks tatsächlich ausgeführt (nicht nur geplant)?
+- [ ] Output vollständig gelesen (nicht nur "no errors reported")?
+- [ ] Alle Tests explizit grün (nicht nur "keine Fehlschläge gemeldet")?
+
+---
 
 Prüft nach `/implement` ob die Änderungen tatsächlich funktionieren.
 Ergänzt `/review` (statische Analyse) durch dynamische Verifikation.

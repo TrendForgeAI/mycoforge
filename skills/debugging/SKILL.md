@@ -4,6 +4,26 @@
 Bei unerwarteten Fehlern, failing Tests, unklarem Verhalten oder
 wenn ein Bash-Befehl einen non-zero Exit-Code zurückgibt.
 
+## Iron Law
+
+**Kein Fix ohne Ursachenanalyse.**
+
+"Ich probiere das mal" ist verboten. Vor jedem Fix:
+1. Ursache in einem Satz benennen können
+2. Erklären warum der Fix die Ursache behebt
+3. Erst dann umsetzen
+
+### Eskalationsregel
+
+**3+ Fixes ohne dauerhaften Erfolg = Architekturproblem.**
+
+Wenn das gleiche Problem zum dritten Mal auftritt:
+- STOP mit weiteren lokalen Fixes
+- Frage: Ist das ein Design- oder Architekturproblem?
+- Eskaliere zum Nutzer mit: Problem-Beschreibung + bisherige Fixes + Verdacht auf Ursache
+
+---
+
 ## Kontext
 
 Debugging = Hypothesen bilden und systematisch prüfen.

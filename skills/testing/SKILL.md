@@ -19,6 +19,39 @@ Tests laufen vor jedem Commit. Coverage-Ziele sind projektspezifisch
 | CLI (Python) | pytest | — | 70% |
 | Library | Vitest / pytest | — | 90% |
 
+## TDD Iron Law
+
+**Kein Produktionscode ohne zuerst einen fehlschlagenden Test.**
+
+RED → GREEN → REFACTOR — in dieser Reihenfolge, keine Ausnahmen.
+
+Code der vor einem Test geschrieben wurde, muss gelöscht und neu geschrieben werden.
+
+### TDD-Vorgehen
+
+```
+1. Fehlschlagenden Test schreiben (RED)
+2. Test ausführen — er MUSS fehlschlagen (sonst testet er nichts)
+3. Minimalen Code schreiben der den Test grün macht (GREEN)
+4. Test ausführen — er MUSS grün sein
+5. Refactoring wenn nötig, Tests müssen danach weiter grün sein (REFACTOR)
+```
+
+### Rationalisierungs-Tabelle
+
+| Ausrede | Warum falsch |
+|---------|--------------|
+| "Es ist zu einfach für einen Test" | Dann dauert das Schreiben 2 Minuten — kein Argument |
+| "Ich weiß schon was der Code tut" | Tests-nach beantwortet "was tut er", Tests-vor "was soll er tun" |
+| "Keine Zeit für Tests" | Debugging ohne Tests kostet mehr Zeit |
+| "Ich schreibe Tests danach" | "Danach" kommt nie — das ist eine empirische Tatsache |
+| "Der Code ist zu komplex zum Testen" | Das ist ein Design-Problem, kein Test-Problem |
+| "Das ist nur temporärer Code" | Temporärer Code wird permanent |
+| "Ich teste manuell" | Manuelle Tests werden nicht wiederholt |
+| "Tests brechen bei jeder Änderung" | Dann testen sie Implementierungsdetails statt Verhalten |
+
+---
+
 ## Vorgehen
 
 ### Test schreiben
