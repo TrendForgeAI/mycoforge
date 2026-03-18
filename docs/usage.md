@@ -168,6 +168,23 @@ erstellt einen WIP-Commit. Beim nächsten Start wird die Datei automatisch angez
 
 ---
 
+### `/release` — Release erstellen
+
+Interaktiver Wizard: ermittelt die aktuelle Version, schlägt den nächsten Versions-Bump
+vor, lässt den State wählen (alpha/beta/rc/stable), generiert den Changelog aus
+Conventional Commits und erstellt Tag + GitHub Release.
+
+```
+/release             # Wizard wählt Version interaktiv
+/release 0.2.0       # Direkt mit gewünschter Version
+/release 0.2.0-rc.1  # Pre-release
+```
+
+Prüft vor dem Tag ob die Version bereits existiert — niemals überschreiben.
+GitHub Actions erstellt den Release automatisch wenn ein `v*.*.*`-Tag gepusht wird.
+
+---
+
 ## Typische Workflows
 
 ### Neues Feature entwickeln
@@ -227,7 +244,28 @@ mycoforge wählt automatisch das passende Modell für jeden Task:
 | **Klein** | Dateioperationen, Git, Routing | Committer, Route-Entscheidung |
 
 Verfügbare Provider werden beim Start aus `.env` geladen (Anthropic, OpenAI, Google).
-Details: `knowledge/models.md`.
+Die kanonische Tier/Provider/Modell-Konfiguration liegt in `config/model-routing.yaml` —
+das ist die Single Source of Truth, nicht `knowledge/models.md`.
+
+---
+
+## Evals
+
+mycoforge hat eine eigene deterministische Test-Suite die Routing-Config, Manifest-Konsistenz,
+Hook-Logik und den MEMORY-Generator absichert:
+
+```bash
+bash evals/run-evals.sh           # alle Suiten
+bash evals/run-evals.sh routing   # nur eine Suite
+```
+
+Wird auch automatisch in CI ausgeführt (`.github/workflows/ci.yml`) bei jedem Push und PR.
+
+Suiten:
+- `routing` — Routing-Config-Schema + Modell-Extraktion (24 Assertions)
+- `manifests` — Manifest↔Filesystem-Konsistenz, bidirektional (63 Assertions)
+- `hooks` — secrets-scan Unit-Tests mit isoliertem Temp-Repo (6 Assertions)
+- `generator` — MEMORY.md Sektionen, Commands-Zählung, Idempotenz (13 Assertions)
 
 ---
 
@@ -275,7 +313,8 @@ git pull
 ./update.sh
 ```
 
-Offene Punkte stehen in `TODO.md`. Architekturentscheidungen in `ARCHITECTURE.md`.
+Architekturentscheidungen werden als ADRs dokumentiert: `docs/decisions/`.
+Neuer Agent? Manifest-Eintrag in `manifests/agents.yaml` nicht vergessen.
 
 ### Neuen Agent erstellen
 
@@ -292,8 +331,10 @@ Nach Änderungen an Agents, Skills oder Commands: betroffene Docs prüfen und gg
 
 | Geändert | Prüfen |
 |---------|--------|
-| `claude/agents/` | `CLAUDE.md` (Projektstruktur), `docs/agent-guide.md` |
-| `claude/commands/` | `README.md` (Command-Tabelle), `docs/usage.md` |
+| `claude/agents/` | `manifests/agents.yaml`, `CLAUDE.md`, `docs/agent-guide.md` |
+| `claude/commands/` | `manifests/commands.yaml`, `README.md`, `docs/usage.md` |
+| `config/model-routing.yaml` | `knowledge/models.md` (Erklärungstext ggf. anpassen) |
+| `manifests/` | Evals laufen lassen: `bash evals/run-evals.sh manifests` |
 | `skills/` | `CLAUDE.md` (Projektstruktur), `MEMORY.md` (Skills-Tabelle — auto) |
 | `hooks/` | `CLAUDE.md` (Hooks-Liste), `docs/usage.md` wenn Verhalten ändert |
 | `knowledge/` | `knowledge/semantic-anchors.md` (Index) |

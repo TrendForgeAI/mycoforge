@@ -43,6 +43,7 @@ A `docker-compose.override.yml` is automatically used for local dev — it adds 
 The image is self-contained: all code is baked in via `COPY` in the Dockerfile. Named Docker volumes persist data across restarts:
 - `mycoforge_workspace` → `/workspace` (your projects)
 - `mycoforge_claude` → `/mycoforge/claude` (Claude credentials, session history)
+- `mycoforge_runtime` → `/mycoforge/runtime` (session traces, project state)
 
 ## Environment Variables
 
@@ -87,6 +88,7 @@ Each pattern uses specialized agents (Planner, Developer, Reviewer, Committer, �
 | `/verify` | ReAct | Check that an implementation actually works |
 | `/finish-branch` | ReAct | Close a branch — tests, merge/PR/discard |
 | `/worktree` | ReAct | Manage Git worktrees for parallel work |
+| `/release` | Wizard | Create a versioned release (SemVer + GitHub Release) |
 | `/new-project` | HitL + Orchestrator | Interactive wizard to scaffold a new project |
 | `/commit` | ReAct (small) | Smart commit with generated message |
 | `/route` | ReAct (small) | Classify a task and pick the best model |
@@ -145,14 +147,34 @@ mycoforge/
 ├── start.sh               # Start Claude (Terminal 1)
 ├── shell.sh               # Shell into container (Terminal 2)
 ├── .env.example           # Required environment variables
+├── config/                # Canonical configuration
+│   └── model-routing.yaml # Single source of truth for tiers, providers, models
+├── manifests/             # Machine-readable system registry
+│   ├── commands.yaml      # All 13 commands (name, pattern, tier, agents)
+│   └── agents.yaml        # All 12 agents (name, tier, pattern)
+├── scripts/               # Runtime scripts
+│   └── generate-memory.sh # Generates MEMORY.md from config + manifests
+├── evals/                 # Deterministic test suites (run: bash evals/run-evals.sh)
+│   ├── run-evals.sh       # Test runner (exit 1 on failures, CI-compatible)
+│   ├── routing/           # Routing config schema + model extraction tests
+│   ├── manifests/         # Manifest↔filesystem consistency tests
+│   ├── hooks/             # secrets-scan unit tests
+│   └── generator/         # MEMORY.md generator output tests
 ├── claude/                # Claude Code config (~/.claude symlink → here)
-│   ├── commands/          # Custom slash commands (in Git)
-│   └── agents/            # Agent definitions (in Git)
+│   ├── commands/          # Custom slash commands (not in Git)
+│   └── agents/            # Agent definitions (not in Git)
 ├── workspace/             # Your projects (not in Git, named volume)
+├── runtime/               # Session traces + state (not in Git, named volume)
+│   ├── traces/            # JSONL event logs per session
+│   └── state/             # Persistent project registry and state
 ├── hooks/                 # Shell hooks (SessionStart, PreToolUse, etc.)
 ├── skills/                # Skill definitions (loaded on demand)
+├── docs/                  # Documentation
+│   ├── usage.md           # Full usage guide
+│   ├── agent-guide.md     # Guide for creating new agents
+│   └── decisions/         # Architecture Decision Records (ADRs)
 └── knowledge/             # Context loaded on demand
-    ├── models.md          # AI models & routing logic
+    ├── models.md          # AI models & routing explanation (see config/ for data)
     ├── git-workflow.md    # Git conventions
     ├── project-wizard.md  # How to start a new project
     └── docker.md          # Container changes
