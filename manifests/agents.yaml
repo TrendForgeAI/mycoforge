@@ -1,0 +1,70 @@
+# Agent Manifest — Canonical registry of all agents
+# Used by: scripts/generate-memory.py, tooling, documentation
+# Update this file when adding, removing, or renaming agents.
+
+agents:
+  # --- Specialist Agents (spawned by orchestrator) ---
+
+  - name: developer
+    description: "Allgemeiner Implementierungs-Agent für Code, Features, Bugfixes"
+    tier: medium
+    pattern: subagent
+
+  - name: backend
+    description: "API, Datenbank, Business Logic — spezialisierter Backend-Agent"
+    tier: medium
+    pattern: subagent
+
+  - name: frontend
+    description: "UI, CSS, React, Accessibility — spezialisierter Frontend-Agent"
+    tier: medium
+    pattern: subagent
+
+  - name: tester
+    description: "Tests schreiben und ausführen (Unit, Integration, E2E)"
+    tier: medium
+    pattern: subagent
+
+  - name: planner
+    description: "Aufgabe in atomare Tasks zerlegen, Abhängigkeiten erkennen, Plan erstellen"
+    tier: large
+    pattern: subagent
+
+  - name: reviewer
+    description: "Code Review aus drei Perspektiven: Qualität, Security, Architektur"
+    tier: large
+    pattern: subagent
+
+  - name: committer
+    description: "Git-Operationen und atomare Commits mit aussagekräftigen Messages"
+    tier: small
+    pattern: subagent
+
+  # --- Council Agents (multi-perspective deliberation) ---
+
+  - name: council-generalist
+    description: "Council-Mitglied — Gesamtbild, Machbarkeit, Nutzerperspektive"
+    tier: large
+    pattern: council-member
+
+  - name: council-developer
+    description: "Council-Mitglied — Technische Umsetzung, Implementierungsaufwand, Code-Qualität"
+    tier: large
+    pattern: council-member
+
+  - name: council-reviewer
+    description: "Council-Mitglied — Qualität, Security, Risiken, Architektur"
+    tier: large
+    pattern: council-member
+
+  # --- Swarm Agents (iterative exploration) ---
+
+  - name: council-swarm
+    description: "Swarm-Governance — Konvergenz-Erkennung, Zusammenfassung, Eskalation"
+    tier: large
+    pattern: swarm
+
+  - name: swarm-coordinator
+    description: "Swarm-Koordination — Iteration steuern, Subagenten spawnen, Ergebnisse integrieren"
+    tier: large
+    pattern: swarm

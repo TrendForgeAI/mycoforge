@@ -1,0 +1,56 @@
+# Model Routing — Canonical Configuration
+# Single source of truth for tier definitions, provider models, and preferences.
+# Referenced by: knowledge/models.md, claude/commands/route.md, scripts/generate-memory.py
+#
+# DO NOT duplicate this logic in other files. Update here, reference everywhere.
+
+tiers:
+  small:
+    description: "Dateioperationen, Git-Befehle, einfache Edits, Routing"
+    use_for:
+      - single-file read/edit
+      - git operations (status, log, diff, add, commit)
+      - simple search (grep, glob)
+      - config and memory updates
+      - output formatting and summarizing
+      - routing decisions (this tier routes itself)
+    providers:
+      anthropic: claude-haiku-4-5
+      openai: gpt-5.3-instant
+      google: gemini-3.1-flash-lite
+
+  medium:
+    description: "Funktionen schreiben, Tests, einfaches Refactoring (< 3 Dateien)"
+    use_for:
+      - function or method implementation
+      - bug identification and fixing
+      - test writing (unit, integration)
+      - simple refactoring (fewer than 3 files)
+      - api integration
+      - single-feature code review
+      - documentation writing
+    providers:
+      anthropic: claude-sonnet-4-6
+      openai: gpt-5.4
+      google: gemini-3-flash
+
+  large:
+    description: "Architektur, komplexe Planung, Security-Audit, Council"
+    use_for:
+      - system architecture design or analysis
+      - multi-step feature planning
+      - security audit across many files
+      - council and swarm discussions
+      - complex refactoring (more than 3 files, many dependencies)
+      - new project planning from scratch
+      - unknown bug debugging with few hints
+    providers:
+      anthropic: claude-opus-4-6
+      openai: gpt-5.4-pro
+      google: gemini-3.1-pro
+
+preferences:
+  # Preferred provider per task type. Fallback to any available if not present.
+  code_quality:       anthropic   # Reasoning, Code-Qualität, Sicherheit
+  agentic_workflows:  openai      # Coding-Agents, professionelle Dokumente
+  multimodal_context: google      # Multimodal, große Kontextfenster, Hochvolumen

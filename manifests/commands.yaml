@@ -1,0 +1,74 @@
+# Command Manifest — Canonical registry of all /commands
+# Used by: scripts/generate-memory.py, tooling, documentation
+# Update this file when adding, removing, or renaming commands.
+
+commands:
+  - name: commit
+    description: "Intelligenter Commit mit automatisch generierter Commit Message"
+    pattern: simple
+    tier: small
+
+  - name: discuss
+    description: "Architektur-Entscheidung oder zwei Ansätze durch Council diskutieren"
+    pattern: council
+    tier: large
+    agents: [council-generalist, council-developer, council-reviewer]
+
+  - name: explore
+    description: "Offene Exploration mit Swarm-Pattern und Council-Governance"
+    pattern: swarm
+    tier: large
+    agents: [swarm-coordinator, council-swarm]
+
+  - name: finish-branch
+    description: "Branch abschließen — Tests prüfen, Merge/PR/Behalten/Verwerfen wählen"
+    pattern: wizard
+    tier: medium
+
+  - name: implement
+    description: "Plan umsetzen mit Subagenten (Orchestrator-Muster)"
+    pattern: orchestrator
+    tier: large
+    agents: [planner, developer, reviewer, committer]
+
+  - name: new-project
+    description: "Interaktiver Wizard zum Anlegen eines neuen Projekts"
+    pattern: wizard
+    tier: large
+
+  - name: pause
+    description: "Session-Zustand sichern — CONTINUE-HERE.md schreiben und WIP-Commit erstellen"
+    pattern: simple
+    tier: small
+
+  - name: plan
+    description: "Aufgabe analysieren und in Tasks/SubTasks zerlegen (Plan & Solve)"
+    pattern: wizard
+    tier: large
+    agents: [planner]
+
+  - name: release
+    description: "Neues Release erstellen — Version bestimmen, Tag setzen, GitHub Release veröffentlichen"
+    pattern: wizard
+    tier: medium
+
+  - name: review
+    description: "Code Review aus drei Perspektiven (Council-Muster, 3 Runden)"
+    pattern: council
+    tier: large
+    agents: [council-generalist, council-developer, council-reviewer]
+
+  - name: route
+    description: "Task klassifizieren und optimales Modell + Provider wählen"
+    pattern: simple
+    tier: small
+
+  - name: verify
+    description: "Implementierung nach /implement auf Funktionsfähigkeit prüfen"
+    pattern: simple
+    tier: medium
+
+  - name: worktree
+    description: "Git Worktree für isolierte Feature-Entwicklung anlegen, auflisten oder entfernen"
+    pattern: simple
+    tier: small

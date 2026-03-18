@@ -149,13 +149,10 @@ Bei mehreren Agents (z.B. Council): je eine Zeile pro Agent.
 ## Modell-Routing
 
 Verfügbare Provider stehen in MEMORY.md.
-Für Modell-Entscheidungen: @knowledge/models.md laden.
+Kanonische Tier-Definitionen und Modellnamen: `config/model-routing.yaml` (Single Source of Truth).
+Für Erklärungen: @knowledge/models.md laden.
 
-Grundprinzip:
-- Planung / Architektur → größtes verfügbares Modell
-- Code schreiben → mittleres Modell
-- Dateioperationen / einfache Edits → kleinstes Modell
-- Routing-Entscheidung selbst → kleinstes Modell
+Grundprinzip: Klein wenn möglich, Groß wenn nötig.
 
 ## Neue Projekte anlegen
 
