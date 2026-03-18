@@ -130,3 +130,9 @@ git worktree remove <pfad>
   Tests:  <✅ grün | ⚠ Warnungen | ❌ Fehlgeschlagen>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+Nach Merge zu main einmalig ausgeben (kein Pflichtschritt):
+
+```
+Neues Release fällig? → /release
+```
