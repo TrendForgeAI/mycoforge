@@ -14,7 +14,7 @@ PROVIDERS=""
 [ -n "$OPENAI_API_KEY" ]    && PROVIDERS="$PROVIDERS\n- OpenAI (GPT-5.4-pro, GPT-5.4, GPT-5.3-instant)"
 [ -n "$GEMINI_API_KEY" ]    && PROVIDERS="$PROVIDERS\n- Google (Gemini 3.1 Pro, Gemini 3 Flash, Gemini 3.1 Flash-Lite)"
 [ -n "$XAI_API_KEY" ]       && PROVIDERS="$PROVIDERS\n- xAI (Grok)"
-[ -z "$PROVIDERS" ]         && PROVIDERS="\n- Keine API Keys gesetzt"
+[ -z "$PROVIDERS" ]         && PROVIDERS="\n- Keine API Keys gesetzt ⚠ — Claude Code läuft, aber kein Modell verfügbar"
 
 # Git mit GitHub Token konfigurieren
 if [ -n "$GH_TOKEN" ]; then
@@ -106,6 +106,15 @@ $(echo -e "$SKILLS_TABLE")
 
 ## Offene TODOs
 → siehe /mycoforge/TODO.md
+
+$(if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$OPENAI_API_KEY" ] && [ -z "$GEMINI_API_KEY" ] && [ -z "$XAI_API_KEY" ]; then
+    echo "## ⚠ Konfigurationsproblem"
+    echo ""
+    echo "Keine API Keys gefunden. Mögliche Ursachen:"
+    echo "- .env nicht vorhanden oder leer → Vorlage: .env.example"
+    echo "- Container ohne .env gestartet → Variablen in Platform-UI setzen"
+    echo "- Umgebungsvariablen nicht exportiert"
+fi)
 MEMORY
 
 # Git Hooks installieren (mycoforge Repo)

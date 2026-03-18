@@ -102,7 +102,8 @@ mycoforge/
 │   ├── testing/           ← Tests schreiben & ausführen
 │   └── verify/            ← Implementierung verifizieren
 ├── docs/                  ← Anwender-Dokumentation
-│   └── usage.md           ← Commands, Workflows, Beispiele
+│   ├── usage.md           ← Commands, Workflows, Beispiele
+│   └── agent-guide.md     ← Wie schreibe ich einen neuen Agent?
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── anchors/           ← Best-Practice-Anchors (60+, je eine Datei)
     ├── checkpoints.md     ← Checkpoint-Muster für lange Tasks

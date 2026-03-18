@@ -27,7 +27,7 @@ Für rollenspezifische Best-Practice-Anchors (Teil 2): Lade stattdessen die pass
 | **Orchestrator** | Koordiniert Agents, verteilt Tasks, integriert Ergebnisse | Planner (= erzeugt nur den Plan, führt nicht aus) | implement-skill |
 | **Council** | Strukturierte Diskussion mit drei Perspektiven (Generalist, Developer, Reviewer) | Review (= einseitiges Code Review ohne Gegenpositionen) | discuss-skill, council-agents |
 | **Runde** | Eine Iteration im Council, in der alle drei Mitglieder ihre Position äußern | Task (= Arbeitseinheit außerhalb des Council-Kontexts) | council-agents |
-| **Tier** | Klassifikation eines Tasks nach Komplexität: Klein / Mittel / Groß | Provider (= technischer Anbieter des Modells) | planner, model-routing |
+| **Tier** | Klassifikation eines Tasks nach Komplexität: **Klein / Mittel / Groß** (immer Deutsch, nie Small/Medium/Large) | Provider (= technischer Anbieter des Modells) | planner, model-routing |
 | **Provider** | KI-Anbieter (Anthropic, OpenAI, Google) mit spezifischen Modell-Stärken | Modell (= konkretes Modell eines Providers, z.B. claude-sonnet-4-6) | model-routing |
 
 ---
@@ -111,3 +111,80 @@ Welche Anchors für welchen Agent relevant sind steht in den jeweiligen Agent-De
 | SWOT | `@knowledge/anchors/swot.md` |
 | Impact Mapping | `@knowledge/anchors/impact-mapping.md` |
 | User Story Mapping | `@knowledge/anchors/user-story-mapping.md` |
+
+---
+
+## Teil 3 — Anwendungsfall-Navigation
+
+Schnell-Lookup: welche Anchors für welchen Anwendungsfall?
+Lade gezielt — nur was für den konkreten Task relevant ist.
+
+### Ich schreibe neuen Code
+
+| Bedarf | Anchor |
+|--------|--------|
+| Saubere Struktur, gute Namen | Clean Code |
+| Abhängigkeiten minimieren | SOLID, Law of Demeter |
+| Over-Engineering vermeiden | YAGNI, KISS |
+| Duplikate vermeiden | SSOT / DRY |
+| Bekanntes Muster einsetzen | GoF Design Patterns |
+
+### Ich teste Code
+
+| Bedarf | Anchor |
+|--------|--------|
+| TDD von außen nach innen | TDD London School |
+| TDD State-basiert | TDD Chicago School |
+| Anforderungen als Tests | BDD, Gherkin |
+| Test-Strategie (wann Unit/Integration/E2E) | Test Pyramid |
+| Mocks, Stubs, Fakes unterscheiden | Test Doubles |
+| Robustheit gegen Edge Cases | Property-based Testing |
+| Test-Suite-Qualität prüfen | Mutation Testing |
+
+### Ich entwerfe eine Architektur
+
+| Bedarf | Anchor |
+|--------|--------|
+| Schichtenarchitektur, Dependency Rule | Clean Architecture |
+| Entkopplung von Außenwelt | Hexagonal Architecture |
+| Systemüberblick visualisieren | C4 Model |
+| Read/Write-Pfade trennen | CQRS |
+| Fachdomänen modellieren | Domain-Driven Design |
+| Async, entkoppelte Services | Event-Driven Architecture |
+| Trade-offs zwischen Qualitätsattributen | ATAM |
+
+### Ich dokumentiere eine Entscheidung
+
+| Bedarf | Anchor |
+|--------|--------|
+| Leichtgewichtige Einzel-Entscheidung | ADR (Nygard) |
+| Strukturiert mit Optionen-Vergleich | MADR |
+| Vollständige System-Dokumentation | arc42 |
+| Docs wie Code behandeln | Docs-as-Code |
+| Typ der Doku bestimmen (Tutorial/How-to/Reference/Explanation) | Diátaxis Framework |
+
+### Ich reviewe Code
+
+| Bedarf | Anchor |
+|--------|--------|
+| Web-Schwachstellen systematisch prüfen | OWASP Top 10 |
+| Bedrohungsmodell erstellen | STRIDE |
+| Sicherheitsarchitektur bewerten | Secure by Design |
+| Annahmen hinterfragen | Devil's Advocate |
+| Architektur-Trade-offs bewerten | ATAM |
+| Design-Qualität beurteilen | SOLID, Clean Architecture |
+
+### Ich löse ein Problem / plane
+
+| Bedarf | Anchor |
+|--------|--------|
+| Ursache eines Bugs finden | Five Whys |
+| Problemkomplexität einschätzen | Cynefin Framework |
+| Verständnis prüfen | Feynman Technique |
+| Schritte transparent machen | Chain of Thought |
+| Lückenlose Zerlegung | MECE |
+| Alternativen strukturiert bewerten | Pugh Matrix |
+| Features priorisieren | MoSCoW |
+| Stärken/Schwächen analysieren | SWOT |
+| Feature → Business Goal verbinden | Impact Mapping |
+| Nutzeranforderungen strukturieren | User Story Mapping |
