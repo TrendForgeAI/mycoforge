@@ -292,7 +292,6 @@ HitL ist ein vollwertiges Muster, kein Übergangszustand.
 ## Skills Struktur
 
 Skills sind SKILL.md-Dateien die Claude bei bestimmten Aufgaben automatisch lädt.
-Inspiriert von Superpowers (obra/superpowers).
 
 ### Verzeichnisstruktur
 ```

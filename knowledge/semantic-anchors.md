@@ -14,8 +14,6 @@ Für rollenspezifische Best-Practice-Anchors (Teil 2): Lade stattdessen die pass
 - Ein Begriff ändert seine Bedeutung im Projekt → entsprechende Zeile anpassen
 - Ein neuer Best-Practice-Anchor wird im Projekt relevant → in Teil 2 ergänzen
 
-Referenz: https://github.com/LLM-Coding/Semantic-Anchors (60+ Anchors, 12 Kategorien, 12 Rollen)
-
 ---
 
 ## Teil 1 — Interne mycoforge-Terminologie

@@ -7,17 +7,7 @@ dann darauf aufbauen. Jeden Punkt mit `/commit` abschließen.
 
 ---
 
-### 1. Externe Referenzen entfernen
-**Warum zuerst:** Schneller Cleanup — danach ist die Codebasis "eigen" und alle
-weiteren Analysen zeigen das eigentliche System ohne Fremd-Ballast.
-
-Aufgaben:
-- Alle Hinweise auf GSD, superpowers, Semantic-Anchors entfernen
-- Bereits erledigte Checkboxen mit externen Links in TODO.md → in "Erledigt" verschieben
-- Kommentare in Skripten/Hooks bereinigen
-- Verlinkungen in Agent-Definitionen und Skills entfernen
-
-**Command:** `/implement` — "Alle externen Referenzen (GSD, superpowers, Semantic-Anchors) aus allen Dateien entfernen"
+### ~~1. Externe Referenzen entfernen~~ ✓
 
 ---
 
@@ -97,8 +87,7 @@ Aufgaben:
 - [x] MEMORY.md aus git-Tracking entfernen — wird bei Container-Start generiert
 
 ### Inspiration & Adoption (2026-03-17)
-- [x] Prüfen ob alles Sinnvolle von superpowers übernommen wurde
-- [x] Prüfen ob alles Sinnvolle von get-shit-done übernommen wurde
+- [x] Externe Inspirationsquellen evaluiert und sinnvolle Patterns übernommen
 - [x] `knowledge/semantic-anchors.md` anlegen (Terminologie + Best-Practice-Anchors)
 - [x] Context Rot Prevention: STATE.md Konzept evaluieren und implementieren
 - [x] `/verify` Command: Implementierung nach /implement auf Funktionsfähigkeit prüfen
