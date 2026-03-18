@@ -1,0 +1,377 @@
+analysis_packet:
+  format_version: "1.0"
+  target: "Claude Code"
+  project:
+    name: "mycoforge"
+    type: "containerized agentic AI development environment"
+    analysis_mode: "static repository inspection"
+  executive_summary:
+    overall_assessment: "strong foundation, good internal coherence, not yet operationally hardened"
+    maturity_estimate:
+      architecture: 8.5
+      developer_experience: 8.0
+      extensibility: 8.0
+      operational_safety: 6.5
+      observability: 5.0
+      testability: 5.5
+    core_strengths:
+      - "Clear layered mental model: infrastructure -> model router -> multi-agent -> commands/hooks"
+      - "Good separation between human docs, Claude context, commands, agents, hooks, skills, knowledge"
+      - "Runtime bootstrap auto-generates MEMORY.md from actual environment and repo state"
+      - "Command surface already covers planning, implementation, review, verification, worktree, branching"
+      - "Secret scanning exists and is integrated into commit flow"
+    principal_risks:
+      - "Too much behavior is encoded in prompts/scripts without a machine-readable contract"
+      - "Model routing is documented, but not normalized into a single canonical config schema"
+      - "Generated MEMORY.md is powerful but brittle because it is rebuilt from shell parsing at startup"
+      - "Observability/tracing is weak; difficult to audit why an agent chose a path or failed"
+      - "No explicit evaluation suite for commands/agents/hooks"
+      - "Repo appears optimized for a single primary runtime path; multi-runtime support is still mostly aspirational"
+
+  repository_model:
+    inferred_layers:
+      - id: "L1"
+        name: "Infrastructure"
+        responsibilities:
+          - "Docker image"
+          - "compose deployment"
+          - "entrypoint bootstrap"
+          - "persistent volumes"
+          - "git/github wiring"
+      - id: "L2"
+        name: "Model routing"
+        responsibilities:
+          - "tier classification"
+          - "provider preference"
+          - "cost/quality tradeoff"
+      - id: "L3"
+        name: "Multi-agent system"
+        responsibilities:
+          - "planner/developer/reviewer/etc."
+          - "orchestrator/council/swarm patterns"
+      - id: "L4"
+        name: "Interface layer"
+        responsibilities:
+          - "slash commands"
+          - "hooks"
+          - "human-in-the-loop entry points"
+
+  findings:
+    strengths:
+      - id: "S1"
+        title: "Architecture is intentionally designed, not accidental"
+        impact: "high"
+        detail: >
+          The repo is not just a collection of prompts. It has a stated system model,
+          clear role separation, and command abstractions that map to repeatable workflows.
+      - id: "S2"
+        title: "Runtime bootstrap is practical and useful"
+        impact: "high"
+        detail: >
+          entrypoint-generated MEMORY.md is a good bridge between static Git content and dynamic runtime state.
+          This improves session continuity without needing an external DB.
+      - id: "S3"
+        title: "Command UX is already coherent"
+        impact: "medium"
+        detail: >
+          The command set forms a credible developer workflow: route -> plan -> implement -> review -> verify -> finish-branch.
+      - id: "S4"
+        title: "Knowledge/skills/hooks split is directionally correct"
+        impact: "medium"
+        detail: >
+          Reusable operational guidance is separated from direct commands, which is the right long-term move.
+
+    weaknesses:
+      - id: "W1"
+        title: "No single source of truth for agent and command metadata"
+        severity: "high"
+        symptoms:
+          - "Descriptions are scraped from markdown front matter or headings"
+          - "Behavior is distributed across markdown, shell, and inferred conventions"
+        consequence: >
+          Hard to validate, generate, test, refactor, or expose tooling around the system.
+        recommendation: "Introduce a manifest layer"
+
+      - id: "W2"
+        title: "Routing policy is documented but not enforced as data"
+        severity: "high"
+        symptoms:
+          - "Tier rules exist in route.md and models.md"
+          - "Provider strengths are described textually"
+        consequence: >
+          Drift risk between docs, commands, and runtime behavior.
+        recommendation: "Move routing to structured config and let commands consume it"
+
+      - id: "W3"
+        title: "Bootstrap logic is shell-heavy and fragile"
+        severity: "medium"
+        symptoms:
+          - "entrypoint.sh uses grep/awk/sed parsing of markdown"
+          - "table generation depends on file formatting conventions"
+        consequence: >
+          Small formatting changes can silently break generated MEMORY.md sections.
+        recommendation: "Replace parsing with structured metadata or a small generator script"
+
+      - id: "W4"
+        title: "Insufficient observability"
+        severity: "high"
+        symptoms:
+          - "DEBUG_MODE exists"
+          - "No durable traces, decision logs, or command execution records"
+        consequence: >
+          Difficult to debug agent routing, command quality, token use, or failure modes.
+        recommendation: "Add structured logs and trace files"
+
+      - id: "W5"
+        title: "Verification strategy exists conceptually, but not as an executable harness"
+        severity: "medium"
+        symptoms:
+          - "verification-patterns.md is useful guidance"
+          - "No repo-level eval tests for commands/agents/hooks"
+        consequence: >
+          Regressions in prompts and workflows will be hard to catch.
+        recommendation: "Create golden tests / fixture-based evals"
+
+      - id: "W6"
+        title: "Security posture is improved by hooks but still incomplete"
+        severity: "medium"
+        symptoms:
+          - "Secret scan before commit is good"
+          - "SSH mount and GH credentials handling are powerful and sensitive"
+        consequence: >
+          Risk shifts from accidental commits to runtime misuse or over-privileged execution.
+        recommendation: "Add least-privilege defaults and optional restricted mode"
+
+      - id: "W7"
+        title: "Multi-runtime vision is not yet first-class in implementation"
+        severity: "medium"
+        symptoms:
+          - "README and model docs mention Claude/OpenAI/Google/xAI support"
+          - "Primary operational path is still Claude Code-centric"
+        consequence: >
+          Future provider expansion may produce duplicated logic unless abstracted now.
+        recommendation: "Define provider adapter contract before adding more runtimes"
+
+  priority_backlog:
+    p0:
+      - id: "P0-1"
+        title: "Create canonical manifests for commands, agents, skills, hooks"
+        expected_outcome: "machine-readable repo contracts"
+      - id: "P0-2"
+        title: "Normalize model routing into structured config"
+        expected_outcome: "one routing source consumed everywhere"
+      - id: "P0-3"
+        title: "Add structured runtime traces"
+        expected_outcome: "auditable command + agent decisions"
+    p1:
+      - id: "P1-1"
+        title: "Refactor MEMORY generation away from shell scraping"
+        expected_outcome: "stable bootstrapping"
+      - id: "P1-2"
+        title: "Build fixture-based evaluation tests for key commands"
+        expected_outcome: "prompt/workflow regression protection"
+      - id: "P1-3"
+        title: "Add restricted execution profile"
+        expected_outcome: "safer production/container usage"
+    p2:
+      - id: "P2-1"
+        title: "Introduce provider adapter abstraction"
+        expected_outcome: "clean multi-runtime growth"
+      - id: "P2-2"
+        title: "Persist long-term task/project state in structured storage"
+        expected_outcome: "better continuity than generated markdown alone"
+      - id: "P2-3"
+        title: "Add internal architecture/evolution changelog"
+        expected_outcome: "easier system maintenance"
+
+  concrete_refactors:
+    - id: "R1"
+      title: "Introduce /mycoforge/manifests"
+      why: "reduce implicit conventions"
+      proposed_files:
+        - "manifests/commands.yaml"
+        - "manifests/agents.yaml"
+        - "manifests/skills.yaml"
+        - "manifests/hooks.yaml"
+      example_schema:
+        commands:
+          - name: "implement"
+            pattern: "orchestrator"
+            description: "Execute a plan with sub-agents"
+            inputs:
+              - "task_or_plan"
+            required_agents:
+              - "planner"
+              - "developer"
+              - "reviewer"
+              - "committer"
+            debug_support: true
+
+    - id: "R2"
+      title: "Move routing rules to structured config"
+      why: "avoid duplication between route.md, models.md, entrypoint, docs"
+      proposed_file: "config/model-routing.yaml"
+      example_schema:
+        tiers:
+          small:
+            use_for:
+              - "single-file edit"
+              - "git operation"
+              - "simple summary"
+            providers:
+              anthropic: "claude-haiku-4-5"
+              openai: "gpt-5.3-instant"
+              google: "gemini-3.1-flash-lite"
+          medium:
+            use_for:
+              - "feature implementation"
+              - "test writing"
+              - "single-feature review"
+            providers:
+              anthropic: "claude-sonnet-4-6"
+              openai: "gpt-5.4"
+              google: "gemini-3-flash"
+          large:
+            use_for:
+              - "architecture"
+              - "multi-step planning"
+              - "security audit"
+            providers:
+              anthropic: "claude-opus-4-6"
+              openai: "gpt-5.4-pro"
+              google: "gemini-3.1-pro"
+        preferences:
+          code_quality: "anthropic"
+          agentic_workflows: "openai"
+          multimodal_context: "google"
+
+    - id: "R3"
+      title: "Replace markdown scraping with generator"
+      why: "entrypoint should consume manifests, not parse prose"
+      proposed_file: "scripts/generate-memory.js"
+      responsibilities:
+        - "read env/provider state"
+        - "read manifests"
+        - "read workspace project summaries"
+        - "generate MEMORY.md deterministically"
+        - "emit machine-readable JSON mirror"
+
+    - id: "R4"
+      title: "Add trace directory"
+      why: "improve observability"
+      proposed_paths:
+        - "/mycoforge/runtime/traces/"
+        - "/mycoforge/runtime/state/"
+      example_files:
+        - "runtime/traces/session-start.jsonl"
+        - "runtime/traces/command-events.jsonl"
+        - "runtime/traces/agent-decisions.jsonl"
+        - "runtime/state/last-routing.json"
+      jsonl_event_example:
+        ts: "2026-03-18T12:00:00Z"
+        session_id: "sess_abc123"
+        command: "/implement"
+        task: "add feature X"
+        selected_pattern: "orchestrator"
+        selected_model_tier: "medium"
+        selected_provider: "anthropic"
+        selected_model: "claude-sonnet-4-6"
+
+    - id: "R5"
+      title: "Create command/agent regression fixtures"
+      why: "stabilize behavior across edits"
+      proposed_paths:
+        - "evals/commands/"
+        - "evals/agents/"
+      fixture_example:
+        input: "/route add a unit test for parser.ts"
+        expected:
+          tier: "medium"
+          allowed_providers:
+            - "anthropic"
+            - "openai"
+            - "google"
+
+    - id: "R6"
+      title: "Introduce execution policy profiles"
+      why: "support safer operation in more environments"
+      proposed_file: "config/execution-policy.yaml"
+      example_schema:
+        profiles:
+          local_dev:
+            allow_shell: true
+            allow_git_push: true
+            allow_network: true
+          hosted_safe:
+            allow_shell: true
+            allow_git_push: false
+            allow_network: false
+            writable_paths:
+              - "/workspace"
+              - "/mycoforge/runtime"
+          audit_only:
+            allow_shell: false
+            allow_git_push: false
+            allow_network: false
+
+  architecture_recommendation:
+    target_state: "manifest-driven agent platform"
+    delta_from_current:
+      current: "docs-and-conventions-driven"
+      target: "docs + manifests + generators + evals"
+    rationale: >
+      The current design is good for rapid iteration by a single builder.
+      The next maturity step is to make the system machine-readable, testable,
+      and auditable without losing the current flexibility.
+
+  implementation_order:
+    - step: 1
+      action: "Create manifests/commands.yaml and manifests/agents.yaml"
+      success_criteria:
+        - "All current commands represented in YAML"
+        - "All current agents represented in YAML"
+    - step: 2
+      action: "Create config/model-routing.yaml"
+      success_criteria:
+        - "route.md references config instead of duplicating logic"
+        - "knowledge/models.md becomes explanatory, not canonical"
+    - step: 3
+      action: "Add scripts/generate-memory.js"
+      success_criteria:
+        - "entrypoint no longer scrapes markdown for tables"
+        - "MEMORY.md generation deterministic"
+    - step: 4
+      action: "Add runtime traces"
+      success_criteria:
+        - "every command invocation emits a JSONL event"
+        - "routing decisions are inspectable after session"
+    - step: 5
+      action: "Add eval fixtures"
+      success_criteria:
+        - "core commands have baseline fixtures"
+        - "CI can detect routing/prompt regressions"
+
+  claude_code_tasks:
+    immediate:
+      - "Read this packet and compare every recommendation to the current repo layout"
+      - "Generate a concrete migration plan with file diffs"
+      - "Start with manifests + routing config + memory generator"
+    suggested_prompt: |
+      Read the analysis_packet below as the canonical review input.
+      Do not summarize it first.
+      Instead:
+      1. map each recommendation to existing files in the repo,
+      2. identify exact files to create/change,
+      3. propose a phased migration plan,
+      4. generate the first implementation batch for:
+         - manifests/commands.yaml
+         - manifests/agents.yaml
+         - config/model-routing.yaml
+         - scripts/generate-memory.js
+      5. keep backward compatibility where possible.
+
+  final_verdict:
+    statement: >
+      mycoforge already has the shape of an agentic development platform.
+      The highest-leverage next move is not adding more commands or providers,
+      but formalizing the system so it becomes inspectable, testable, and robust.
