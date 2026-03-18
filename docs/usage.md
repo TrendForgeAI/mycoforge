@@ -276,3 +276,26 @@ git pull
 ```
 
 Offene Punkte stehen in `TODO.md`. Architekturentscheidungen in `ARCHITECTURE.md`.
+
+### Neuen Agent erstellen
+
+Vollständige Anleitung mit Template und Checkliste: [`docs/agent-guide.md`](agent-guide.md)
+
+Kurzübersicht:
+- Datei: `claude/agents/<name>.md` (lowercase-kebab-case)
+- Pflichtabschnitte: Rolle · Eingabe · Vorgehen · Ausgabe · Prinzipien · Best Practices
+- Tier eintragen: CLAUDE.md Projektstruktur + `claude/agents/planner.md`
+
+### Dokumentation nach Änderungen
+
+Nach Änderungen an Agents, Skills oder Commands: betroffene Docs prüfen und ggf. aktualisieren.
+
+| Geändert | Prüfen |
+|---------|--------|
+| `claude/agents/` | `CLAUDE.md` (Projektstruktur), `docs/agent-guide.md` |
+| `claude/commands/` | `README.md` (Command-Tabelle), `docs/usage.md` |
+| `skills/` | `CLAUDE.md` (Projektstruktur), `MEMORY.md` (Skills-Tabelle — auto) |
+| `hooks/` | `CLAUDE.md` (Hooks-Liste), `docs/usage.md` wenn Verhalten ändert |
+| `knowledge/` | `knowledge/semantic-anchors.md` (Index) |
+
+mycoforge erinnert automatisch daran wenn eines dieser Verzeichnisse im letzten Commit enthalten war.

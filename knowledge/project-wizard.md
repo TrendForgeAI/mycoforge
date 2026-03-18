@@ -360,6 +360,7 @@ Deployment: <ziel|nein>
 - Atomic Commits
 - Keine Secrets in Git
 - Tests vor jedem Commit
+- README.md und CLAUDE.md nach strukturellen Änderungen aktualisieren
 ```
 
 ---

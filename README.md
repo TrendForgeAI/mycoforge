@@ -180,6 +180,7 @@ mycoforge/
 ## Documentation
 
 - [`docs/usage.md`](docs/usage.md) — full usage guide (all commands, workflows, examples)
+- [`docs/agent-guide.md`](docs/agent-guide.md) — developer guide for creating new agents
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — system design & agent patterns
 - [`CLAUDE.md`](CLAUDE.md) — context for Claude Code (project conventions, routing)
 
