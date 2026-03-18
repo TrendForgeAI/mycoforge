@@ -5,6 +5,9 @@ if [ ! -f /mycoforge/claude/.claude.json ]; then
     echo '{"firstStartTime": "'$(date -u +%Y-%m-%dT%H:%M:%S.000Z)'"}' > /mycoforge/claude/.claude.json
 fi
 
+# /root/.claude.json → persistentes Volume verlinken
+ln -sf /mycoforge/claude/.claude.json /root/.claude.json
+
 # Verfügbare AI Provider ermitteln
 PROVIDERS=""
 [ -n "$ANTHROPIC_API_KEY" ] && PROVIDERS="$PROVIDERS\n- Anthropic (Claude Opus, Sonnet, Haiku)"

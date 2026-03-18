@@ -10,6 +10,7 @@ services:
     volumes:
       - mycoforge_workspace:/workspace
       - mycoforge_claude:/mycoforge/claude
+      - ~/.ssh:/root/.ssh:ro
     networks:
       - mycoforge_network
     restart: unless-stopped
