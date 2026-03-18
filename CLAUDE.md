@@ -25,6 +25,13 @@ mycoforge ist die Werkstatt. Die Projekte die darin entstehen sind die Werkstüc
 | Skill-Dir-Name | = Command-Name wenn Pendant existiert | `finish-branch/` ↔ `/finish-branch` |
 | Skill-Dir-Name | Konzept-Name wenn kein Command | `planning/`, `council/`, `model-routing/` |
 
+**Warum Commands flache Dateien, Skills aber Verzeichnisse?**
+Commands (`claude/commands/commit.md`) sind flache Dateien weil Claude Code das so erwartet —
+der Dateiname wird direkt zum Command-Namen (`commit.md` → `/commit`).
+Skills (`skills/code-style/SKILL.md`) sind Verzeichnisse weil ein Skill zukünftig mehrere
+Dateien enthalten kann (Templates, Beispiele, Sub-Skripte). `SKILL.md` folgt der
+`README.md`-Konvention: die primäre Datei im Verzeichnis ist großgeschrieben.
+
 ## Projektstruktur
 ```
 mycoforge/
