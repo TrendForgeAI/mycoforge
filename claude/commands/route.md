@@ -9,10 +9,11 @@ Verhalte dich wie das kleinstmögliche Modell: schnell, direkt, kein Overhead.
 
 **Task:** $ARGUMENTS
 
-## Schritt 1 — Verfügbare Provider lesen
+## Schritt 1 — Verfügbare Provider und Modelle lesen
 
-Lies `MEMORY.md` (Abschnitt "Verfügbare AI Provider") und `knowledge/models.md`.
-Merke welche Provider und Modelle gerade aktiv sind.
+Lies `MEMORY.md` (Abschnitt "Verfügbare AI Provider") und `config/model-routing.yaml`.
+Die Routing-Config ist die kanonische Quelle für Tier-Definitionen und Modellnamen.
+`knowledge/models.md` ist nur erklärend — nicht für Modellnamen verwenden.
 
 ## Schritt 2 — Task klassifizieren
 
@@ -47,19 +48,11 @@ Wende diese Entscheidungsregeln **in dieser Reihenfolge** an:
 
 ## Schritt 3 — Provider wählen
 
-Basierend auf Tier und verfügbaren Providern:
+Basierend auf Tier und verfügbaren Providern aus `config/model-routing.yaml`:
+- `tiers.small/medium/large.providers` → Modellnamen pro Provider
+- `preferences` → bevorzugter Provider pro Aufgabentyp
 
-| Tier   | Anthropic verfügbar   | OpenAI verfügbar    | Google verfügbar         |
-|--------|-----------------------|---------------------|--------------------------|
-| Klein  | claude-haiku-4-5      | gpt-5.3-instant     | gemini-3.1-flash-lite    |
-| Mittel | claude-sonnet-4-6     | gpt-5.4             | gemini-3-flash           |
-| Groß   | claude-opus-4-6       | gpt-5.4-pro         | gemini-3.1-pro           |
-
-**Provider-Präferenz nach Aufgabentyp:**
-- Code-Qualität, Reasoning, Security → **Anthropic** bevorzugt
-- Agentic Workflows, Coding-Agents → **OpenAI** bevorzugt
-- Multimodal, großer Kontext, Hochvolumen → **Google** bevorzugt
-- Kein Präferenz-Provider verfügbar → nächstbesten verfügbaren wählen
+Kein Präferenz-Provider verfügbar → nächstbesten verfügbaren wählen.
 
 ## Ausgabe
 
