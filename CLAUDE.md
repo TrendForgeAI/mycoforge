@@ -94,6 +94,8 @@ mycoforge/
 │   ├── swarm/             ← Swarm-Exploration, Iterations-Governance
 │   ├── testing/           ← Tests schreiben & ausführen
 │   └── verify/            ← Implementierung verifizieren
+├── docs/                  ← Anwender-Dokumentation
+│   └── usage.md           ← Commands, Workflows, Beispiele
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── anchors/           ← Best-Practice-Anchors (60+, je eine Datei)
     ├── checkpoints.md     ← Checkpoint-Muster für lange Tasks

@@ -62,6 +62,36 @@ See `.env.example` for all available variables:
 
 *Or use Claude Pro/Max plan via browser auth.
 
+## How it works
+
+mycoforge uses a multi-agent system built on top of Claude Code. When you give it a task, it doesn't just respond — it routes the task to the right pattern:
+
+| Pattern | When | Example |
+|---------|------|---------|
+| **Orchestrator** | Defined task, multiple files | `/implement` a new feature |
+| **Council** | Decision or review | `/discuss` two architectural options |
+| **Swarm** | Open-ended exploration | `/explore` an unclear problem |
+| **Direct** | Simple tasks | `/commit`, `/route` |
+
+Each pattern uses specialized agents (Planner, Developer, Reviewer, Committer, …) assigned to the right model tier (small/medium/large) based on task complexity.
+
+## Slash Commands
+
+| Command | Pattern | Description |
+|---------|---------|-------------|
+| `/plan` | Plan & Solve | Break down a task into steps |
+| `/implement` | Orchestrator | Execute a plan with sub-agents |
+| `/review` | Council (3 rounds) | Code review from 3 perspectives |
+| `/discuss` | Council (2–5 rounds) | Discuss two approaches, reach consensus |
+| `/explore` | Swarm | Open-ended exploration of a complex problem |
+| `/verify` | ReAct | Check that an implementation actually works |
+| `/finish-branch` | ReAct | Close a branch — tests, merge/PR/discard |
+| `/worktree` | ReAct | Manage Git worktrees for parallel work |
+| `/new-project` | HitL + Orchestrator | Interactive wizard to scaffold a new project |
+| `/commit` | ReAct (small) | Smart commit with generated message |
+| `/route` | ReAct (small) | Classify a task and pick the best model |
+| `/pause` | ReAct | Save session state before interrupting |
+
 ## Usage
 
 **Start an interactive session:**
@@ -76,9 +106,20 @@ See `.env.example` for all available variables:
 
 **Start a new project:**
 ```
-> Create a new project called <name>
+> /new-project
 ```
 Claude will ask for all required information before starting.
+
+**Implement a feature:**
+```
+> /plan add user authentication to the API
+> /implement
+```
+
+**Review code:**
+```
+> /review
+```
 
 ## Updating
 
@@ -135,6 +176,12 @@ mycoforge/
 | Gemini CLI | 🔜 planned |
 | OpenCode | 🔜 planned |
 | Codex | 🔜 planned |
+
+## Documentation
+
+- [`docs/usage.md`](docs/usage.md) — full usage guide (all commands, workflows, examples)
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — system design & agent patterns
+- [`CLAUDE.md`](CLAUDE.md) — context for Claude Code (project conventions, routing)
 
 ## License
 
