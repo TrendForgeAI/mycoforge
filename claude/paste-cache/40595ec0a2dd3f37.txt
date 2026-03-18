@@ -1,0 +1,82 @@
+ Also: auf dem Host in /docker/mycoforge/ einfach ./update.sh ausführen.
+
+Resume this session with:
+claude --resume 7032bbd7-ff37-403e-85c2-5e3599801e41
+root@srv1367722:/docker/mycoforge# ./update.sh
+🍄 mycoforge update starting...
+→ Pulling latest changes from GitHub...
+remote: Enumerating objects: 65, done.
+remote: Counting objects: 100% (65/65), done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 42 (delta 25), reused 39 (delta 22), pack-reused 0 (from 0)
+Unpacking objects: 100% (42/42), 14.16 KiB | 1.18 MiB/s, done.
+From github.com:TrendForgeAI/mycoforge
+   1ea8664..5921b7a  main       -> origin/main
+Updating 1ea8664..5921b7a
+Fast-forward
+ TODO.md                            |   4 ++--
+ claude/agents/reviewer.md          |   9 ++++++++
+ claude/commands/discuss.md         |  33 ++++++++++++++++++++++++++++
+ claude/commands/implement.md       |  28 +++++++++++++++++++++++-
+ claude/commands/pause.md           |   4 ++++
+ claude/settings.json               |   8 +++++++
+ entrypoint.sh                      |  10 +++++++--
+ hooks/cc-context-monitor.sh        |  56 ++++++++++++++++++++++++++++++++++++++++++++++++
+ hooks/cc-session-start.sh          |  17 +++++++++++++++
+ knowledge/checkpoints.md           |  80 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ knowledge/continuation-format.md   |  39 +++++++++++++++++++++++++++++++++
+ knowledge/project-state.md         |  63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ knowledge/verification-patterns.md | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ skills/debugging/SKILL.md          |  20 +++++++++++++++++
+ skills/finishing-branch/SKILL.md   | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ skills/pause/SKILL.md              |   8 ++++++-
+ skills/testing/SKILL.md            |  33 ++++++++++++++++++++++++++++
+ skills/verify/SKILL.md             |  35 ++++++++++++++++++++++++++++--
+ 18 files changed, 681 insertions(+), 8 deletions(-)
+ create mode 100755 hooks/cc-context-monitor.sh
+ create mode 100644 knowledge/checkpoints.md
+ create mode 100644 knowledge/continuation-format.md
+ create mode 100644 knowledge/project-state.md
+ create mode 100644 knowledge/verification-patterns.md
+ create mode 100644 skills/finishing-branch/SKILL.md
+→ Rebuilding container...
+[+] Building 2.2s (15/15) FINISHED
+ => [internal] load local bake definitions                                                                                                            0.0s
+ => => reading from stdin 502B                                                                                                                        0.0s
+ => [internal] load build definition from Dockerfile                                                                                                  0.0s
+ => => transferring dockerfile: 1.61kB                                                                                                                0.0s
+ => [internal] load metadata for docker.io/library/node:22-slim                                                                                       0.7s
+ => [internal] load .dockerignore                                                                                                                     0.0s
+ => => transferring context: 2B                                                                                                                       0.0s
+ => [1/8] FROM docker.io/library/node:22-slim@sha256:4f77a690f2f8946ab16fe1e791a3ac0667ae1c3575c3e4d0d4589e9ed5bfaf3d                                 0.0s
+ => => resolve docker.io/library/node:22-slim@sha256:4f77a690f2f8946ab16fe1e791a3ac0667ae1c3575c3e4d0d4589e9ed5bfaf3d                                 0.0s
+ => [internal] load build context                                                                                                                     0.1s
+ => => transferring context: 116.20kB                                                                                                                 0.0s
+ => CACHED [2/8] RUN apt-get update && apt-get install -y     git     curl     wget     ca-certificates     nano     && rm -rf /var/lib/apt/lists/*   0.0s
+ => CACHED [3/8] RUN npm install -g @anthropic-ai/claude-code                                                                                         0.0s
+ => CACHED [4/8] RUN ln -s /mycoforge/claude /root/.claude                                                                                            0.0s
+ => CACHED [5/8] RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.  0.0s
+ => [6/8] COPY . /mycoforge/                                                                                                                          0.2s
+ => [7/8] WORKDIR /mycoforge                                                                                                                          0.1s
+ => [8/8] RUN chmod +x /mycoforge/entrypoint.sh                                                                                                       0.4s
+ => exporting to image                                                                                                                                0.5s
+ => => exporting layers                                                                                                                               0.2s
+ => => exporting manifest sha256:8746542a912461223a782eff1f12cabbb58c25b5014ae53ad98d499f3c9c9cf5                                                     0.0s
+ => => exporting config sha256:dc60667534b3665a8eaad3f94fc1de0d4c4ac193dadec3dc3df70afc4781186f                                                       0.0s
+ => => exporting attestation manifest sha256:189ef86e2ec33787dd2a1371116db2038b5c7701f985051856ae1ec5a3eaeb24                                         0.0s
+ => => exporting manifest list sha256:6e38a3db4533be14e2d636299a413f9bddf757fbcecb6ba367b73ec37fa82ed7                                                0.0s
+ => => naming to docker.io/library/mycoforge-mycoforge:latest                                                                                         0.0s
+ => => unpacking to docker.io/library/mycoforge-mycoforge:latest                                                                                      0.2s
+ => resolving provenance for metadata file                                                                                                            0.0s
+[+] build 1/1
+ ✔ Image mycoforge-mycoforge Built                                                                                                                     2.3s
+→ Restarting running container...
+[+] restart 0/1
+ ⠴ Container mycoforge Restarting                                                                                                                     10.5s
+✓ mycoforge updated successfully
+root@srv1367722:/docker/mycoforge# nano MEM
+root@srv1367722:/docker/mycoforge# nano MEMORY.md
+root@srv1367722:/docker/mycoforge# ./entrypoint.sh
+./entrypoint.sh: line 5: /mycoforge/claude/.claude.json: No such file or directory
+./entrypoint.sh: line 60: /mycoforge/MEMORY.md: No such file or directory
+root@srv1367722:/docker/mycoforge#

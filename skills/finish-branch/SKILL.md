@@ -1,4 +1,4 @@
-# finishing-branch
+# finish-branch
 
 ## Wann laden?
 Wenn ein Feature- oder Bugfix-Branch abgeschlossen werden soll —
