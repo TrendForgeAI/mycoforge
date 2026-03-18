@@ -49,12 +49,13 @@ Vor jedem Tag-Schritt MUSS geprüft werden ob der Tag bereits existiert:
 
 ```bash
 TAG="v$VERSION"
-if git tag -l "$TAG" | grep -q .; then
-  echo "❌ Tag $TAG existiert bereits. Abbrechen."
+if git tag -l "$TAG" | grep -q . || git ls-remote --tags origin "refs/tags/$TAG" | grep -q .; then
+  echo "❌ Tag $TAG existiert bereits (lokal oder remote). Abbrechen."
   exit 1
 fi
 ```
 
+Prüft **lokal und remote** — verhindert auch Durchrutschen nach frischem Clone.
 Ohne diese Prüfung niemals fortfahren.
 
 ---
