@@ -28,16 +28,16 @@ fi
 STAGED_DIFF=$(git -C "$GIT_ROOT" diff --cached 2>/dev/null)
 
 # API Keys & Tokens (gängige Formate)
-if echo "$STAGED_DIFF" | grep -qE '^\+(sk-[a-zA-Z0-9]{20,}|AIza[0-9A-Za-z_-]{35}|ghp_[a-zA-Z0-9]{36}|ghs_[a-zA-Z0-9]{36}|xoxb-[0-9]+-[a-zA-Z0-9]+|AKIA[0-9A-Z]{16})'; then
+if echo "$STAGED_DIFF" | grep -qE '^\+(sk-[a-zA-Z0-9-]{20,}|sk-proj-[a-zA-Z0-9_-]{20,}|AIza[0-9A-Za-z_-]{35}|ghp_[a-zA-Z0-9]{36}|ghs_[a-zA-Z0-9]{36}|github_pat_[a-zA-Z0-9_]{20,}|xoxb-[0-9]+-[a-zA-Z0-9]+|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)'; then
     echo "🚨 FEHLER: Bekanntes API-Key-Format im Staged-Content gefunden!"
     echo "   Überprüfen: git diff --cached"
     ERRORS=$((ERRORS + 1))
 fi
 
 # Generische Secret-Assignments
-if echo "$STAGED_DIFF" | grep -qiE '^\+[[:space:]]*(API_KEY|SECRET_KEY|AUTH_TOKEN|ACCESS_TOKEN|PRIVATE_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GH_TOKEN|DATABASE_URL)[[:space:]]*=[[:space:]]*[^\$\{]'; then
+if echo "$STAGED_DIFF" | grep -qiE '^\+[[:space:]]*(API_KEY|SECRET_KEY|AUTH_TOKEN|ACCESS_TOKEN|PRIVATE_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GH_TOKEN|DATABASE_URL|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|DB_PASSWORD|REDIS_URL)[[:space:]]*=[[:space:]]*[^\$\{]'; then
     # Falsch-Positive ausfiltern: leere Werte, Platzhalter, Kommentare
-    SUSPICIOUS=$(echo "$STAGED_DIFF" | grep -iE '^\+[[:space:]]*(API_KEY|SECRET_KEY|AUTH_TOKEN|ACCESS_TOKEN|PRIVATE_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GH_TOKEN|DATABASE_URL)[[:space:]]*=[[:space:]]*[^\$\{]' | grep -vE '=\s*("|'"'"'|#|$|<|your[-_]|YOUR[-_]|xxx|XXX|placeholder|PLACEHOLDER|changeme|CHANGEME|"""|'"'''"')' 2>/dev/null)
+    SUSPICIOUS=$(echo "$STAGED_DIFF" | grep -iE '^\+[[:space:]]*(API_KEY|SECRET_KEY|AUTH_TOKEN|ACCESS_TOKEN|PRIVATE_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GH_TOKEN|DATABASE_URL|AWS_SECRET_ACCESS_KEY|AWS_ACCESS_KEY_ID|DB_PASSWORD|REDIS_URL)[[:space:]]*=[[:space:]]*[^\$\{]' | grep -vE '=\s*("|'"'"'|#|$|<|your[-_]|YOUR[-_]|xxx|XXX|placeholder|PLACEHOLDER|changeme|CHANGEME|"""|'"'''"')' 2>/dev/null)
     if [ -n "$SUSPICIOUS" ]; then
         echo "⚠️  WARNUNG: Mögliche Secrets im Staged-Content:"
         echo "$SUSPICIOUS" | head -5

@@ -45,7 +45,10 @@ fi
 # Commit in Session-Log eintragen
 SESSION_LOG="/mycoforge/claude/history.jsonl"
 if [ -f "$SESSION_LOG" ] && [ -n "$COMMIT_INFO" ]; then
-    echo "{\"type\":\"commit\",\"repo\":\"$REPO_NAME\",\"commit\":\"$COMMIT_INFO\",\"date\":\"$COMMIT_DATE\"}" >> "$SESSION_LOG" 2>/dev/null
+    # Sonderzeichen in Commit-Info escapen um valides JSON zu erzeugen
+    SAFE_COMMIT=$(echo "$COMMIT_INFO" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    SAFE_REPO=$(echo "$REPO_NAME" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    echo "{\"type\":\"commit\",\"repo\":\"$SAFE_REPO\",\"commit\":\"$SAFE_COMMIT\",\"date\":\"$COMMIT_DATE\"}" >> "$SESSION_LOG" 2>/dev/null
 fi
 
 exit 0
