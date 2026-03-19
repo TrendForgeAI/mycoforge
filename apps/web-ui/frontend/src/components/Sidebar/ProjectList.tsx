@@ -53,7 +53,7 @@ export default function ProjectList({ projects, activeProject, onSelect, onProje
         <span>Projekte</span>
         <button
           onClick={() => { setCreating(true); setError(null); }}
-          className="text-muted hover:text-accent transition-colors leading-none"
+          className="w-5 h-5 flex items-center justify-center rounded text-muted hover:text-accent hover:bg-accent/10 transition-colors text-base leading-none"
           title="Neues Projekt anlegen"
         >
           +
