@@ -21,10 +21,12 @@ export function useWebSocket(sessionId: string | null) {
   const [lastMessage, setLastMessage] = useState<WsMessage | null>(null);
   const reconnectAttempts = useRef(0);
   const maxReconnects = 3;
+  const sessionGoneRef = useRef(false);
 
   const connect = useCallback(() => {
     if (!sessionId) return;
 
+    sessionGoneRef.current = false;
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const host = window.location.host;
     const url = `${protocol}//${host}/ws/sessions/${sessionId}/stream`;
@@ -41,6 +43,9 @@ export function useWebSocket(sessionId: string | null) {
     ws.onmessage = (event) => {
       try {
         const msg = JSON.parse(event.data as string) as WsMessage;
+        if (msg.type === "error" && msg.error === "Session nicht gefunden") {
+          sessionGoneRef.current = true;
+        }
         setLastMessage(msg);
       } catch {
         console.error("WS: Ungültiges JSON", event.data);
@@ -49,7 +54,7 @@ export function useWebSocket(sessionId: string | null) {
 
     ws.onclose = () => {
       setStatus("disconnected");
-      if (reconnectAttempts.current < maxReconnects) {
+      if (!sessionGoneRef.current && reconnectAttempts.current < maxReconnects) {
         reconnectAttempts.current++;
         const delay = Math.min(1000 * 2 ** reconnectAttempts.current, 10000);
         setTimeout(connect, delay);

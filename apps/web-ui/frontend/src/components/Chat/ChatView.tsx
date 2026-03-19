@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function ChatView({ projectPath, projectName }: Props) {
-  const { session } = useSession(projectPath);
+  const { session, resetSession } = useSession(projectPath);
   const { status, lastMessage, send } = useWebSocket(session?.sessionId ?? null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -78,15 +78,19 @@ export default function ChatView({ projectPath, projectName }: Props) {
       });
       setIsStreaming(false);
     } else if (lastMessage.type === "error") {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: `Fehler: ${lastMessage.error}`,
-        },
-      ]);
-      setIsStreaming(false);
+      if (lastMessage.error === "Session nicht gefunden") {
+        resetSession();
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: crypto.randomUUID(),
+            role: "assistant",
+            content: `Fehler: ${lastMessage.error}`,
+          },
+        ]);
+        setIsStreaming(false);
+      }
     }
   }, [lastMessage, appendToken]);
 

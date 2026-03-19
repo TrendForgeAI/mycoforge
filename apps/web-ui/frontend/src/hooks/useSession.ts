@@ -55,5 +55,11 @@ export function useSession(projectPath: string | null) {
     }
   }
 
-  return { session, loading, error, createSession };
+  function resetSession() {
+    localStorage.removeItem(storageKey(effectivePath));
+    setSession(null);
+    createSession(effectivePath);
+  }
+
+  return { session, loading, error, createSession, resetSession };
 }
