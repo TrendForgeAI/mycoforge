@@ -18,6 +18,36 @@ services:
     stdin_open: true
     tty: true
 
+  web-ui:
+    build:
+      context: ./apps/web-ui
+      dockerfile: Dockerfile
+    container_name: mycoforge-web-ui
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - WORKSPACE_PATH=/workspace
+    volumes:
+      - mycoforge_workspace:/workspace:ro
+    networks:
+      - mycoforge_network
+    restart: unless-stopped
+    depends_on:
+      - mycoforge
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: mycoforge-cloudflared
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN:-}
+    networks:
+      - mycoforge_network
+    restart: unless-stopped
+    profiles:
+      - tunnel
+
 volumes:
   mycoforge_workspace:       # Projekte persistent
   mycoforge_claude:          # Claude Config + Credentials persistent (/mycoforge/claude)

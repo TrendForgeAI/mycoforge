@@ -32,6 +32,16 @@ claude/policy-limits.json
 # Claude Code - Plugins (werden zur Laufzeit installiert)
 claude/plugins/
 
+# Web-UI Build-Artefakte
+apps/web-ui/frontend/node_modules/
+apps/web-ui/frontend/.next/
+apps/web-ui/frontend/package-lock.json
+apps/web-ui/frontend/next-env.d.ts
+apps/web-ui/frontend/tsconfig.tsbuildinfo
+apps/web-ui/backend/node_modules/
+apps/web-ui/backend/package-lock.json
+apps/web-ui/backend/dist/
+
 # System
 .DS_Store
 *.log
