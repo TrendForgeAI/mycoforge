@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import TerminalViewDynamic from "./Terminal/TerminalViewDynamic";
+import FileViewer from "./FileViewer";
 import { useTerminalSession } from "@/hooks/useTerminalSession";
 
 interface Project {
@@ -12,6 +13,7 @@ interface Project {
 
 export default function AppShell() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [openFile, setOpenFile] = useState<string | null>(null);
   const injectTextRef = useRef<((text: string) => void) | null>(null);
 
   const { session, resetSession } = useTerminalSession(activeProject?.path ?? null);
@@ -49,8 +51,9 @@ export default function AppShell() {
         activeProject={activeProject?.path ?? null}
         onProjectSelect={setActiveProject}
         onNewProject={() => injectTextRef.current?.("/new-project\n")}
+        onFileClick={setOpenFile}
       />
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="relative flex-1 flex flex-col min-w-0">
         {/* Toolbar */}
         <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border bg-surface flex-shrink-0">
           <span className="text-xs text-muted flex-1">
@@ -77,6 +80,10 @@ export default function AppShell() {
             onSessionDead={resetSession}
           />
         </div>
+        {/* File Viewer Overlay */}
+        {openFile && (
+          <FileViewer path={openFile} onClose={() => setOpenFile(null)} />
+        )}
       </main>
     </div>
   );

@@ -14,9 +14,10 @@ interface Props {
   activeProject: string | null;
   onProjectSelect: (project: Project) => void;
   onNewProject: () => void;
+  onFileClick?: (path: string) => void;
 }
 
-export default function Sidebar({ activeProject, onProjectSelect, onNewProject }: Props) {
+export default function Sidebar({ activeProject, onProjectSelect, onNewProject, onFileClick }: Props) {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function Sidebar({ activeProject, onProjectSelect, onNewProject }
           onNewProject={onNewProject}
         />
         <hr className="border-border my-3" />
-        <FileTree rootPath={activeProject} />
+        <FileTree rootPath={activeProject} onFileClick={onFileClick} />
       </div>
     </aside>
   );

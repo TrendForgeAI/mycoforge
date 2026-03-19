@@ -10,6 +10,7 @@ interface FileEntry {
 
 interface Props {
   rootPath: string | null;
+  onFileClick?: (path: string) => void;
 }
 
 function FileIcon({ type }: { type: string }) {
@@ -20,12 +21,15 @@ function FileIcon({ type }: { type: string }) {
   );
 }
 
-function FileNode({ entry }: { entry: FileEntry }) {
+function FileNode({ entry, onFileClick }: { entry: FileEntry; onFileClick?: (path: string) => void }) {
   const [open, setOpen] = useState(false);
   const [children, setChildren] = useState<FileEntry[]>([]);
 
   async function toggle() {
-    if (entry.type !== "directory") return;
+    if (entry.type === "file") {
+      onFileClick?.(entry.path);
+      return;
+    }
     if (!open && children.length === 0) {
       const res = await fetch(`/api/files?path=${encodeURIComponent(entry.path)}`);
       const data = await res.json() as { entries: FileEntry[] };
@@ -46,7 +50,7 @@ function FileNode({ entry }: { entry: FileEntry }) {
       {open && children.length > 0 && (
         <ul className="pl-4 border-l border-border ml-1.5">
           {children.map((c) => (
-            <FileNode key={c.path} entry={c} />
+            <FileNode key={c.path} entry={c} onFileClick={onFileClick} />
           ))}
         </ul>
       )}
@@ -54,7 +58,7 @@ function FileNode({ entry }: { entry: FileEntry }) {
   );
 }
 
-export default function FileTree({ rootPath }: Props) {
+export default function FileTree({ rootPath, onFileClick }: Props) {
   const [entries, setEntries] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +82,7 @@ export default function FileTree({ rootPath }: Props) {
       </div>
       <ul className="space-y-0">
         {entries.map((e) => (
-          <FileNode key={e.path} entry={e} />
+          <FileNode key={e.path} entry={e} onFileClick={onFileClick} />
         ))}
       </ul>
     </div>
