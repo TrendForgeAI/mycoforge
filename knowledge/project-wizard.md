@@ -65,10 +65,11 @@ Darunter immer den Titel des aktuellen Schritts als Überschrift:
 
 **Freitext:** "Wie soll das Projekt heißen?"
 
-- Zielformat: `lowercase-kebab-case`
+- Original-Eingabe als `<displayName>` merken (z.B. `My Cool Tool`)
+- Repo-/Verzeichnisname `<name>` daraus ableiten: `lowercase-kebab-case`
 - Auto-Konvertierung: `My Cool Tool` → `my-cool-tool`
 - Nur a–z, 0–9, Bindestrich erlaubt
-- Konvertiertes Ergebnis bestätigen
+- Konvertiertes Ergebnis bestätigen: „Name: **my-cool-tool** (angezeigt als: **My Cool Tool**)"
 
 ---
 
@@ -382,6 +383,14 @@ Bei Fehler: abbrechen.
 ```bash
 git clone https://github.com/${GH_ORG}/<name>.git /workspace/<name>
 ```
+
+Direkt nach dem Clone `.mycoforge.json` erstellen — wird von der Web-UI gelesen um den lesbaren Namen anzuzeigen:
+
+```bash
+echo '{"displayName":"<displayName>"}' > /workspace/<name>/.mycoforge.json
+```
+
+(`<displayName>` = Original-Eingabe aus Step 1, z.B. `My Cool Tool`)
 
 ---
 

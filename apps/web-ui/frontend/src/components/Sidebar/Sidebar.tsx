@@ -20,10 +20,22 @@ export default function Sidebar({ activeProject, onProjectSelect, onNewProject }
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    fetch("/api/projects")
-      .then((r) => r.json())
-      .then((d: { projects: Project[] }) => setProjects(d.projects ?? []))
-      .catch(console.error);
+    const fetchProjects = async () => {
+      try {
+        const r = await fetch("/api/projects");
+        const d = await r.json() as { projects: Project[] };
+        const next = d.projects ?? [];
+        setProjects((prev) => {
+          const prevKey = prev.map((p) => `${p.name}:${p.displayName}`).join(",");
+          const nextKey = next.map((p) => `${p.name}:${p.displayName}`).join(",");
+          return prevKey === nextKey ? prev : next;
+        });
+      } catch { /* ignorieren */ }
+    };
+
+    fetchProjects();
+    const interval = setInterval(fetchProjects, 10_000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
