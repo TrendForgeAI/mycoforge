@@ -31,8 +31,13 @@ docker compose --profile tunnel up -d
 # → https://<deine-domain>
 ```
 
-Voraussetzung für den Tunnel: `CLOUDFLARE_TUNNEL_TOKEN` in `.env`, Tunnel-Origin im Cloudflare
-Dashboard auf `http://127.0.0.1:3000` setzen (nicht `localhost`).
+Voraussetzung für den Tunnel:
+1. **Tunnel anlegen** — Cloudflare Zero Trust → Networks → Tunnels → Create tunnel → Origin: `http://127.0.0.1:3000` (nicht `localhost` — IPv6-Problem) → Token in `.env` als `CLOUDFLARE_TUNNEL_TOKEN`
+2. **Cloudflare Access aktivieren** — sonst ist die URL für jeden ohne Auth erreichbar:
+   - Zero Trust → **Settings → Authentication → Login methods → Add new → One-time PIN**
+   - → **Access → Applications → Add application → Self-hosted** → Domain: `<deine-domain>`
+   - Policy: Action `Allow`, Include `Emails` → deine E-Mail-Adresse
+   - Ab jetzt erfordert jeder Aufruf einen per E-Mail zugesandten PIN-Code
 
 Beide Wege starten die Web-UI — Terminal-Sessions via `./start.sh` laufen unabhängig daneben.
 

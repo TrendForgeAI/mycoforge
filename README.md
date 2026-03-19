@@ -99,13 +99,25 @@ docker compose up -d
 # Access at http://localhost:3000
 ```
 
-**Setup for remote access via Cloudflare Tunnel:**
-1. Create a tunnel in the [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com)
-2. Set the origin to `http://127.0.0.1:3000` (not `localhost` — avoids IPv6 resolution issues)
-3. Add the tunnel token to `.env`: `CLOUDFLARE_TUNNEL_TOKEN=<token>`
+**Setup for remote access via Cloudflare Tunnel + Access:**
+
+**Step 1 — Tunnel**
+1. [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com) → Networks → Tunnels → Create tunnel
+2. Origin: `http://127.0.0.1:3000` (not `localhost` — avoids IPv6 resolution issues)
+3. Copy the tunnel token → add to `.env`: `CLOUDFLARE_TUNNEL_TOKEN=<token>`
 4. Start: `docker compose --profile tunnel up -d`
 
-The tunnel runs with `network_mode: host` so it can reach the published port directly. Access control (auth) is handled via Cloudflare Access on top of the tunnel.
+**Step 2 — Cloudflare Access (authentication)**
+
+The tunnel alone has no access control — anyone with the URL can reach the UI. Cloudflare Access adds an auth gate:
+
+1. Zero Trust dashboard → **Settings → Authentication → Login methods → Add new → One-time PIN** → Save
+2. → **Access → Applications → Add application → Self-hosted**
+3. Application domain: `<your-domain>` (e.g. `mycoforge.donnasclaw.com`) — no `https://`, no trailing slash
+4. Add a policy: Action `Allow`, Include rule `Emails` → your email address
+5. Save
+
+From now on every visitor must authenticate via email one-time PIN before reaching the UI.
 
 ## Slash Commands
 
