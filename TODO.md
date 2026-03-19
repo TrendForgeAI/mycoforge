@@ -1,6 +1,16 @@
 # mycoforge TODO
 
-Alle Punkte des Gesamtoptimierungs-Arbeitsplans sind abgeschlossen.
+## Offen
+
+### Project Wizard — Extended Context Input
+- [ ] Nach Step 2 (Beschreibung) optional eine Freitext-Eingabe für tiefergehende
+  Ideen und Anforderungen anbieten ("Was hast du dir noch vorgestellt?")
+  - Eingabe fließt in die Kontext-Analyse ein und beeinflusst Vorschläge für
+    Frameworks, Tools, Sprachen, Testing-Strategie etc. in allen Folgeschritten
+  - Schritt ist optional — Nutzer kann überspringen
+  - Langer Text wird intern zusammengefasst/strukturiert bevor er die Defaults steuert
+  - Muss in `knowledge/project-wizard.md` dokumentiert werden (neuer Block zwischen
+    Step 2 und Kontext-Analyse)
 
 ---
 
