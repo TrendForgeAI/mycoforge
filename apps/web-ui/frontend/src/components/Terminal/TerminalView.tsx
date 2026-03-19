@@ -8,13 +8,16 @@ import "@xterm/xterm/css/xterm.css";
 interface Props {
   sessionId: string | null;
   onInjectRef?: (fn: (text: string) => void) => void;
+  onSessionDead?: () => void;
 }
 
-export default function TerminalView({ sessionId, onInjectRef }: Props) {
+export default function TerminalView({ sessionId, onInjectRef, onSessionDead }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const termRef = useRef<Terminal | null>(null);
   const fitRef = useRef<FitAddon | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reconnectAttemptsRef = useRef(0);
   const [status, setStatus] = useState<"connecting" | "connected" | "disconnected">("disconnected");
 
   const injectText = useCallback((text: string) => {
@@ -28,6 +31,8 @@ export default function TerminalView({ sessionId, onInjectRef }: Props) {
 
   useEffect(() => {
     if (!containerRef.current || !sessionId) return;
+
+    reconnectAttemptsRef.current = 0;
 
     // Terminal initialisieren
     const term = new Terminal({
@@ -57,49 +62,71 @@ export default function TerminalView({ sessionId, onInjectRef }: Props) {
     const fitAddon = new FitAddon();
     term.loadAddon(fitAddon);
     term.open(containerRef.current);
-    fitAddon.fit();
-
     termRef.current = term;
     fitRef.current = fitAddon;
 
-    // WebSocket verbinden
+    // fit erst nach Layout-Paint (verhindert 0x0 Dimensionen)
+    requestAnimationFrame(() => {
+      fitAddon.fit();
+    });
+
+    // WebSocket verbinden (wiederverwendbar für Reconnect)
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${protocol}//${window.location.host}/ws/terminal/${sessionId}/stream`);
-    wsRef.current = ws;
+    const MAX_RECONNECT = 5;
 
-    ws.onopen = () => {
-      setStatus("connected");
-      // Initiale Größe senden
-      const { cols, rows } = term;
-      ws.send(JSON.stringify({ type: "resize", cols, rows }));
-    };
+    function connectWs() {
+      if (!sessionId) return;
+      setStatus("connecting");
+      const ws = new WebSocket(`${protocol}//${window.location.host}/ws/terminal/${sessionId}/stream`);
+      wsRef.current = ws;
 
-    ws.onmessage = (e) => {
-      // Roher PTY-Output: direkt ans Terminal
-      if (typeof e.data === "string") {
-        // Session-nicht-gefunden Fehler abfangen
-        if (e.data.startsWith('{"type":"error"')) {
-          try {
-            const msg = JSON.parse(e.data) as { type: string; error?: string };
-            if (msg.error) term.writeln(`\r\n\x1b[31mFehler: ${msg.error}\x1b[0m`);
-            return;
-          } catch { /* kein JSON */ }
+      ws.onopen = () => {
+        reconnectAttemptsRef.current = 0;
+        setStatus("connected");
+        requestAnimationFrame(() => {
+          fitAddon.fit();
+          const { cols, rows } = term;
+          ws.send(JSON.stringify({ type: "resize", cols, rows }));
+        });
+      };
+
+      ws.onmessage = (e) => {
+        if (typeof e.data === "string") {
+          if (e.data.startsWith('{"type":"error"')) {
+            try {
+              const msg = JSON.parse(e.data) as { type: string; error?: string };
+              if (msg.error) {
+                term.writeln(`\r\n\x1b[31mFehler: ${msg.error}\x1b[0m`);
+                // Session ungültig → neue Session anfordern
+                onSessionDead?.();
+              }
+              return;
+            } catch { /* kein JSON */ }
+          }
+          term.write(e.data);
         }
-        term.write(e.data);
-      }
-    };
+      };
 
-    ws.onclose = () => {
-      setStatus("disconnected");
-      term.writeln("\r\n\x1b[33m[Verbindung getrennt — Seite neu laden zum Reconnecten]\x1b[0m");
-    };
+      ws.onclose = () => {
+        setStatus("disconnected");
+        if (reconnectAttemptsRef.current < MAX_RECONNECT) {
+          reconnectAttemptsRef.current += 1;
+          const delay = Math.min(1000 * reconnectAttemptsRef.current, 5000);
+          term.writeln(`\r\n\x1b[33m[Reconnect in ${delay / 1000}s… (${reconnectAttemptsRef.current}/${MAX_RECONNECT})]\x1b[0m`);
+          reconnectTimerRef.current = setTimeout(connectWs, delay);
+        } else {
+          term.writeln("\r\n\x1b[31m[Verbindung verloren — neue Session wird erstellt…]\x1b[0m");
+          onSessionDead?.();
+        }
+      };
 
-    ws.onerror = () => setStatus("disconnected");
+      ws.onerror = () => setStatus("disconnected");
+    }
 
     // Tastatureingaben → WebSocket
     term.onData((data) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: "input", data }));
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ type: "input", data }));
       }
     });
 
@@ -107,17 +134,18 @@ export default function TerminalView({ sessionId, onInjectRef }: Props) {
     const resizeObserver = new ResizeObserver(() => {
       fitAddon.fit();
       const { cols, rows } = term;
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: "resize", cols, rows }));
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ type: "resize", cols, rows }));
       }
     });
     resizeObserver.observe(containerRef.current);
 
-    setStatus("connecting");
+    connectWs();
 
     return () => {
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
       resizeObserver.disconnect();
-      ws.close();
+      wsRef.current?.close();
       term.dispose();
       wsRef.current = null;
       termRef.current = null;

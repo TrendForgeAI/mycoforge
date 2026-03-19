@@ -54,8 +54,15 @@ export async function terminalRoutes(fastify: FastifyInstance) {
         return;
       }
 
-      // PTY stdout → WebSocket
+      // Scrollback beim Reconnect senden (letzten 50KB)
+      const scrollback = ptyStore.getScrollback(id);
+      if (scrollback && socket.readyState === 1) {
+        socket.send(scrollback);
+      }
+
+      // PTY stdout → WebSocket + Scrollback-Buffer
       const dataListener = session.pty.onData((data: string) => {
+        ptyStore.appendScrollback(id, data);
         if (socket.readyState === 1 /* OPEN */) {
           socket.send(data);
         }

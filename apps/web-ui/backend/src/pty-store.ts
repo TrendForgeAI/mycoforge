@@ -1,11 +1,15 @@
 import type { IPty } from "node-pty";
 
+const MAX_SCROLLBACK_BYTES = 50 * 1024; // 50 KB
+
 export interface PtySessionState {
   id: string;
   cwd: string;
   pty: IPty;
   createdAt: Date;
   lastActivity: Date;
+  scrollbackChunks: string[];
+  scrollbackBytes: number;
 }
 
 export class PtyStore {
@@ -19,9 +23,26 @@ export class PtyStore {
       pty: ptyProcess,
       createdAt: new Date(),
       lastActivity: new Date(),
+      scrollbackChunks: [],
+      scrollbackBytes: 0,
     };
     this.sessions.set(id, session);
     return session;
+  }
+
+  appendScrollback(id: string, data: string): void {
+    const s = this.sessions.get(id);
+    if (!s) return;
+    s.scrollbackChunks.push(data);
+    s.scrollbackBytes += data.length;
+    while (s.scrollbackBytes > MAX_SCROLLBACK_BYTES && s.scrollbackChunks.length > 0) {
+      const removed = s.scrollbackChunks.shift()!;
+      s.scrollbackBytes -= removed.length;
+    }
+  }
+
+  getScrollback(id: string): string {
+    return this.sessions.get(id)?.scrollbackChunks.join("") ?? "";
   }
 
   get(id: string): PtySessionState | undefined {

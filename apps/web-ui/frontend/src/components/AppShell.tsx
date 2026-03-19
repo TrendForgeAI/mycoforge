@@ -14,7 +14,7 @@ export default function AppShell() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const injectTextRef = useRef<((text: string) => void) | null>(null);
 
-  const { session } = useTerminalSession(activeProject?.path ?? null);
+  const { session, resetSession } = useTerminalSession(activeProject?.path ?? null);
 
   const handleInjectRef = useCallback((fn: (text: string) => void) => {
     injectTextRef.current = fn;
@@ -74,6 +74,7 @@ export default function AppShell() {
           <TerminalViewDynamic
             sessionId={session?.id ?? null}
             onInjectRef={handleInjectRef}
+            onSessionDead={resetSession}
           />
         </div>
       </main>
