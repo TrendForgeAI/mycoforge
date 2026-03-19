@@ -32,8 +32,6 @@ cd mycoforge
 - Claude credentials check
 - Docker container build
 
-A `docker-compose.override.yml` is automatically used for local dev — it adds live code editing and SSH key mounts on top of the base config.
-
 ### Coolify / Hostinger / Any Platform
 
 1. Point the platform at this GitHub repo
@@ -60,6 +58,7 @@ See `.env.example` for all available variables:
 | `GEMINI_API_KEY` | No | Google Gemini API key (optional provider) |
 | `XAI_API_KEY` | No | xAI Grok API key (optional provider) |
 | `DEBUG_MODE` | No | `on` = show agent/model info per response |
+| `CLOUDFLARE_TUNNEL_TOKEN` | No | Cloudflare Tunnel token (only needed with `--profile tunnel`) |
 
 *Or use Claude Pro/Max plan via browser auth.
 
@@ -75,6 +74,38 @@ mycoforge uses a multi-agent system built on top of Claude Code. When you give i
 | **Direct** | Simple tasks | `/commit`, `/route` |
 
 Each pattern uses specialized agents (Planner, Developer, Reviewer, Committer, …) assigned to the right model tier (small/medium/large) based on task complexity.
+
+## Web UI
+
+mycoforge includes a browser-based UI (`apps/web-ui`) — Claude Code in the browser, no SSH needed.
+
+**Architecture:**
+```
+Browser → Cloudflare Tunnel → Next.js :3000 → (rewrites) → Fastify :3001
+                                                              ↓
+                                                         claude subprocess
+```
+
+The frontend (Next.js on port 3000) and backend (Fastify on port 3001) run in the same container. Routing for `/api/*` and `/ws/*` is handled by Next.js rewrites in `next.config.ts` — no additional proxy needed.
+
+**Start with web UI + tunnel:**
+```bash
+docker compose --profile tunnel up -d
+```
+
+**Start without tunnel (local access only):**
+```bash
+docker compose up -d
+# Access at http://localhost:3000
+```
+
+**Setup for remote access via Cloudflare Tunnel:**
+1. Create a tunnel in the [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com)
+2. Set the origin to `http://127.0.0.1:3000` (not `localhost` — avoids IPv6 resolution issues)
+3. Add the tunnel token to `.env`: `CLOUDFLARE_TUNNEL_TOKEN=<token>`
+4. Start: `docker compose --profile tunnel up -d`
+
+The tunnel runs with `network_mode: host` so it can reach the published port directly. Access control (auth) is handled via Cloudflare Access on top of the tunnel.
 
 ## Slash Commands
 

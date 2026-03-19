@@ -7,7 +7,7 @@ Wie du mycoforge im Alltag nutzt: Commands, Workflows, Beispiele.
 ## Schnellstart
 
 ```bash
-./start.sh          # Session starten (Terminal 1)
+./start.sh          # Session starten — Terminal/SSH (Terminal 1)
 ./shell.sh          # Shell in Container (Terminal 2, optional)
 ./update.sh         # mycoforge aktualisieren
 ```
@@ -16,6 +16,25 @@ Beim Start siehst du automatisch:
 - Verfügbare AI Provider (aus `.env`)
 - Offene TODOs aus `TODO.md`
 - Aktive Projekte aus `/workspace/`
+
+### Web UI (Browser-Zugriff)
+
+mycoforge hat eine optionale Browser-Oberfläche. Kein SSH nötig.
+
+```bash
+# Nur lokal (kein Tunnel)
+docker compose up -d
+# → http://localhost:3000
+
+# Mit Cloudflare Tunnel (Remote-Zugriff)
+docker compose --profile tunnel up -d
+# → https://<deine-domain>
+```
+
+Voraussetzung für den Tunnel: `CLOUDFLARE_TUNNEL_TOKEN` in `.env`, Tunnel-Origin im Cloudflare
+Dashboard auf `http://127.0.0.1:3000` setzen (nicht `localhost`).
+
+Beide Wege starten die Web-UI — Terminal-Sessions via `./start.sh` laufen unabhängig daneben.
 
 ---
 
