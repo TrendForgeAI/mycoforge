@@ -8,7 +8,7 @@ WORKDIR /app
 # Stage 2: Frontend Dependencies + Build
 FROM base AS frontend-builder
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install --omit=dev
+RUN cd frontend && npm install
 COPY frontend/ ./frontend/
 RUN cd frontend && npm run build
 
