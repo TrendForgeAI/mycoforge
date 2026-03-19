@@ -41,8 +41,11 @@ export default function Message({ message }: Props) {
                 : "bg-surface text-text"
             }`}
           >
-            {isUser ? (
-              <span className="whitespace-pre-wrap">{message.content}</span>
+            {isUser || message.streaming ? (
+              <span className="whitespace-pre-wrap">
+                {message.content}
+                {message.streaming && <span className="animate-pulse">▋</span>}
+              </span>
             ) : (
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -64,7 +67,7 @@ export default function Message({ message }: Props) {
                   },
                 }}
               >
-                {message.content + (message.streaming ? "▋" : "")}
+                {message.content}
               </ReactMarkdown>
             )}
           </div>
