@@ -45,7 +45,7 @@ node /mycoforge/apps/web-ui/backend/dist/server.js \
   >> /mycoforge/runtime/web-ui-backend.log 2>&1 &
 BACKEND_PID=$!
 
-PORT=3000 node /mycoforge/apps/web-ui/frontend/standalone/server.js \
+PORT=3000 NEXT_TELEMETRY_DISABLED=1 node /mycoforge/apps/web-ui/frontend/standalone/server.js \
   >> /mycoforge/runtime/web-ui-frontend.log 2>&1 &
 FRONTEND_PID=$!
 
