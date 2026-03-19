@@ -81,18 +81,42 @@ Darunter immer den Titel des aktuellen Schritts als Überschrift:
 
 ---
 
+### Kontext-Analyse (intern — keine Nutzerfrage)
+
+Nachdem Name **und** Beschreibung vorliegen: Analysiere beide Felder und leite Signale ab, die alle Folgeschritte informieren. Keine Extra-Frage stellen — Ergebnis intern merken.
+
+**Was extrahieren:**
+- Technologie-Keywords: `python`, `react`, `api`, `cli`, `mobile`, `scraper`, `dashboard`, `bot`, ...
+- Domäne: Datenverarbeitung, Web-UI, Backend-Service, CLI-Tool, Automatisierung, ...
+- Komplexität: Einzel-Script vs. Service vs. Plattform
+- Laufzeithinweise: "täglich", "scheduled", "real-time", "webhook", ...
+
+**Wie nutzen:**
+- **Step 3 (Typ):** Den wahrscheinlichsten Typ als Empfehlung kennzeichnen: `★ Empfohlen`
+- **Step 4 (Stack):** Statt generischen Typ-Defaults einen auf Name+Beschreibung zugeschnittenen Vorschlag ausgeben, mit kurzem „Warum" (1 Satz)
+- **Phase 1b:** Defaults anpassen wenn sinnvoll — z.B. kein E2E-Framework für ein reines Backend-Script, hohe Coverage für eine Library
+
+**Beispiele:**
+- Name `yahoo-finance-crawler`, Beschreibung „lädt täglich Kursdaten von Yahoo Finance" → Python, CLI Tool, kein E2E, pytest
+- Name `team-dashboard`, Beschreibung „Web-App für Team-KPIs mit Charts" → TypeScript, Web-App, Vitest + Playwright
+- Name `auth-service`, Beschreibung „REST API für Authentifizierung und JWT" → TypeScript oder Python, Backend/API, Jest/pytest, kein E2E
+
+---
+
 ### Step 3 — Projekttyp
 
 **AskUserQuestion** (4 Optionen + Other):
 
 | Option | Description |
 |--------|-------------|
-| Web-App | React, Vue, Svelte, ... |
-| Backend / API | REST, GraphQL, gRPC, ... |
-| Fullstack | Frontend + Backend in einem Repo |
-| CLI Tool | Kommandozeilen-Werkzeug |
+| Web-App | Browserbasierte Oberfläche — React, Vue, Svelte, ... |
+| Backend / API | Server-seitige Logik & Schnittstellen — REST, GraphQL, gRPC, ... |
+| Fullstack | Frontend + Backend in einem Repo — Next.js, SvelteKit, ... |
+| CLI Tool | Kommandozeilen-Werkzeug — direkt im Terminal ausführbar |
 
 Other → Folgefrage: Library · WordPress Plugin · Mobile App · Sonstiges
+
+Den aus der Kontext-Analyse abgeleiteten Typ in der Description mit `★ Empfohlen aufgrund deiner Beschreibung` kennzeichnen.
 
 Gemerkter Typ steuert Defaults in Phase 1b.
 
@@ -100,25 +124,41 @@ Gemerkter Typ steuert Defaults in Phase 1b.
 
 ### Step 4 — Tech Stack
 
-Vorschlag passend zum Typ ausgeben:
+Vor den Fragen einen **Vorschlag-Block** ausgeben — angepasst an Name + Beschreibung (nicht nur den Typ):
 
-| Typ | Vorschlag |
-|-----|-----------|
-| Web-App | TypeScript · React · npm · Node 22 LTS |
-| Backend / API | TypeScript · Express/Fastify · npm · Node 22 LTS  –oder–  Python · FastAPI · uv · Python 3.13 |
-| Fullstack | TypeScript · Next.js · npm · Node 22 LTS |
-| CLI Tool | TypeScript · Node 22 LTS  –oder–  Python · uv · Python 3.13 |
-| Library | TypeScript · npm  –oder–  Python · uv |
-| WordPress Plugin | PHP 8.3 · Composer |
-| Mobile App | TypeScript · React Native · npm · Node 22 LTS |
+**Format des Vorschlag-Blocks:**
+```
+Mein Vorschlag für "<name>":
+
+  Sprache:        TypeScript — typsicheres JavaScript, weniger Laufzeitfehler
+  Framework:      React — UI-Bibliothek, riesiges Ökosystem, bewährt
+  Package Mgr:    npm — Standardwahl für Node.js, größtes Registry
+  Runtime:        Node 22 LTS — aktueller Langzeitsupport, stabil
+
+  Warum dieser Stack: <1 Satz bezogen auf Name + Beschreibung>
+```
+
+**Erklärungsformat pro Komponente:** `Name — was es ist (2-3 Wörter), warum empfohlen (2-3 Wörter)`
+
+**Basis-Vorschläge (werden durch Kontext-Analyse verfeinert):**
+
+| Typ | Sprache | Framework | Package Mgr | Runtime |
+|-----|---------|-----------|-------------|---------|
+| Web-App | TypeScript | React | npm | Node 22 LTS |
+| Backend / API | TypeScript oder Python | Express/Fastify oder FastAPI | npm oder uv | Node 22 oder Python 3.13 |
+| Fullstack | TypeScript | Next.js | npm | Node 22 LTS |
+| CLI Tool | TypeScript oder Python | — | npm oder uv | Node 22 oder Python 3.13 |
+| Library | TypeScript oder Python | — | npm oder uv | Node 22 oder Python 3.13 |
+| WordPress Plugin | PHP 8.3 | — | Composer | PHP 8.3 |
+| Mobile App | TypeScript | React Native | npm | Node 22 LTS |
 
 **AskUserQuestion** (2 Fragen gleichzeitig):
 
-- **Sprache:** TypeScript | Python | PHP | Other
-- **Package Manager:** npm / pnpm | yarn | uv / pip | Other
+- **Sprache:** TypeScript — typsicheres JS, IDE-Unterstützung | Python — lesbar & schnell, ideal für Daten/Scripts | PHP — bewährt für Web/CMS | Other
+- **Package Manager:** npm — Standard, größtes Registry | pnpm — schnell & sparsam, Monorepos | yarn — bewährt, gute Workspaces | uv / pip — Python-Standard | Other
 
 Runtime ableiten: Node 22 LTS · Python 3.13 · PHP 8.3
-Framework nachfragen wenn nicht eindeutig.
+Framework nachfragen wenn nicht eindeutig — dabei ebenfalls kurz erklären was es ist und warum es passt.
 
 ---
 
@@ -174,17 +214,32 @@ Framework nachfragen wenn nicht eindeutig.
 
 ### Block A — Testing
 
-Defaults passend zum Typ:
+Vorschlag basierend auf Typ **und** Kontext-Analyse ausgeben:
+
+**Format:**
+```
+Vorschlag für "<name>":
+
+  Unit-Tests:  Vitest — schneller Test-Runner, Vite-nativ
+  E2E-Tests:   Playwright — Browser-Automatisierung, zuverlässig
+  Coverage:    80 % — guter Ausgangspunkt für Web-Apps
+
+  Warum: <1 Satz bezogen auf Beschreibung, z.B. "Da dein Dashboard UI-Logik hat, lohnt sich E2E">
+```
+
+Kein E2E vorschlagen wenn die Kontext-Analyse zeigt, dass kein Browser-Frontend existiert (reines Backend, CLI, Script, Library).
+
+**Basis-Defaults (werden durch Kontext verfeinert):**
 
 | Typ | Unit | E2E | Coverage |
 |-----|------|-----|----------|
-| Web-App | Vitest | Playwright | 80 % |
-| Backend / API | Jest / pytest | — | 80 % |
-| Fullstack | Vitest | Playwright | 80 % |
-| CLI Tool | Jest / pytest | — | 70 % |
-| Library | Vitest / pytest | — | 90 % |
-| WordPress Plugin | PHPUnit | — | — |
-| Mobile App | Jest | — | 70 % |
+| Web-App | Vitest — schnell, Vite-nativ | Playwright — Browser-Auto, zuverlässig | 80 % |
+| Backend / API | Jest / pytest — bewährt, große Community | — | 80 % |
+| Fullstack | Vitest — schnell, Vite-nativ | Playwright — Browser-Auto, zuverlässig | 80 % |
+| CLI Tool | Jest / pytest — bewährt, einfach | — | 70 % |
+| Library | Vitest / pytest — schnell, isoliert | — | 90 % — Libraries brauchen hohe Abdeckung |
+| WordPress Plugin | PHPUnit — PHP-Standard, WP-Ökosystem | — | — |
+| Mobile App | Jest — JS-Standard, einfach | — | 70 % |
 
 **AskUserQuestion:**
 
@@ -193,7 +248,7 @@ Defaults passend zum Typ:
 | Defaults übernehmen | Vorschlag verwenden |
 | Anpassen | Eigene Frameworks / Coverage wählen |
 
-Bei Anpassen: einzeln nachfragen (Unit · E2E · Coverage-Ziel).
+Bei Anpassen: einzeln nachfragen (Unit · E2E · Coverage-Ziel) — dabei jede Option kurz erklären.
 
 ---
 
