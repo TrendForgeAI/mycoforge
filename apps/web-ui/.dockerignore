@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Dev-Abhängigkeiten (werden im Build-Stage neu installiert)
+frontend/node_modules/
+backend/node_modules/
+
+# Build-Artefakte
+frontend/.next/
+backend/dist/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
