@@ -28,6 +28,8 @@ services:
         required: false
     environment:
       - WORKSPACE_PATH=/workspace
+    ports:
+      - "127.0.0.1:3000:3000"
     volumes:
       - mycoforge_workspace:/workspace:ro
     networks:
