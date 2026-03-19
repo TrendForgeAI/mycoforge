@@ -10,14 +10,6 @@ ln -sf /mycoforge/claude/.claude.json /root/.claude.json
 
 # Verfügbare AI Provider — werden durch Generator aus config/model-routing.yaml ermittelt
 
-# Neueste Änderungen aus GitHub holen (Fallback für automatische Neustarts)
-if [ -n "$GH_TOKEN" ]; then
-    cd /mycoforge
-    if git diff --quiet HEAD 2>/dev/null; then
-        git pull --ff-only 2>/dev/null || true
-    fi
-fi
-
 # Git mit GitHub Token konfigurieren
 if [ -n "$GH_TOKEN" ]; then
     git config --global credential.helper store
@@ -25,6 +17,21 @@ if [ -n "$GH_TOKEN" ]; then
     chmod 600 /root/.git-credentials
     git config --global user.name "${GIT_USER_NAME:-}"
     git config --global user.email "${GIT_USER_EMAIL:-}"
+fi
+
+# .git initialisieren falls nicht vorhanden (.git ist per .dockerignore aus dem Image ausgeschlossen)
+if [ ! -d /mycoforge/.git ] && [ -n "$GH_TOKEN" ] && [ -n "$GH_ORG" ]; then
+    git -C /mycoforge init -b main
+    git -C /mycoforge remote add origin "https://${GH_ORG}:${GH_TOKEN}@github.com/${GH_ORG}/mycoforge.git"
+    git -C /mycoforge fetch origin main
+    git -C /mycoforge reset --hard origin/main
+fi
+
+# Neueste Änderungen aus GitHub holen (Fallback für automatische Neustarts)
+if [ -n "$GH_TOKEN" ] && [ -d /mycoforge/.git ]; then
+    if git -C /mycoforge diff --quiet HEAD 2>/dev/null; then
+        git -C /mycoforge pull --ff-only 2>/dev/null || true
+    fi
 fi
 
 # MEMORY.md generieren (liest config/model-routing.yaml + manifests/ statt Markdown zu scrapen)
