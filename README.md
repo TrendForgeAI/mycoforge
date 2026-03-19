@@ -58,6 +58,7 @@ See `.env.example` for all available variables:
 | `GEMINI_API_KEY` | No | Google Gemini API key (optional provider) |
 | `XAI_API_KEY` | No | xAI Grok API key (optional provider) |
 | `DEBUG_MODE` | No | `on` = show agent/model info per response |
+| `SWARM_MAX_ITERATIONS` | No | Max iterations per `/explore` run (default: `3`) |
 | `CLOUDFLARE_TUNNEL_TOKEN` | No | Cloudflare Tunnel token (only needed with `--profile tunnel`) |
 
 *Or use Claude Pro/Max plan via browser auth.
@@ -172,24 +173,29 @@ Claude will ask for all required information before starting.
 ./update.sh
 ```
 
-Pulls latest changes from GitHub, rebuilds the image, and restarts the container if running. Works from any directory — the script resolves its own path.
+Pulls latest changes from GitHub, rebuilds all images, and restarts all services (always with `--profile tunnel`, so cloudflared starts too if a token is set). Works from any directory — the script resolves its own path.
 
 ## Project structure
 
 ```
 mycoforge/
 ├── CLAUDE.md              # Project context for Claude Code
-├── MEMORY.md              # System memory (auto-generated on start)
+├── MEMORY.md              # System memory (auto-generated on start, not in Git)
 ├── README.md              # This file
-├── Dockerfile             # Container definition
-├── docker-compose.yml     # Base config (Platform-Modus)
-├── docker-compose.override.yml  # Local dev overrides (gitignored)
+├── Dockerfile             # Container definition (mycoforge service)
+├── docker-compose.yml     # Services: mycoforge, web-ui, cloudflared
 ├── setup.sh               # One-time setup for local VPS
 ├── entrypoint.sh          # Container initialization on every start
-├── update.sh              # Update workflow
-├── start.sh               # Start Claude (Terminal 1)
-├── shell.sh               # Shell into container (Terminal 2)
+├── update.sh              # Update workflow (git pull → build → restart)
+├── start.sh               # Start Claude session (Terminal 1)
+├── shell.sh               # Shell into running container (Terminal 2)
 ├── .env.example           # Required environment variables
+├── apps/
+│   └── web-ui/            # Browser UI — Next.js + Fastify
+│       ├── frontend/      # Next.js 15 app (Port 3000)
+│       ├── backend/       # Fastify API + WebSocket (Port 3001)
+│       ├── Dockerfile     # Multi-stage build
+│       └── docker-entrypoint.sh
 ├── config/                # Canonical configuration
 │   └── model-routing.yaml # Single source of truth for tiers, providers, models
 ├── manifests/             # Machine-readable system registry
@@ -204,8 +210,8 @@ mycoforge/
 │   ├── hooks/             # secrets-scan unit tests
 │   └── generator/         # MEMORY.md generator output tests
 ├── claude/                # Claude Code config (~/.claude symlink → here)
-│   ├── commands/          # Custom slash commands (not in Git)
-│   └── agents/            # Agent definitions (not in Git)
+│   ├── commands/          # 13 slash commands (in Git, baked into image)
+│   └── agents/            # 12 agent definitions (in Git, baked into image)
 ├── workspace/             # Your projects (not in Git, named volume)
 ├── runtime/               # Session traces + state (not in Git, named volume)
 │   ├── traces/            # JSONL event logs per session
