@@ -1,6 +1,7 @@
 # ── Stage 1: Frontend Build ──────────────────────────────────────────────────
 FROM node:22-slim AS frontend-builder
 WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
 COPY apps/web-ui/frontend/package*.json ./
 RUN npm install
 COPY apps/web-ui/frontend/ ./
