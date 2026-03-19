@@ -9,12 +9,11 @@ export interface PtyRunnerOptions {
   cwd: string;
   cols?: number;
   rows?: number;
-  onData: (data: string) => void;
   onExit: (code: number) => void;
 }
 
 export function spawnPty(options: PtyRunnerOptions): PtySession {
-  const { cwd, cols = 220, rows = 50, onData, onExit } = options;
+  const { cwd, cols = 220, rows = 50, onExit } = options;
 
   const ptyProcess = pty.spawn("claude", [], {
     name: "xterm-256color",
@@ -29,8 +28,6 @@ export function spawnPty(options: PtyRunnerOptions): PtySession {
       COLORTERM: "truecolor",
     },
   });
-
-  ptyProcess.onData((data) => onData(data));
 
   ptyProcess.onExit(({ exitCode }) => onExit(exitCode ?? 0));
 

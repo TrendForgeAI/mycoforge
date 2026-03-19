@@ -10,8 +10,6 @@ interface Props {
   onInjectRef?: (fn: (text: string) => void) => void;
 }
 
-const WS_RECONNECT_DELAY = 2000;
-
 export default function TerminalView({ sessionId, onInjectRef }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const termRef = useRef<Terminal | null>(null);

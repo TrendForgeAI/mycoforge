@@ -10,7 +10,6 @@ export async function terminalRoutes(fastify: FastifyInstance) {
 
     const ptyProcess = spawnPty({
       cwd,
-      onData: () => { /* stdout wird direkt per pty.onData in der WS-Route gestreamt */ },
       onExit: (code) => {
         fastify.log.info({ id, code }, "PTY exited");
         ptyStore.delete(id);
