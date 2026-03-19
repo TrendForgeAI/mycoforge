@@ -36,19 +36,39 @@ COMMIT_INFO=$(git -C "$REPO_DIR" log -1 --pretty=format:"%h %s" 2>/dev/null)
 COMMIT_DATE=$(git -C "$REPO_DIR" log -1 --pretty=format:"%ci" 2>/dev/null | cut -d' ' -f1)
 REPO_NAME=$(basename "$REPO_DIR")
 
-# MEMORY.md auf Platzhalter prüfen
-MEMORY_FILE="/mycoforge/MEMORY.md"
-if grep -q '<!-- Wird ergänzt' "$MEMORY_FILE" 2>/dev/null; then
-    echo "ℹ️  Hinweis: MEMORY.md hat noch Platzhalter — bitte bei Bedarf aktualisieren."
-fi
-
 # Commit in Session-Log eintragen
 SESSION_LOG="/mycoforge/claude/history.jsonl"
 if [ -f "$SESSION_LOG" ] && [ -n "$COMMIT_INFO" ]; then
-    # Sonderzeichen in Commit-Info escapen um valides JSON zu erzeugen
     SAFE_COMMIT=$(echo "$COMMIT_INFO" | sed 's/\\/\\\\/g; s/"/\\"/g')
     SAFE_REPO=$(echo "$REPO_NAME" | sed 's/\\/\\\\/g; s/"/\\"/g')
     echo "{\"type\":\"commit\",\"repo\":\"$SAFE_REPO\",\"commit\":\"$SAFE_COMMIT\",\"date\":\"$COMMIT_DATE\"}" >> "$SESSION_LOG" 2>/dev/null
+fi
+
+# Docs-Update-Reminder als context injection
+# Prüfe ob relevante Dateien betroffen sind (Struktur, API, Commands, Architektur)
+CHANGED_FILES=$(git -C "$REPO_DIR" diff HEAD~1 --name-only 2>/dev/null || true)
+DOCS_HINT=""
+
+# Strukturelle Änderungen: neue Dateien/Verzeichnisse oder entfernte
+if echo "$CHANGED_FILES" | grep -qE '(apps/|hooks/|skills/|knowledge/|claude/|scripts/|config/)'; then
+    DOCS_HINT="Strukturelle Änderung erkannt."
+fi
+# Neue Features oder größere Code-Änderungen
+if echo "$CHANGED_FILES" | grep -qE '\.(ts|tsx|py|sh|yaml|yml)$'; then
+    DOCS_HINT="${DOCS_HINT} Code-Änderung erkannt."
+fi
+
+if [ -n "$DOCS_HINT" ]; then
+    node -e "
+const hint = process.argv[1];
+const msg = 'Docs-Check nach Commit: ' + hint + ' Prüfe ob CLAUDE.md (Projektstruktur), README.md oder docs/ aktualisiert werden sollten. Wenn ja, jetzt aktualisieren und committen.';
+process.stdout.write(JSON.stringify({
+  hookSpecificOutput: {
+    hookEventName: 'PostToolUse',
+    additionalContext: msg
+  }
+}) + '\n');
+" "$DOCS_HINT" 2>/dev/null
 fi
 
 exit 0
