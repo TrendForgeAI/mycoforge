@@ -43,9 +43,13 @@ chmod +x /mycoforge/hooks/*.sh 2>/dev/null
 # Web-UI starten (Fastify Backend + Next.js Frontend)
 node /mycoforge/apps/web-ui/backend/dist/server.js \
   >> /mycoforge/runtime/web-ui-backend.log 2>&1 &
+BACKEND_PID=$!
 
 PORT=3000 node /mycoforge/apps/web-ui/frontend/standalone/server.js \
   >> /mycoforge/runtime/web-ui-frontend.log 2>&1 &
+FRONTEND_PID=$!
+
+trap 'kill $BACKEND_PID $FRONTEND_PID 2>/dev/null' TERM INT
 
 # Übergebenen Befehl ausführen
 exec "$@"
