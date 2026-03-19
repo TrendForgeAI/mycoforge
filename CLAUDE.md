@@ -50,7 +50,42 @@ mycoforge/
 ├── entrypoint.sh          ← Initialisierung beim Container-Start
 ├── .env                   ← Secrets (nie in Git)
 ├── .env.example           ← Dokumentation der benötigten Variablen
-├── claude/                ← Claude Code Konfiguration (nie in Git)
+├── apps/                  ← Anwendungen die in mycoforge laufen
+│   └── web-ui/            ← Browser-UI für mycoforge (Next.js + Fastify)
+│       ├── CLAUDE.md      ← web-ui Projektkontext
+│       ├── frontend/      ← Next.js 15 App (Port 3000)
+│       │   ├── src/app/                    ← App Router (layout, page, globals.css)
+│       │   └── src/components/
+│       │       ├── AppShell.tsx            ← Root-Layout: Sidebar + Terminal
+│       │       ├── Sidebar/
+│       │       │   ├── Sidebar.tsx         ← Sidebar-Wrapper mit Projektliste
+│       │       │   ├── ProjectList.tsx     ← Projektliste, + → /new-project ins Terminal
+│       │       │   └── FileTree.tsx        ← Dateibaum des aktiven Projekts
+│       │       ├── Terminal/
+│       │       │   ├── TerminalView.tsx    ← xterm.js PTY-Terminal
+│       │       │   └── TerminalViewDynamic.tsx ← Dynamic-Import Wrapper
+│       │       └── Chat/                   ← Chat-Komponenten (aktuell nicht in AppShell)
+│       │           ├── ChatView.tsx
+│       │           ├── InputBar.tsx
+│       │           ├── MessageList.tsx
+│       │           ├── Message.tsx
+│       │           ├── StatusBar.tsx
+│       │           └── ToolCallBlock.tsx
+│       └── backend/       ← Fastify 5 API + WebSocket (Port 3001)
+│           └── src/
+│               ├── server.ts               ← Fastify-Server, Plugin-Registrierung
+│               ├── pty-runner.ts           ← node-pty Prozess-Management
+│               ├── pty-store.ts            ← PTY-Session-Store
+│               ├── session-store.ts        ← Claude-Session-Store
+│               ├── claude-runner.ts        ← Claude Code Subprocess
+│               └── routes/
+│                   ├── terminal.ts         ← WebSocket PTY-Streaming
+│                   ├── sessions.ts         ← Session CRUD
+│                   ├── projects.ts         ← Projektliste aus /workspace/
+│                   ├── files.ts            ← Dateibaum-API
+│                   ├── upload.ts           ← Bild-Upload
+│                   └── health.ts           ← Health-Check
+├── claude/                ← Claude Code Konfiguration (Volume-Mount, nie in Git)
 │   ├── commands/          ← Slash Commands
 │   │   ├── commit.md      ← Intelligenter Commit
 │   │   ├── discuss.md     ← Architektur-Entscheidung (Council, 2–5 Runden)
@@ -77,6 +112,8 @@ mycoforge/
 │       ├── reviewer.md          ← Code Review, Qualität, Security (Groß)
 │       ├── swarm-coordinator.md ← Swarm: Iteration steuern, Agents spawnen (Groß)
 │       └── tester.md            ← Tests schreiben & ausführen (Mittel)
+├── config/                ← Konfigurationsdateien
+│   └── model-routing.yaml ← Tier-Definitionen & Modellnamen (Single Source of Truth)
 ├── hooks/                 ← Shell-Hooks (SessionStart, PreToolUse, PostToolUse)
 │   ├── cc-context-monitor.sh ← Kontext-Warnung bei hoher Auslastung
 │   ├── cc-session-start.sh   ← MEMORY.md laden, Provider & TODOs anzeigen
@@ -85,7 +122,12 @@ mycoforge/
 │   ├── git-pre-commit.sh     ← Git pre-commit Hook
 │   ├── git-post-commit.sh    ← Git post-commit Hook
 │   └── secrets-scan.sh       ← Pattern-Scan für API-Keys & Secrets
+├── manifests/             ← Provider-Manifests (für MEMORY.md-Generierung)
+├── scripts/               ← Shell-Hilfsskripte
+│   └── generate-memory.sh ← MEMORY.md aus config/ + manifests/ generieren
+├── evals/                 ← Evaluierungen & Tests für Routing/Hooks
 ├── workspace/             ← Projekte (temporär, nie in Git)
+├── runtime/               ← Laufzeit-Daten (Logs, State, Traces — nie in Git)
 ├── skills/                ← SKILL.md Dateien (automatisch geladen bei Bedarf)
 │   ├── code-style/        ← TypeScript & Python Konventionen
 │   ├── council/           ← Council-Governance, Runden, HitL
@@ -98,12 +140,14 @@ mycoforge/
 │   ├── model-routing/     ← Modell- & Provider-Auswahl (Klein/Mittel/Groß)
 │   ├── pause/             ← Session-Zustand sichern
 │   ├── planning/          ← Aufgaben zerlegen (Plan & Solve)
+│   ├── release/           ← Release erstellen & GitHub Release veröffentlichen
 │   ├── swarm/             ← Swarm-Exploration, Iterations-Governance
 │   ├── testing/           ← Tests schreiben & ausführen
 │   └── verify/            ← Implementierung verifizieren
 ├── docs/                  ← Anwender-Dokumentation
 │   ├── usage.md           ← Commands, Workflows, Beispiele
-│   └── agent-guide.md     ← Wie schreibe ich einen neuen Agent?
+│   ├── agent-guide.md     ← Wie schreibe ich einen neuen Agent?
+│   └── decisions/         ← Architektur-Entscheidungen (ADRs)
 └── knowledge/             ← Wissensbasis (bei Bedarf laden)
     ├── anchors/           ← Best-Practice-Anchors (60+, je eine Datei)
     ├── checkpoints.md     ← Checkpoint-Muster für lange Tasks
@@ -173,8 +217,8 @@ Die CLAUDE.md ist für Claude Code als Entwickler, nicht für die Anwendung selb
 mycoforge ist ein Projekt wie jedes andere:
 1. Änderung verstehen und planen
 2. Umsetzen und testen
-3. Atomic Commit auf dem Host: cd /docker/mycoforge && git add . && git commit && git push
-4. ./update.sh ausführen
+3. Atomic Commit direkt im Container: `git -C /mycoforge add ... && git -C /mycoforge commit && git -C /mycoforge push`
+4. `./update.sh` auf dem Host ausführen (rebuild + restart)
 
 ## KI-Runtimes
 
