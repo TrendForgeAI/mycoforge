@@ -56,11 +56,12 @@ mycoforge/
 │       ├── frontend/      ← Next.js 15 App (Port 3000)
 │       │   ├── src/app/                    ← App Router (layout, page, globals.css)
 │       │   └── src/components/
-│       │       ├── AppShell.tsx            ← Root-Layout: Sidebar + Terminal
+│       │       ├── AppShell.tsx            ← Root-Layout: Sidebar + Terminal + FileViewer
+│       │       ├── FileViewer.tsx          ← Overlay: Datei anzeigen/bearbeiten (ESC schließt)
 │       │       ├── Sidebar/
 │       │       │   ├── Sidebar.tsx         ← Sidebar-Wrapper mit Projektliste
 │       │       │   ├── ProjectList.tsx     ← Projektliste, + → /new-project ins Terminal
-│       │       │   └── FileTree.tsx        ← Dateibaum des aktiven Projekts
+│       │       │   └── FileTree.tsx        ← Dateibaum, Klick öffnet FileViewer
 │       │       ├── Terminal/
 │       │       │   ├── TerminalView.tsx    ← xterm.js PTY-Terminal
 │       │       │   └── TerminalViewDynamic.tsx ← Dynamic-Import Wrapper
