@@ -6,6 +6,7 @@ import FileTree from "./FileTree";
 
 interface Project {
   name: string;
+  displayName: string;
   path: string;
 }
 
@@ -31,16 +32,17 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
 
   return (
     <aside className="w-64 flex-shrink-0 bg-surface border-r border-border flex flex-col overflow-hidden">
-      <div className="p-3 border-b border-border">
-        <span className="text-sm font-semibold text-accent">mycoforge</span>
+      <div className="px-4 py-4 border-b border-border">
+        <span className="text-2xl font-bold tracking-tight text-accent">mycoforge</span>
       </div>
-      <div className="flex-1 overflow-y-auto p-3 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3">
         <ProjectList
           projects={projects}
           activeProject={activeProject}
           onSelect={onProjectSelect}
           onProjectCreated={handleProjectCreated}
         />
+        <hr className="border-border my-3" />
         <FileTree rootPath={activeProject} />
       </div>
     </aside>
