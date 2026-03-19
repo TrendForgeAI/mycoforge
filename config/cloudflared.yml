@@ -1,0 +1,13 @@
+# Cloudflare Tunnel Konfiguration für mycoforge Web-UI
+# Wird von cloudflared im Docker-Container geladen
+# Tunnel-Token wird über TUNNEL_TOKEN Env-Variable gesetzt
+
+tunnel: mycoforge-web-ui
+credentials-file: /etc/cloudflared/creds.json
+
+ingress:
+  # Haupt-App: Next.js Frontend
+  - service: http://web-ui:3000
+
+  # Catch-all (required by cloudflared)
+  - service: http_status:404
