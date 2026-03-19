@@ -24,7 +24,6 @@ FROM base AS production
 # Frontend: Next.js standalone output + static files
 COPY --from=frontend-builder /app/frontend/.next/standalone ./frontend/
 COPY --from=frontend-builder /app/frontend/.next/static ./frontend/.next/static
-COPY --from=frontend-builder /app/frontend/public ./frontend/public 2>/dev/null || true
 # Backend: kompiliertes JS + node_modules (production only)
 COPY --from=backend-builder /app/backend/dist ./backend/dist
 COPY --from=backend-builder /app/backend/node_modules ./backend/node_modules
