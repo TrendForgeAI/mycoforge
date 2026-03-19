@@ -42,9 +42,8 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: mycoforge-cloudflared
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    env_file:
-      - path: .env
-        required: false
+    # Kein env_file — Token kommt via command-Substitution, nicht als Env-Var.
+    # env_file würde den Token als CLOUDFLARE_TUNNEL_TOKEN in docker logs exponieren.
     network_mode: host
     restart: unless-stopped
     profiles:
