@@ -13,9 +13,10 @@ interface Project {
 interface Props {
   activeProject: string | null;
   onProjectSelect: (project: Project) => void;
+  onNewProject: () => void;
 }
 
-export default function Sidebar({ activeProject, onProjectSelect }: Props) {
+export default function Sidebar({ activeProject, onProjectSelect, onNewProject }: Props) {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
@@ -24,11 +25,6 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
       .then((d: { projects: Project[] }) => setProjects(d.projects ?? []))
       .catch(console.error);
   }, []);
-
-  function handleProjectCreated(project: Project) {
-    setProjects((prev) => [...prev, project]);
-    onProjectSelect(project);
-  }
 
   return (
     <aside className="w-64 flex-shrink-0 bg-surface border-r border-border flex flex-col overflow-hidden">
@@ -40,7 +36,7 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
           projects={projects}
           activeProject={activeProject}
           onSelect={onProjectSelect}
-          onProjectCreated={handleProjectCreated}
+          onNewProject={onNewProject}
         />
         <hr className="border-border my-3" />
         <FileTree rootPath={activeProject} />

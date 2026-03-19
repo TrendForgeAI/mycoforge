@@ -48,6 +48,7 @@ export default function AppShell() {
       <Sidebar
         activeProject={activeProject?.path ?? null}
         onProjectSelect={setActiveProject}
+        onNewProject={() => injectTextRef.current?.("/new-project\n")}
       />
       <main className="flex-1 flex flex-col min-w-0">
         {/* Toolbar */}
