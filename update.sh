@@ -10,13 +10,15 @@ echo "→ Pulling latest changes from GitHub..."
 git pull
 
 # Container neu bauen
-echo "→ Rebuilding container..."
-docker compose build
+echo "→ Rebuilding containers..."
+docker compose --profile tunnel build
 
-# Laufenden Container neu starten falls er läuft
-if docker ps | grep -q "mycoforge"; then
-    echo "→ Recreating container with new image..."
-    docker compose up -d
-fi
+# Alles stoppen
+echo "→ Stopping all containers..."
+docker compose --profile tunnel down
+
+# Alles starten (mit Tunnel-Profil)
+echo "→ Starting all containers..."
+docker compose --profile tunnel up -d
 
 echo "✓ mycoforge updated successfully"
