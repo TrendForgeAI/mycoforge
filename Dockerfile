@@ -9,6 +9,8 @@ RUN npm run build
 # ── Stage 2: Backend Build ────────────────────────────────────────────────────
 FROM node:22-slim AS backend-builder
 WORKDIR /app
+# node-pty ist ein natives C++ Addon — Build-Tools werden benötigt
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 COPY apps/web-ui/backend/package*.json ./
 RUN npm install
 COPY apps/web-ui/backend/ ./
