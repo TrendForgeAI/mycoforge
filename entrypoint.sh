@@ -10,6 +10,14 @@ ln -sf /mycoforge/claude/.claude.json /root/.claude.json
 
 # Verfügbare AI Provider — werden durch Generator aus config/model-routing.yaml ermittelt
 
+# Neueste Änderungen aus GitHub holen (Fallback für automatische Neustarts)
+if [ -n "$GH_TOKEN" ]; then
+    cd /mycoforge
+    if git diff --quiet HEAD 2>/dev/null; then
+        git pull --ff-only 2>/dev/null || true
+    fi
+fi
+
 # Git mit GitHub Token konfigurieren
 if [ -n "$GH_TOKEN" ]; then
     git config --global credential.helper store

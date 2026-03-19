@@ -13,6 +13,9 @@ docker-compose.override.yml
 claude/.credentials.json
 claude/.claude.json
 
+# Claude Code - Session Memory (persistentes Volume, privat)
+claude/session-memory.md
+
 # Claude Code - Laufzeitdaten
 claude/debug/
 claude/file-history/

@@ -15,8 +15,8 @@ docker compose build
 
 # Laufenden Container neu starten falls er läuft
 if docker ps | grep -q "mycoforge"; then
-    echo "→ Restarting running container..."
-    docker compose restart
+    echo "→ Recreating container with new image..."
+    docker compose up -d
 fi
 
 echo "✓ mycoforge updated successfully"

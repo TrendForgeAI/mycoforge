@@ -68,6 +68,20 @@ if [ -d "$WORKSPACE_DIR" ]; then
     fi
 fi
 
+# Session Memory — letzter Eintrag
+SESSION_MEMORY="/mycoforge/claude/session-memory.md"
+if [ -f "$SESSION_MEMORY" ]; then
+    LAST_SESSION=$(awk '
+        /^## / { if (found) exit; found=1; print; next }
+        found { print }
+    ' "$SESSION_MEMORY" | grep -v '^$' | head -4)
+    if [ -n "$LAST_SESSION" ]; then
+        echo ""
+        echo "Letzte Session:"
+        echo "$LAST_SESSION" | sed 's/^/  /'
+    fi
+fi
+
 # CONTINUE-HERE.md — laufende Aufgabe aus vorheriger Session
 CONTINUE_FILE="/mycoforge/CONTINUE-HERE.md"
 if [ -f "$CONTINUE_FILE" ]; then
