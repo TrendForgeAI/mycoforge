@@ -14,5 +14,8 @@ FRONTEND_PID=$!
 echo "Backend PID: $BACKEND_PID"
 echo "Frontend PID: $FRONTEND_PID"
 
+# SIGTERM/SIGINT an beide Kindprozesse weiterleiten
+trap 'kill $BACKEND_PID $FRONTEND_PID 2>/dev/null' TERM INT
+
 # Warte auf beide Prozesse
 wait $BACKEND_PID $FRONTEND_PID

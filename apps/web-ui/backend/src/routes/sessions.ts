@@ -45,6 +45,8 @@ export async function sessionRoutes(fastify: FastifyInstance) {
         return;
       }
 
+      let isRunning = false;
+
       socket.on("message", (raw: Buffer | string) => {
         let parsed: { message?: string };
         try {
@@ -57,6 +59,12 @@ export async function sessionRoutes(fastify: FastifyInstance) {
         const message = parsed.message?.trim();
         if (!message) return;
 
+        if (isRunning) {
+          socket.send(JSON.stringify({ type: "error", error: "Claude läuft bereits — bitte warten" }));
+          return;
+        }
+
+        isRunning = true;
         const claudeSessionId = claudeSessionIds.get(id);
 
         runClaude({
@@ -69,8 +77,10 @@ export async function sessionRoutes(fastify: FastifyInstance) {
           onDone: (newClaudeSessionId) => {
             claudeSessionIds.set(id, newClaudeSessionId);
             sessionStore.update(id, { lastActivity: new Date() });
+            isRunning = false;
           },
           onError: (error) => {
+            isRunning = false;
             socket.send(JSON.stringify({ type: "error", error }));
           },
         });

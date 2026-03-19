@@ -12,7 +12,7 @@ export async function fileRoutes(fastify: FastifyInstance) {
 
       // Directory Traversal verhindern
       const safePath = normalize(rawPath);
-      if (!safePath.startsWith(WORKSPACE) && !safePath.startsWith("/mycoforge")) {
+      if (!safePath.startsWith(WORKSPACE)) {
         return reply.status(403).send({ error: "Zugriff verweigert" });
       }
 
