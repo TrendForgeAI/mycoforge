@@ -39,15 +39,11 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: mycoforge-cloudflared
-    command: tunnel --no-autoupdate run --protocol http2 --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     env_file:
       - path: .env
         required: false
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
-    networks:
-      - mycoforge_network
+    network_mode: host
     restart: unless-stopped
     profiles:
       - tunnel
