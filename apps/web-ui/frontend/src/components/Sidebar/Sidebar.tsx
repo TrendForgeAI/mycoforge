@@ -32,7 +32,7 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
 
   return (
     <aside className="w-64 flex-shrink-0 bg-surface border-r border-border flex flex-col overflow-hidden">
-      <div className="px-4 py-4 border-b border-border">
+      <div className="px-4 py-4 border-b border-border flex items-center justify-center">
         <span className="text-2xl font-bold tracking-tight text-accent">mycoforge</span>
       </div>
       <div className="flex-1 overflow-y-auto p-3">

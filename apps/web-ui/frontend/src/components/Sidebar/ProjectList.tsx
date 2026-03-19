@@ -94,7 +94,6 @@ export default function ProjectList({ projects, activeProject, onSelect, onProje
 
   return (
     <div className="mb-4">
-      <hr className="border-border mb-3" />
       <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted mb-2">
         <span>Projekte</span>
         <button
