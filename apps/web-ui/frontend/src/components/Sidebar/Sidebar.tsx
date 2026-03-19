@@ -24,6 +24,11 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
       .catch(console.error);
   }, []);
 
+  function handleProjectCreated(project: Project) {
+    setProjects((prev) => [...prev, project]);
+    onProjectSelect(project);
+  }
+
   return (
     <aside className="w-64 flex-shrink-0 bg-surface border-r border-border flex flex-col overflow-hidden">
       <div className="p-3 border-b border-border">
@@ -34,6 +39,7 @@ export default function Sidebar({ activeProject, onProjectSelect }: Props) {
           projects={projects}
           activeProject={activeProject}
           onSelect={onProjectSelect}
+          onProjectCreated={handleProjectCreated}
         />
         <FileTree rootPath={activeProject} />
       </div>

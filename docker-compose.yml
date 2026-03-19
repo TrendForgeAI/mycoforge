@@ -7,6 +7,8 @@ services:
     env_file:
       - path: .env
         required: false       # .env optional — Platforms injizieren Vars direkt
+    environment:
+      - WORKSPACE_PATH=/workspace
     volumes:
       - mycoforge_workspace:/workspace
       - mycoforge_claude:/mycoforge/claude
@@ -14,29 +16,11 @@ services:
       - ~/.ssh:/root/.ssh:ro
     networks:
       - mycoforge_network
+    ports:
+      - "127.0.0.1:3000:3000"
     restart: unless-stopped
     stdin_open: true
     tty: true
-
-  web-ui:
-    build:
-      context: ./apps/web-ui
-      dockerfile: Dockerfile
-    container_name: mycoforge-web-ui
-    env_file:
-      - path: .env
-        required: false
-    environment:
-      - WORKSPACE_PATH=/workspace
-    ports:
-      - "127.0.0.1:3000:3000"
-    volumes:
-      - mycoforge_workspace:/workspace:ro
-    networks:
-      - mycoforge_network
-    restart: unless-stopped
-    depends_on:
-      - mycoforge
 
   cloudflared:
     image: cloudflare/cloudflared:latest

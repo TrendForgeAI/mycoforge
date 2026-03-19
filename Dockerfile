@@ -1,8 +1,22 @@
-# mycoforge - AI Development Environment
-# Base: Node.js 22 LTS slim (Debian-based)
+# ── Stage 1: Frontend Build ──────────────────────────────────────────────────
+FROM node:22-slim AS frontend-builder
+WORKDIR /app
+COPY apps/web-ui/frontend/package*.json ./
+RUN npm install
+COPY apps/web-ui/frontend/ ./
+RUN npm run build
+
+# ── Stage 2: Backend Build ────────────────────────────────────────────────────
+FROM node:22-slim AS backend-builder
+WORKDIR /app
+COPY apps/web-ui/backend/package*.json ./
+RUN npm install
+COPY apps/web-ui/backend/ ./
+RUN npm run build
+
+# ── Stage 3: mycoforge ───────────────────────────────────────────────────────
 FROM node:22-slim
 
-# Maintainer
 LABEL org.opencontainers.image.title="mycoforge"
 LABEL org.opencontainers.image.description="An organic AI development environment that grows with you"
 LABEL org.opencontainers.image.source="https://github.com/TrendForgeAI/mycoforge"
@@ -36,6 +50,15 @@ ENV NODE_ENV=production
 
 # Code ins Image backen (Self-Contained für Platform-Deployments)
 COPY . /mycoforge/
+
+# Frontend: Next.js standalone output + static files
+COPY --from=frontend-builder /app/.next/standalone /mycoforge/apps/web-ui/frontend/standalone
+COPY --from=frontend-builder /app/.next/static /mycoforge/apps/web-ui/frontend/standalone/.next/static
+
+# Backend: kompiliertes JS + node_modules (production only)
+COPY --from=backend-builder /app/dist /mycoforge/apps/web-ui/backend/dist
+COPY --from=backend-builder /app/node_modules /mycoforge/apps/web-ui/backend/node_modules
+
 WORKDIR /mycoforge
 
 # Entrypoint Script

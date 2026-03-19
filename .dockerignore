@@ -7,6 +7,12 @@
 workspace/
 runtime/
 
+# Web-UI Build-Artefakte (werden in Builder-Stages neu gebaut)
+apps/web-ui/frontend/node_modules/
+apps/web-ui/frontend/.next/
+apps/web-ui/backend/node_modules/
+apps/web-ui/backend/dist/
+
 # Git
 .git/
 
