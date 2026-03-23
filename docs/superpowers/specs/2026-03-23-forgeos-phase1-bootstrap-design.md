@@ -39,15 +39,48 @@ volumes:
 
 **Rationale:** Infrastructure files (Dockerfile, entrypoint.sh, scripts) change rarely — baking them into the image via `COPY . /forgeos/` is appropriate. Commands, agents, and skills change frequently during development and Superpowers integration — bind-mounting `./claude` makes them live-editable without a rebuild.
 
-**Consequence:** `claude/settings.json` must exist on the host before container start. This is guaranteed because it is created in Phase 1 Step 15 (directory structure).
+**Bind mount shadowing:** The `COPY . /forgeos/` in the Dockerfile also copies `claude/` into the image layer. At runtime the bind mount `./claude:/forgeos/claude` fully shadows the image layer — there is NO fallback to the baked-in copy if the host `./claude` is missing or empty. This is correct and intentional: `claude/settings.json` is guaranteed to exist on the host because it is created in Phase 1 Step 15 before the container ever starts.
 
-**Symlink:** `ln -s /forgeos/claude /root/.claude` in Dockerfile — Claude Code finds its config at the expected path.
+**Auth state:** Claude Code writes its OAuth token to `~/.claude.json` (i.e., `/root/.claude.json`). Because `/root/.claude` is a symlink to `/forgeos/claude`, any `.claude.json` written there lands in `/forgeos/claude/.claude.json` which is on the host bind mount — it persists automatically across container restarts without any symlink hacks. `claude/.claude.json` must be in `.gitignore`.
+
+### Dockerfile Instruction Order
+
+The `ln -s /forgeos/claude /root/.claude` symlink instruction MUST appear BEFORE `COPY . /forgeos/` in the Dockerfile. If `COPY` runs first, it creates `/forgeos/claude` as a real directory, making the subsequent `ln -s` fail.
+
+Correct order:
+```dockerfile
+RUN ln -s /forgeos/claude /root/.claude   # symlink first
+COPY . /forgeos/                           # copy after
+```
+
+### entrypoint.sh Behavior
+
+The entrypoint runs once per container start, then hands off to CMD via `exec "$@"`.
+
+Steps in order:
+1. Configure git identity (`GIT_USER_NAME`, `GIT_USER_EMAIL`)
+2. GitHub auth via `gh auth login --with-token` (using `GH_TOKEN`)
+3. Configure git credential URL rewrite for HTTPS GitHub access
+4. Detect active providers (check env vars: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `XAI_API_KEY`; check `claude/.credentials.json` for Pro plan)
+5. Ensure runtime subdirs exist: `mkdir -p /forgeos/runtime/traces /forgeos/runtime/state /workspace /forgeos/memory/db /forgeos/memory/markdown/system /forgeos/memory/markdown/projects`
+6. Generate `MEMORY.md` with: timestamp, active providers, DEBUG_MODE, FORGEOS_AUTO_COMMIT, list of projects in `/workspace/`
+7. `exec "$@"` — hand off to CMD (`tail -f /dev/null`)
 
 ### Runtime Mode
 
 - **CMD:** `tail -f /dev/null` — container runs 24/7 as daemon, Claude Code is NOT auto-started
 - **Access:** `./start-claude.sh` (docker exec -it forgeos claude)
 - **Updates:** `update.sh` (git pull → docker compose build → restart) for image changes
+
+### setup.sh Scope
+
+`setup.sh` is the first-time install script for the HOST. It covers:
+1. Copy `.env.example` → `.env` if not present, prompt to fill in
+2. `docker compose build`
+3. `docker compose up -d`
+4. Print next steps including `./start-claude.sh` and the Phase 2 instruction
+
+`setup.sh` does NOT run `claude auth login` — this is an interactive step that happens inside the running container as the first step of Phase 2. It is documented in `SETUP-CONTINUE.md`.
 
 ---
 
@@ -65,26 +98,54 @@ volumes:
 
 ---
 
+## .gitignore Patterns
+
+```
+.env
+.env.local
+claude/.claude.json
+claude/.credentials.json
+claude/.statsig/
+claude/statsig/
+claude/debug/
+claude/file-history/
+claude/tasks/
+claude/todos/
+claude/stats-cache.json
+claude/history.jsonl
+*.sqlite
+*.sqlite-journal
+node_modules/
+workspace/
+runtime/
+memory/db/
+*.log
+.DS_Store
+Thumbs.db
+```
+
+---
+
 ## File Inventory (Phase 1)
 
 | File | Description |
 |------|-------------|
 | `.env.example` | All required variables with comments |
 | `.env` | Copied from `/docker/mycoforge/.env`, adapted for ForgeOS |
-| `.gitignore` | Excludes `.env`, volumes, node_modules, claude session data |
-| `Dockerfile` | node:24-slim, system packages, Claude Code, GitHub CLI, symlink |
-| `docker-compose.yml` | Hybrid volumes, env_file, restart: unless-stopped |
-| `entrypoint.sh` | Git identity, GitHub auth, provider detection, MEMORY.md generation |
+| `.gitignore` | See patterns above |
+| `Dockerfile` | node:24-slim, symlink before COPY, no sqlite-vec global |
+| `docker-compose.yml` | Hybrid volumes (`./claude` bind mount), env_file |
+| `entrypoint.sh` | Git/GitHub config, provider detection, mkdir -p, MEMORY.md, exec "$@" |
 | `start-claude.sh` | docker exec -it forgeos claude |
 | `shell.sh` | docker exec -it forgeos bash |
 | `update.sh` | git pull → build → restart |
-| `setup.sh` | First-time install: build + claude auth login + start |
+| `setup.sh` | Host-only: build + start + next-step hints (no auth login) |
 | `CLAUDE.md` | ForgeOS project context for Claude Code |
 | `ARCHITECTURE.md` | System thinking, agent patterns, memory architecture, plugin system |
 | `README.md` | Human-readable intro, install, usage |
 | `SETUP-CONTINUE.md` | Phase 2 instructions for Claude Code inside the container |
 | `claude/settings.json` | Max permissions: Bash(*), Read(*), Write(*), Edit(*), mcp__* |
-| Directory structure | All dirs with `.gitkeep` where needed |
+| Directory structure | All dirs with `.gitkeep` where needed (see below) |
 
 ---
 
@@ -92,30 +153,33 @@ volumes:
 
 ```
 /docker/forgeos/
-├── apps/                         # future Web-UI, Bot
+├── apps/                              # future Web-UI, Bot (.gitkeep)
 ├── claude/
-│   ├── commands/                 # empty, Phase 2
-│   ├── agents/                   # empty, Phase 2
-│   └── settings.json             # permissions + model
-├── config/                       # model-routing.yaml (Phase 2)
-├── docs/decisions/               # ADRs
-├── evals/
-├── hooks/                        # Phase 2
-├── knowledge/
-├── manifests/                    # Phase 2
+│   ├── commands/                      # empty, Phase 2 (.gitkeep)
+│   ├── agents/                        # empty, Phase 2 (.gitkeep)
+│   └── settings.json                  # permissions + model
+├── config/                            # model-routing.yaml, Phase 2 (.gitkeep)
+├── docs/decisions/                    # ADRs (.gitkeep)
+├── evals/                             # (.gitkeep)
+├── hooks/                             # Phase 2 (.gitkeep)
+├── knowledge/                         # (.gitkeep)
+├── manifests/                         # Phase 2 (.gitkeep)
 ├── memory/
 │   ├── markdown/
-│   │   ├── system/
-│   │   └── projects/forgeos/     # ForgeOS is Project #0
-│   └── db/                       # .gitkeep (sqlite volume, in .gitignore)
-├── plugins/
-├── runtime/                      # .gitkeep (volume, in .gitignore)
-│   ├── traces/
-│   └── state/
-├── scripts/
-├── skills/                       # Phase 2
-└── workspace/                    # .gitkeep (volume, in .gitignore)
+│   │   ├── system/                    # .gitkeep
+│   │   └── projects/
+│   │       └── forgeos/               # .gitkeep (ForgeOS is Project #0)
+│   └── db/                            # .gitkeep (in .gitignore — volume)
+├── plugins/                           # (.gitkeep)
+├── runtime/                           # .gitkeep (in .gitignore — volume)
+│   ├── traces/                        # created by entrypoint.sh at runtime
+│   └── state/                         # created by entrypoint.sh at runtime
+├── scripts/                           # (.gitkeep)
+├── skills/                            # Phase 2 (.gitkeep)
+└── workspace/                         # .gitkeep (in .gitignore — volume)
 ```
+
+**Note:** `runtime/traces/` and `runtime/state/` are created by `entrypoint.sh` via `mkdir -p` at container start (not `.gitkeep`), because `runtime/` is a named volume that starts empty.
 
 ---
 
@@ -125,18 +189,18 @@ volumes:
 2. `.env.example`
 3. `.env` (copy + adapt from mycoforge)
 4. `.gitignore`
-5. `Dockerfile`
-6. `docker-compose.yml`
-7. `entrypoint.sh`
+5. `Dockerfile` (symlink before COPY, no sqlite-vec)
+6. `docker-compose.yml` (hybrid volumes)
+7. `entrypoint.sh` (all 7 behavior steps, ends with exec "$@")
 8. `start-claude.sh`
 9. `shell.sh`
 10. `update.sh`
-11. `setup.sh`
+11. `setup.sh` (host-only, no auth login)
 12. `CLAUDE.md`
 13. `ARCHITECTURE.md`
 14. `README.md`
-15. Directory structure + `claude/settings.json`
-16. `SETUP-CONTINUE.md`
+15. Directory structure + `claude/settings.json` + `.gitkeep` files
+16. `SETUP-CONTINUE.md` (Phase 2 scope: auth login as first step, then Superpowers etc.)
 17. GitHub repo `TrendForgeAI/forgeos` (private), initial commit, push
 18. `docker compose build`
 19. Completion message to user
@@ -150,7 +214,11 @@ volumes:
 - All files created with correct content
 - `./claude` bind-mount in docker-compose.yml (not named volume)
 - `sqlite-vec` NOT in Dockerfile (Phase 2)
+- `ln -s` instruction appears before `COPY . /forgeos/` in Dockerfile
+- `claude/.claude.json` in `.gitignore`
 - `claude/settings.json` exists on host with max permissions
+- `setup.sh` does NOT contain `claude auth login`
+- `SETUP-CONTINUE.md` exists and documents as first step: `claude auth login` inside container
+- `memory/markdown/system/` and `memory/markdown/projects/forgeos/` have `.gitkeep` files
 - GitHub repo `TrendForgeAI/forgeos` private, initial commit pushed
 - `docker compose build` exits 0
-- `SETUP-CONTINUE.md` provides complete Phase 2 instructions
