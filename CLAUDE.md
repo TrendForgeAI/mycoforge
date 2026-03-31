@@ -1,6 +1,6 @@
 # mycoforge
 
-An organic AI development environment that grows with you.
+An organic, self learning AI development environment that grows with you.
 
 ## Was ist mycoforge?
 
